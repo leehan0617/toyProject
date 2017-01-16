@@ -10,7 +10,7 @@ public class HelloController {
 	@RequestMapping("/")
 	public String initPage(){
 		System.out.println("test2");
-		return "index";
+		return "helloWorld";
 	}
 	
 	@RequestMapping("/hello")
