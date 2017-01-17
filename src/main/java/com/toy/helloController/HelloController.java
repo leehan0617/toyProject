@@ -1,5 +1,8 @@
 package com.toy.helloController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HelloController {
-	@RequestMapping("/")
-	public String initPage(){
+	
+	@RequestMapping("/hello2")
+	public String initPage(HttpServletRequest request , HttpServletResponse response){
 		System.out.println("test2");
-		return "helloWorld";
+		return "hello2";
 	}
 	
 	@RequestMapping("/hello")
