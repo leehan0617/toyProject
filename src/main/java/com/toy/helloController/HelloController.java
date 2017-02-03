@@ -14,6 +14,7 @@ public class HelloController {
 	@RequestMapping("/hello2")
 	public String initPage(HttpServletRequest request , HttpServletResponse response){
 		System.out.println("test2");
+		System.out.println("test3");
 		return "hello2";
 	}
 	
