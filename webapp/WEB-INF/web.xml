@@ -9,6 +9,7 @@
 		<welcome-file-list>
 			<welcome-file>/resources/index.html</welcome-file>
 		</welcome-file-list>
+		
 		<!--  
 		<context-param>
 			<param-name>contextConfigLocation</param-name>
