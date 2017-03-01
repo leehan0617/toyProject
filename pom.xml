@@ -32,6 +32,13 @@
 	    <version>${org.springframework.version}</version>
 	</dependency>
 	
+	<!-- spring jdbc -->
+	<dependency>
+    <groupId>org.springframework</groupId>
+	    <artifactId>spring-jdbc</artifactId>
+	    <version>${org.springframework.version}</version>
+	</dependency>
+	
 	<!-- spring security core -->
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
@@ -43,6 +50,13 @@
 	<dependency>
 	    <groupId>org.springframework.security</groupId>
 	    <artifactId>spring-security-web</artifactId>
+	    <version>4.2.1.RELEASE</version>
+	</dependency>
+	
+	<!-- spring security config -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-config</artifactId>
 	    <version>4.2.1.RELEASE</version>
 	</dependency>
 	
