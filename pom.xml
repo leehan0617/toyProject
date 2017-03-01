@@ -32,6 +32,20 @@
 	    <version>${org.springframework.version}</version>
 	</dependency>
 	
+	<!-- spring security core -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-core</artifactId>
+	    <version>4.2.1.RELEASE</version>
+	</dependency>
+	
+	<!-- spring security web -->
+	<dependency>
+	    <groupId>org.springframework.security</groupId>
+	    <artifactId>spring-security-web</artifactId>
+	    <version>4.2.1.RELEASE</version>
+	</dependency>
+	
 	<!-- jstl -->
 	<dependency>
 	    <groupId>javax.servlet</groupId>
