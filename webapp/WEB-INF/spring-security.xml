@@ -12,9 +12,19 @@
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/image/*" security="none"/>
 	
-	<http auto-config="true">
+	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/login" access="isAnonymous()" />
+		<intercept-url pattern="/main" access="permitAll" />
+		<intercept-url pattern="/**" access="permitAll" />
+		
+		<form-login username-parameter="loginid"
+			password-parameter="loginpwd"
+			login-page="/login"
+			default-target-url="/main"
+			authentication-failure-url="/login?error=1"/>
+		
+		<!--  <csrf disabled="true"/>-->
 	</http>
 	
 	<authentication-manager>

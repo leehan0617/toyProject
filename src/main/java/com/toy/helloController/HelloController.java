@@ -25,4 +25,18 @@ public class HelloController {
 		return "helloWorld";
 	}
 	
+	@RequestMapping("/login")
+	public String login(Model model) {
+		System.out.println("login");
+		
+		return "login";
+	}
+	
+	@RequestMapping("/main")
+	public String main(Model model) {
+		System.out.println("main");
+		
+		return "main";
+	}
+	
 }
