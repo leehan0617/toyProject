@@ -2,11 +2,11 @@
 Java Web Project
 
 
-# °³¹ß È¯°æ
+# ê°œë°œí™˜ê²½
 
 * OS : Window 7 , Mac
 * BUILD : MAVEN
-* DATABASE : ¹ÌÁ¤
+* DATABASE : ë¯¸ì •
 * BACKEND : JAVA 1.8
 * FRONTEND : JSP 
 * FRAMEWORK : SPRING 
