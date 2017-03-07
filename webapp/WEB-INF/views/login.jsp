@@ -32,6 +32,11 @@
 				</td>
 			</tr>
 		</table>
+		<c:if test="${param.error == 1}">
+			<p style="color:red;">잘못된 입력</p>
+			<p style="color:red;">원인 : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
+			<c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION"/>
+		</c:if>
 	</form>
 </body>
 </html>
