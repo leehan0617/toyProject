@@ -11,7 +11,12 @@
  
  <mvc:annotation-driven/>
  <mvc:resources location="/resources/" mapping="/resources/**"/>
- <context:component-scan base-package="com.toy.helloController"/>
+ 
+ <context:component-scan base-package="com.toy">
+ 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+ </context:component-scan>
  
  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
  	<property name="prefix" value="/WEB-INF/views/"/>
