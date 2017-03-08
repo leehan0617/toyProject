@@ -13,6 +13,9 @@
 	<form id="loginfrm" name="loginfrm" method="POST" action="${root}${loginUrl}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		
+		<c:if test="${param.logout != null }">
+			로그아웃이 성공했습니다.
+		</c:if>
 		<table>
 			<tr>
 				<td>ID</td>
