@@ -6,6 +6,11 @@ create database toyProject;
 create user 'osstem'@'localhost' identified by 'osstem';
 -- 3. osstem에게 toyProject 데이터베이스에 모든 권한 부여
 -- @ 뒤에 localhost로 작성하였기 때문에 로컬에서만 사용가능
+-- 원격 접속도 오픈할려면 'localhost' -> '%' 로 수정
 grant all privileges on toyProject.* to osstem@'localhost';
+
 -- 4. 권한 새로고침
 flush privileges;
+
+-- console 접속시
+-- mysql -u osstem -p 한뒤에 비밀번호 입력(osstem) 
