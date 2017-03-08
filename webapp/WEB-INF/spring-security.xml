@@ -23,8 +23,10 @@
 			login-page="/login"
 			default-target-url="/main"
 			authentication-failure-url="/login?error=1"/>
-		
-		<!--  <csrf disabled="true"/>-->
+		<!--  
+		<logout invalidate-session="true" logout-url="/logout"
+			logout-success-url="/" />
+		-->
 	</http>
 	
 	<authentication-manager>
