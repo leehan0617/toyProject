@@ -29,12 +29,16 @@
 		-->
 	</http>
 	
+	<jdbc-user-service data-source-ref="dataSource" id="userService"
+	 users-by-username-query="SELECT user_id , PASSWORD , enabled as  enabled FROM user WHERE user_id = ?"
+	 authorities-by-username-query="SELECT user.user_id, authority.auth_name 
+		FROM user
+		join userauthority on userauthority.user_id = user.user_id 
+		join authority on authority.auth_code = userauthority.auth_code
+		WHERE user.user_id=?"
+	 />
+          
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="user1" password="user1" authorities="ROLE_USER" />
-				<user name="admin1" password="admin1" authorities="ROLE_ADMIN"/>
-			</user-service>
-		</authentication-provider>
+	 	<authentication-provider user-service-ref="userService"></authentication-provider>
 	</authentication-manager>
 </beans:beans>
