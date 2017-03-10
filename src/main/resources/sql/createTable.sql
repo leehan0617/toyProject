@@ -6,9 +6,9 @@ CREATE TABLE USER (
 	email       VARCHAR(50)   NULL,     -- 이메일
 	depart_code VARCHAR(20)   NULL,     -- 직무코드
 	reg_date    DATE          NULL,     -- 등록일
-	reg_id      VARCHAR(20)   NULL,     -- 등록아이디
+	reg_id      VARCHAR(50)   NULL,     -- 등록아이디
 	mod_date    DATE          NULL,     -- 수정일
-	mod_id      VARCHAR(20)   NULL,     -- 수정아이디
+	mod_id      VARCHAR(50)   NULL,     -- 수정아이디
 	enabled     INTEGER(1)    NOT NULL  -- 시큐리티 설정값
 );
 
@@ -51,10 +51,10 @@ CREATE TABLE PROJECT (
 	usercount          NUMERIC       NULL,     -- 인원
 	project_detail     VARCHAR(2000) NULL,     -- 상세설명
 	pm_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
-	state_code         VARCHAR(20)   NULL,     -- 상태코드(프로젝트)
+	state_code         VARCHAR(50)   NULL,     -- 상태코드(프로젝트)
 	reg_date           DATE          NULL,     -- 등록일
 	mod_date           DATE          NULL,     -- 수정일
-	mod_id             VARCHAR()     NULL      -- 수정아이디
+	mod_id             VARCHAR(50)     NULL      -- 수정아이디
 );
 
 -- 프로젝트참여자
@@ -64,9 +64,9 @@ CREATE TABLE PROJECTMEMBER (
 	state_code    VARCHAR(20)  NULL,     -- 상태코드(참여)
 	depart_detail VARCHAR(500) NULL,     -- 상세직무
 	reg_date      DATE         NULL,     -- 등록일
-	reg_id        VARCHAR(20)  NULL,     -- 등록아이디
+	reg_id        VARCHAR(50)  NULL,     -- 등록아이디
 	mod_date      DATE         NULL,     -- 수정일
-	mod_id        VARCHAR(20)  NULL      -- 수정아이디
+	mod_id        VARCHAR(50)  NULL      -- 수정아이디
 );
 
 
@@ -93,9 +93,9 @@ CREATE TABLE ISSUE (
 	issue_end_date   DATE          NULL,     -- 종료날짜
 	state_code       VARCHAR(20)   NULL,     -- 상태코드(일감)
 	reg_dt           DATE          NULL,     -- 등록일
-	reg_id           VARCHAR(20)   NULL,     -- 등록아이디
+	reg_id           VARCHAR(50)   NULL,     -- 등록아이디
 	mod_dt           DATE          NULL,     -- 수정일
-	mod_id           VARCHAR(20)   NULL      -- 수정아이디
+	mod_id           VARCHAR(50)   NULL      -- 수정아이디
 );
 
 -- 활동코드
