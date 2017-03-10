@@ -33,8 +33,8 @@
 	 users-by-username-query="SELECT user_id , PASSWORD , enabled as  enabled FROM user WHERE user_id = ?"
 	 authorities-by-username-query="SELECT user.user_id, authority.auth_name 
 		FROM user
-		join userauthority on userauthority.user_id = user.user_id 
-		join authority on authority.auth_code = userauthority.auth_code
+		left join userauthority on userauthority.user_id = user.user_id 
+		left join authority on authority.auth_code = userauthority.auth_code
 		WHERE user.user_id=?"
 	 />
           
