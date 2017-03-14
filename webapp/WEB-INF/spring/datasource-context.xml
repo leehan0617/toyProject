@@ -12,7 +12,7 @@
   <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
 			<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql://localhost:3307/toyproject"></property>
+			<property name="url" value="jdbc:mysql://localhost:3306/toyProject"></property>
 			<property name="username" value="osstem"></property>
 			<property name="password" value="osstem"></property>
     </bean>
