@@ -23,6 +23,7 @@
 				/WEB-INF/spring/dispatcher-servlet.xml
 				/WEB-INF/spring/spring-security.xml
 				/WEB-INF/spring/spring-scheduling.xml
+				/WEB-INF/spring/datasource-context.xml
 			</param-value>
 		</context-param>
 		
