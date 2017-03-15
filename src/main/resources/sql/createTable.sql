@@ -9,7 +9,7 @@ CREATE TABLE USER (
 	reg_id      VARCHAR(50)   NULL,     -- 등록아이디
 	mod_date    DATE          NULL,     -- 수정일
 	mod_id      VARCHAR(50)   NULL,     -- 수정아이디
-	enabled     INTEGER(1)    NOT NULL  -- 시큐리티 설정값
+	enabled     INTEGER(1)    NOT NULL DEFAULT 1  -- 시큐리티 설정값
 );
 
 
