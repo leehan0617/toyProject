@@ -150,6 +150,6 @@
   			</configuration>
   		</plugin>
   	</plugins>
-    <finalName>toyProject</finalName>
+    <finalName>ROOT.war</finalName>
   </build>
 </project>
