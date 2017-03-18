@@ -10,7 +10,7 @@
 <title>add page</title>
 </head>
 <body>
-	<form id="addfrm" name="addfrm" method="POST" action="${root}${addUrl}">
+	<form id="addfrm" name="addfrm" method="POST" action="${addUrl}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<table>
 			<tr>

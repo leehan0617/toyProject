@@ -1,15 +1,15 @@
 package com.toy.security.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +46,7 @@ public class SecurityController {
 	public String main(Model model) {
 		model.addAttribute("user" , getPrincipal());
 		
-		return "main";
+		return "add";
 	}
 	
 	@RequestMapping(value="/add")
@@ -63,25 +63,7 @@ public class SecurityController {
 		System.out.println(vo.getPassword());
 		System.out.println(vo);
 		memberService.insertMember(vo);
-		return "redirect:/main";
-	}
-	
-	//접근권한이 없을 경우에 이동할 페이지
-	@RequestMapping("/user/denied")
-	public String denied(Model model, Authentication auth, HttpServletRequest req){
-		//권한없는 사용자가 접근하면 security에서 해당 request에 AccessDeniedException 전달
-		//이떄의 속성명--ACCESS_DENIED_403
-		AccessDeniedException ade = (AccessDeniedException) req.getAttribute(WebAttributes.ACCESS_DENIED_403);
-		model.addAttribute("auth", auth);
-		model.addAttribute("errMsg", ade);
-		return "common/error/denied";
-	}
-	
-	//접근권한이 없을 경우에 이동할 페이지
-	@RequestMapping("/admin")
-	public String adminTest(){
-		System.out.println("admin test");
-		return "/admin";
+		return "redirect:/login";
 	}
 	
 	private String getPrincipal() {
