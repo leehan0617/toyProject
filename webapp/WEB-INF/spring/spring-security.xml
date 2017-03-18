@@ -18,6 +18,8 @@
 		<intercept-url pattern="/main" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
+		<access-denied-handler error-page="/user/denied" />
+		
 		<form-login username-parameter="loginid"
 			password-parameter="loginpwd"
 			login-page="/login"
@@ -27,7 +29,9 @@
 		<logout invalidate-session="true" logout-url="/logout"
 			logout-success-url="/" />
 		-->
+		
 	</http>
+	
 	
 	<jdbc-user-service data-source-ref="dataSource" id="userService"
 	 users-by-username-query="SELECT user_id , PASSWORD , enabled as  enabled FROM user WHERE user_id = ?"
@@ -42,6 +46,7 @@
      <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 			<beans:constructor-arg name="strength" value="11" />
 	 </beans:bean>
+	
 	
 	<authentication-manager>
 	 	<authentication-provider user-service-ref="userService">
