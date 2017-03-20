@@ -46,7 +46,7 @@ public class SecurityController {
 	public String main(Model model) {
 		model.addAttribute("user" , getPrincipal());
 		
-		return "main";
+		return "add";
 	}
 	
 	@RequestMapping(value="/add")
