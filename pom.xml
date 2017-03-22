@@ -147,6 +147,7 @@
   			<configuration>
   				<warSourceDirectory>webapp</warSourceDirectory>
   				<webXml>webapp/WEB-INF/web.xml</webXml>
+				<outputDirectory>/home/osstem/www</outputDirectory>
   			</configuration>
   		</plugin>
   		<plugin>
@@ -155,12 +156,12 @@
   			<version>2.2</version>
   			<configuration>
   				<url>http://localhost:8080/manager/text</url>
-  				<path>/home/osstem/www/</path>
+  				<path>/test</path>
   				<username>osstem</username>
   				<password>osstem</password>
   			</configuration>
   		</plugin>
   	</plugins>
-    <finalName>ROOT</finalName>
+    <finalName>toyProject</finalName>
   </build>
 </project>
