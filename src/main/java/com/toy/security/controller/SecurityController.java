@@ -46,15 +46,15 @@ public class SecurityController {
 	public String main(Model model) {
 		model.addAttribute("user" , getPrincipal());
 		
-		return "add";
+		return "main";
 	}
 	
-	@RequestMapping(value="/login/add")
+	@RequestMapping(value="/add")
 	public String add(Model model) {
 		return "add";
 	}
 	
-	@RequestMapping(value="/login/save")
+	@RequestMapping(value="/save")
 	public String save(MemberVo vo) throws Exception {
 		System.out.println(vo.getUser_id());
 		System.out.println(vo.getUser_name());

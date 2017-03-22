@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  <c:set var="root" value="#{pageContext.request.contextPath }"/>
- <c:set var="addUrl" value="/login/save"/>
+ <c:set var="addUrl" value="/save"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,7 @@
 <title>add page</title>
 </head>
 <body>
-	<form id="addfrm" name="addfrm" method="POST" action="${root}${addUrl}">
+	<form id="addfrm" name="addfrm" method="POST" action="${addUrl}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<table>
 			<tr>
