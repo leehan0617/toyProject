@@ -18,6 +18,8 @@
 		<intercept-url pattern="/main" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
+        <access-denied-handler error-page="/user/denied" />
+		
 		<form-login username-parameter="loginid"
 			password-parameter="loginpwd"
 			login-page="/login"
