@@ -6,5 +6,6 @@ import org.springframework.stereotype.Component;
 public class JobUtil {
 	public void printMessage() {
 		//System.out.println("job running");
+		//System.out.println("slack test");
 	}
 }
