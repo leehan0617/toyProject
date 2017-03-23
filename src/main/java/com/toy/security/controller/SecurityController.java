@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.toy.user.model.MemberDto;
 import com.toy.user.model.MemberVo;
 import com.toy.user.service.MemberService;
 
@@ -46,7 +47,7 @@ public class SecurityController {
 	public String main(Model model) {
 		model.addAttribute("user" , getPrincipal());
 		
-		return "add";
+		return "main";
 	}
 	
 	@RequestMapping(value="/add")
@@ -56,12 +57,7 @@ public class SecurityController {
 	
 	@RequestMapping(value="/save")
 	public String save(MemberVo vo) throws Exception {
-		System.out.println(vo.getUser_id());
-		System.out.println(vo.getUser_name());
-		System.out.println(vo.getPassword());
 		vo.setPassword(passwordEncoder.encode(vo.getPassword()));//암호화
-		System.out.println(vo.getPassword());
-		System.out.println(vo);
 		memberService.insertMember(vo);
         return "redirect:/main";
 
@@ -97,4 +93,21 @@ public class SecurityController {
 		
 		return userName;
 	}
+	
+    @RequestMapping(value="/updateMyInfo" , method=RequestMethod.GET)
+    public String updateMyInfo(HttpServletRequest request ,Model model) throws Exception {
+        String user_id = getPrincipal();
+        MemberDto myinfo = memberService.getMyInfo(user_id);
+        model.addAttribute("memberDto", myinfo);
+        model.addAttribute("user" , user_id);
+        return "updateMyInfo";
+    }
+    
+    @RequestMapping(value="/update")
+    public String update(MemberVo vo) throws Exception {
+        vo.setPassword(passwordEncoder.encode(vo.getPassword()));//암호화
+        memberService.updateMember(vo);
+        return "main";
+    }
+
 }

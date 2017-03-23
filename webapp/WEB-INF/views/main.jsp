@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
  <c:set var="root" value="#{pageContext.request.contextPath }"/>
  <c:set var="logoutUrl" value="/logout"/>
+ <c:set var="updateMyInfoUrl" value="/updateMyInfo"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +14,8 @@
 <body>
 	main page
 	<a href="${root}${logoutUrl}">logout</a>
+	 <a href="${root}${updateMyInfoUrl}">정보수정</a>
+	
 	<br/>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		당신은 ADMIN 권한 입니다.

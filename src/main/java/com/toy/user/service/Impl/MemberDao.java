@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.toy.user.model.MemberDto;
 import com.toy.user.model.MemberVo;
 
 /**
@@ -21,9 +22,16 @@ public class MemberDao{
 	private SqlSessionTemplate sqlSession;
 
 	public void insertMember(MemberVo vo) throws Exception {
-		System.out.println(vo.getUser_id());
-		System.out.println(vo.getUser_name());
-		System.out.println(vo.getPassword());
 		sqlSession.insert("insertMember",vo);
 	}
+    
+    public MemberDto getMyInfo(String user_id) throws Exception {
+        return sqlSession.selectOne("getMyInfo",user_id);
+    }
+    
+    public void updateMember(MemberVo vo) throws Exception {
+        sqlSession.update("updateMember",vo);
+    }
+    
+
 }
