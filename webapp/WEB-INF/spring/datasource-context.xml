@@ -9,12 +9,15 @@
  						   http://www.springframework.org/schema/mvc
         				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
  
-  <bean id="dataSource"
-		class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-			<property name="driverClass" value="org.mariadb.jdbc.Driver"></property>
-			<property name="url" value="jdbc:mysql://localhost:3306/toyproject"></property>
-			<property name="username" value="osstem"></property>
-			<property name="password" value="osstem"></property>
+    <bean id="dataSource"    class="com.zaxxer.hikari.HikariDataSource">
+        <property name="dataSourceClassName" value="org.mariadb.jdbc.MySQLDataSource" />
+                 <property name="dataSourceProperties">
+                    <props>
+                        <prop key="url">jdbc:mysql://localhost:3306/toyproject</prop>
+                        <prop key="user">osstem</prop>
+                        <prop key="password">osstem</prop>
+                    </props>
+              </property>
     </bean>
     
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -26,9 +29,4 @@
         <constructor-arg index="0" ref="sqlSessionFactory">
     </constructor-arg></bean>
     
-	 <!-- 트랜잭션 매니저 -->
-	<bean id="transactionManager"
-	class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-	<property name="dataSource" ref="dataSource"/>
-	</bean>
 </beans>
