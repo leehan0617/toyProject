@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>updateMyInfopage</title>
+<title>updateMyInfopagess</title>
 </head>
 <body>
 	<div>
