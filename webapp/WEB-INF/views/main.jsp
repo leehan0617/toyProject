@@ -41,5 +41,10 @@
 	<div>
 	${user}
 	</div>
+	
+	<div>
+		<span>채팅방이동</span>
+		<a href="${root}/chatRoom">클릭</a>
+	</div>
 </body>
 </html>

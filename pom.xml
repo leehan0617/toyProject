@@ -67,6 +67,12 @@
 	    <version>4.2.1.RELEASE</version>
 	</dependency>
 	
+	<!-- spring web socket -->
+	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-websocket</artifactId>
+        <version>4.2.1.RELEASE</version>
+	</dependency>
 	<!-- jstl -->
 	<dependency>
 	    <groupId>javax.servlet</groupId>
