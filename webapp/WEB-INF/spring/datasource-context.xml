@@ -10,7 +10,7 @@
         				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
  
     <bean id="dataSource"    class="com.zaxxer.hikari.HikariDataSource">
-        <property name="dataSourceClassName" value="org.mariadb.jdbc.MySQLDataSource" />
+        <property name="dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource" />
                  <property name="dataSourceProperties">
                     <props>
                         <prop key="url">jdbc:mysql://localhost:3306/toyproject</prop>
