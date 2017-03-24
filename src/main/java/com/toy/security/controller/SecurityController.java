@@ -71,7 +71,7 @@ public class SecurityController {
 	public String save(MemberVo vo) throws Exception {
 		vo.setPassword(passwordEncoder.encode(vo.getPassword()));//암호화
 		memberService.insertMember(vo);
-        return "redirect:/main";
+        return "redirect:/login";
 
 	}
 	

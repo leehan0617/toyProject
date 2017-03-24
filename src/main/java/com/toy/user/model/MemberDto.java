@@ -2,10 +2,10 @@ package com.toy.user.model;
 
 public class MemberDto {
 	
-	private String user_id;
-	private String user_name;
-	private String password;
-
+	private String user_id; //id
+	private String user_name;//이름
+	private String password;//패스워드
+	
 	public String getUser_id() {
 		return user_id;
 	}
