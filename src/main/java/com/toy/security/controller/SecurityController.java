@@ -13,6 +13,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -50,11 +51,22 @@ public class SecurityController {
 		return "main";
 	}
 	
+	/*
+	 * 작성일 : 2017.03.10
+	 * 작성자	: 김민지
+	 * 설명 : 회원가입하는 페이지로 이동  
+	*/
+	
 	@RequestMapping(value="/add")
 	public String add(Model model) {
-		return "main";
+		return "add";
 	}
 	
+	/*
+	 * 작성일 : 2017.03.10
+	 * 작성자	: 김민지
+	 * 설명 : 회원가입 사람 정보 저장하기 
+	*/
 	@RequestMapping(value="/save")
 	public String save(MemberVo vo) throws Exception {
 		vo.setPassword(passwordEncoder.encode(vo.getPassword()));//암호화
@@ -93,21 +105,32 @@ public class SecurityController {
 		
 		return userName;
 	}
+
+	/*
+	 * 작성일 : 2017.03.24
+	 * 작성자	: 김민지
+	 * 설명 : 나의 정보 리스트 가져오기 - 내 정보 보기 페이지로 이동 
+	*/
 	
-    @RequestMapping(value="/updateMyInfo" , method=RequestMethod.GET)
-    public String updateMyInfo(HttpServletRequest request ,Model model) throws Exception {
-        String user_id = getPrincipal();
-        MemberDto myinfo = memberService.getMyInfo(user_id);
+    @RequestMapping(value="/MyInfo/{userId}" , method=RequestMethod.GET)
+    public String getMyInfo(@PathVariable String userId,Model model) throws Exception {
+        MemberDto myinfo = memberService.getMyInfo(userId);//
         model.addAttribute("memberDto", myinfo);
-        model.addAttribute("user" , user_id);
+        model.addAttribute("user" , userId);
         return "updateMyInfo";
     }
+    
+    /*
+	 * 작성일 : 2017.03.24
+	 * 작성자	: 김민지
+	 * 설명 : 사원 정보 수정하기  
+	*/
     
     @RequestMapping(value="/update")
     public String update(MemberVo vo) throws Exception {
         vo.setPassword(passwordEncoder.encode(vo.getPassword()));//암호화
         memberService.updateMember(vo);
-        return "main";
+        return "redirect:/main";
     }
 
 }
