@@ -52,7 +52,7 @@ public class SecurityController {
 	
 	@RequestMapping(value="/add")
 	public String add(Model model) {
-		return "main";
+		return "add";
 	}
 	
 	@RequestMapping(value="/save")
