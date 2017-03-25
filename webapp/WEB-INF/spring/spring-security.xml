@@ -29,6 +29,11 @@
 		<logout invalidate-session="true" logout-url="/logout"
 			logout-success-url="/" />
 		-->
+		<!-- 중복세션 -->
+		<session-management invalid-session-url="/main">
+		 <concurrency-control max-sessions="1" expired-url="/main"/>
+		</session-management>
+
 	</http>
 	
 	<jdbc-user-service data-source-ref="dataSource" id="userService"

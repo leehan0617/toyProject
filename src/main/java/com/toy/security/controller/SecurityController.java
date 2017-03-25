@@ -74,8 +74,12 @@ public class SecurityController {
         return "redirect:/login";
 
 	}
-	
-	    //접근권한이 없을 경우에 이동할 페이지
+
+	/*
+	 * 작성일 : 2017.03.24
+	 * 작성자	: 송하람
+	 * 설명 : 접근권한이 없을 경우에 이동할 페이지2
+	*/
     @RequestMapping("/user/denied")
     public String denied(Model model, Authentication auth, HttpServletRequest req){
         //권한없는 사용자가 접근하면 security에서 해당 request에 AccessDeniedException 전달
@@ -86,7 +90,12 @@ public class SecurityController {
         return "common/error/denied";
     }
     
-    //접근권한이 없을 경우에 이동할 페이지
+    
+    /*
+	 * 작성일 : 2017.03.24
+	 * 작성자	: 송하람
+	 * 설명 : 접근권한이 없을 경우에 이동할 페이지
+	*/
     @RequestMapping("/admin")
     public String adminTest(){
         System.out.println("admin test");
@@ -132,5 +141,7 @@ public class SecurityController {
         memberService.updateMember(vo);
         return "redirect:/main";
     }
+    
+   
 
 }
