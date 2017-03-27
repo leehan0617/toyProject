@@ -20,6 +20,8 @@ public class UserServiceImpl implements UserService , UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		UserDto user = new UserDto();
+		user.setUser_name("test");
+		
 		return null;
 	}
 }
