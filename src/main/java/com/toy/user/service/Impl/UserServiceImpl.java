@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : user에 관한 정보를 가져오는 메소드
+	 */
 	@Override
 	public UserDto loadUserByUsername(String userId) throws UsernameNotFoundException {
 		UserDto user = userDao.getUser(userId);
@@ -42,6 +47,11 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 		return user;
 	}
 	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : user 에 관한 권한 및 인증을 하는 메소드
+	 */
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String userId = authentication.getName();
@@ -54,24 +64,13 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 			user = this.loadUserByUsername(userId);
 			String bcryptPassword = bcryptEncoder.encode(password);
 			
-			System.out.println("password : " + password);
-			System.out.println("bcryptPassword : " + bcryptPassword);
+			System.out.println(bcryptEncoder.matches(password, bcryptPassword));
 			
 			if(!bcryptEncoder.matches(password ,user.getPassword())) {
 				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 			};
 			
-			System.out.println("test0" + user.getAuthorities());
-			System.out.println("test0" + user.getAuthorities().get(0));
-			System.out.println("test00" + user.getAuthorities().size());
-			System.out.println("test6.5");
-			System.out.println("test1" + user.getAuthorities().get(0).getAuthority());
-			user.getAuthorities().get(0).getAuthority(); // string
-			System.out.println("check8");
-			System.out.println("test2 : " + user.getAuthorities());
-			System.out.println("check9");
 			authorities = user.getAuthorities();
-			System.out.println("check10");
 		} catch (UsernameNotFoundException e) {
 			throw new UsernameNotFoundException(e.getMessage());
 		} catch (BadCredentialsException e) {
@@ -87,4 +86,30 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 		return true;
 	}
 	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : 회원가입을 실행하는 메소드
+	 */
+	@Override
+	public int joinUser(UserDto userDto) {
+		userDto.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+		return userDao.joinUser(userDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : user 정보를 가져오는 메소드
+	 */
+	@Override
+	public UserDto getUser(String userId) {
+		return userDao.getUser(userId);
+	}
+
+	@Override
+	public int update(UserDto userDto) {
+		userDto.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+		return userDao.update(userDto);
+	}
 }

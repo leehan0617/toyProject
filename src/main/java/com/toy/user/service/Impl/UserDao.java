@@ -23,4 +23,12 @@ public class UserDao {
 		return sqlSession.selectList("user.getAuthorities" , userId);
 	}
 
+	public int joinUser(UserDto userDto) {
+		return sqlSession.insert("user.joinUser" , userDto);
+	}
+
+	public int update(UserDto userDto) {
+		return sqlSession.update("user.update" , userDto);
+	}
+
 }
