@@ -8,7 +8,10 @@
 <title>에러페이지</title>
 </head>
 <body>
-요청하신 페이지는 존재하지 않습니다
-${exception.message}
+<h1>Error Handing Page</h1>
+
+    <b>${error}</b>
+    <h2>ERROR</h2>
+    <h2>ERROR</h2>
 </body>
 </html>

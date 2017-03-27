@@ -48,4 +48,23 @@
 			<servlet-name>dispatcher</servlet-name>
 			<url-pattern>/</url-pattern>
 		</servlet-mapping>
+		
+		<error-page>
+	    	<error-code>400</error-code><!-- Bad Request, 요청 실패 - 문법상 오류가 있어서 서버가 요청 사항을 이해하지 못함 -->
+	    	<location>/error/400</location>
+	    </error-page>
+	
+	    <error-page>
+	    	<error-code>404</error-code><!-- Not Found, 문서를 찾을 수 없음 -->
+	    	<location>/error/404</location>
+	    </error-page>
+	    <error-page>
+	    	<error-code>405</error-code><!-- Method not allowed(페이지는 존재하나, 그걸 못보게 막거나 리소스를 허용안함) -->
+	    	<location>/error/405</location>
+	    </error-page>
+	    <error-page>
+	    	<error-code>500</error-code><!--  Internal Server Error, 서버 내부 오류 - 이 에러는 웹 서버가 요청사항을 수행할 수 없을 경우에 발생함  -->
+	    	<location>/error/500</location>
+	    </error-page>
+	
 </web-app>
