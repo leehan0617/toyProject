@@ -12,36 +12,68 @@
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/image/*" security="none"/>
 	
+	<!-- security annotaion 설정 -->
+	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+	
 	<http auto-config="true" use-expressions="true">
+		<!-- url 별 권한정보 , annotation으로 대체함 (2017.03.27)  
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
 		<intercept-url pattern="/main" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
-		
-        <access-denied-handler error-page="/user/denied" />
-		
-		<form-login username-parameter="loginid"
-			password-parameter="loginpwd"
-			login-page="/login"
-			default-target-url="/main"
-			authentication-failure-url="/login?error=1"/>
-		<!--  
-		<logout invalidate-session="true" logout-url="/logout"
-			logout-success-url="/" />
 		-->
-				<!-- 중복세션 -->
+		
+		<!-- 접속 권한이 없을때 실행 -->
+        <access-denied-handler error-page="/denied"/>
+		
+		<!--로그인
+			login-page : 로그인 페이지 , 세션 인증이 없는 경우 호출되는 URL
+			username-parameter : 로그인 페이지에서 사용될 ID 파라미터 속성명 (name속성)
+			password-parameter : 로그인 페이지에서 사용될 PW 파라미터 속성명 (name속성)
+			default-target-url : 로그인 후 호출될 URL
+			authentication-failure-url : 로그인이 실패될때 호출되는 url (? 뒤의값은 실패인지 최초접속인지 등등 구분하기 위한 값)
+			authentication-success-handler-ref : 로그인 성공 이후 호출되는 핸들러, 직접 후처리를 작업할 경우 사용
+			login-processing-url : 로그인 처리를 호출할때 사용 할 URL 보여지는 URL 일뿐 j_spring_security_check가 호출되어 로그인 처리한다.
+		-->
+		<form-login login-page="/login"
+			username-parameter="loginId"
+			password-parameter="loginPwd"
+			default-target-url="/main"
+			authentication-failure-url="/login?error=1"
+			login-processing-url="/login"
+			authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
+		
+		<!-- 로그아웃 
+			invalidate-session : 세션 삭제 여부
+			logout-success-url : 로그아웃 성공 후 호출될 URL
+			logout-url : 로그아웃 처리를 요청할때 사용할 URL. 보여지는 URL 일뿐 j_spring_security_logout이 호출되어 로그아웃을 처리한다.
+		-->
+		<logout invalidate-session="true" logout-url="/logout"
+			logout-success-url="/login?logout=success"/>
+			
+		<!-- Remember me -->
+		<remember-me token-validity-seconds="1209600"
+			remember-me-parameter="remember-me"
+			data-source-ref="dataSource"/>
+		<!-- 중복세션 -->
 		<session-management invalid-session-url="/main">
 		 <concurrency-control max-sessions="1" expired-url="/main"/>
 		</session-management>
 	</http>
-
-     <!-- 비밀 번호 암호화 -->
-     <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-	 </beans:bean>
 	
+	<!-- 매번 비밀번호가 바뀌기 때문에 방지하기 위한 메소드이다. -->
+	<beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<beans:property name="userPropertyToUse" value="username"/>
+	</beans:bean>	
+	<!-- 암호화 알고리즘 설정 -->
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    	
+	<!-- 로그인 로직 설정 -->
 	<authentication-manager>
-	 	<authentication-provider user-service-ref="toyUserDetailsService">
-	 		<password-encoder ref="encoder" />
+	 	<authentication-provider user-service-ref="userService">
+	 		<password-encoder ref="encoder">
+	 			<security:salt-source ref="saltSource"/>
+	 		</password-encoder>
 	 	</authentication-provider>
 	</authentication-manager>
 </beans:beans>

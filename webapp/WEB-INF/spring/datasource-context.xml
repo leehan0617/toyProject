@@ -29,4 +29,8 @@
         <constructor-arg index="0" ref="sqlSessionFactory">
     </constructor-arg></bean>
     
+    <bean id="savedRequestAwareAuthenticationSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="targetUrlParameter" value="targetUrl" />
+  	</bean>
 </beans>

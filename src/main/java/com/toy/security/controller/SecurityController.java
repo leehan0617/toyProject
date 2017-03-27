@@ -1,21 +1,22 @@
 package com.toy.security.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.WebAttributes;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.toy.user.model.MemberDto;
 import com.toy.user.model.MemberVo;
@@ -29,26 +30,42 @@ public class SecurityController {
 
 	@Autowired
 	MemberService memberService;
-		
+	
+	/**
+	 * 작성일 : 2017. 3. 27.
+	 * 작성자 : 이한빈
+	 * 설  명 : default 페이지 , 로그인을 할때 호출되어지는 메소드
+	 */
 	@RequestMapping(value= {"/" ,"/login"} , method=RequestMethod.GET)
-	public String login() {
-		return "login";
+	public String login(@RequestParam(value="error" , required=false) String error , 
+			@RequestParam(value="logout" , required=false) String logout , Model model) {
+		model.addAttribute("error" , error);
+		model.addAttribute("logout" , logout);
+		
+		return "common/login";
 	}
 	
-	@RequestMapping(value="/logout" , method=RequestMethod.GET)
-	public String logout(HttpServletRequest request , HttpServletResponse response) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		if(auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
-		
-		return "redirect:/login?logout";
-	}
-	
+	/**
+	 * 작성일 : 2017. 3. 27.
+	 * 작성자 : 이한빈
+	 * 설  명 : 로그인 성공 이후 메인페이지 이동 메소드 (제거 고려)
+	 */
+	@PreAuthorize("authenticated")
 	@RequestMapping(value="/main")
 	public String main(Model model) {
-		model.addAttribute("user" , getPrincipal());
+		model.addAttribute("user" , getUserInfo());
 		
-		return "main";
+		return "project/main";
+	}
+	
+	/**
+     * 작성일 : 2017. 3. 27.
+     * 작성자 : 이한빈
+     * 설  명 : 로그인 한 user 정보를 가져오는 함수
+     */
+	private User getUserInfo() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return user;
 	}
 	
 	/*
@@ -80,7 +97,7 @@ public class SecurityController {
 	 * 작성자	: 송하람
 	 * 설명 : 접근권한이 없을 경우에 이동할 페이지2
 	*/
-    @RequestMapping("/user/denied")
+    @RequestMapping("/denied")
     public String denied(Model model, Authentication auth, HttpServletRequest req){
         //권한없는 사용자가 접근하면 security에서 해당 request에 AccessDeniedException 전달
         //이떄의 속성명--ACCESS_DENIED_403
@@ -101,20 +118,7 @@ public class SecurityController {
         System.out.println("admin test");
         return "/admin";
     }
-
-	private String getPrincipal() {
-		String userName = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		if (principal instanceof UserDetails) {
-			userName = ((UserDetails)principal).getUsername();
-		} else {
-			userName = principal.toString();
-		}
-		
-		return userName;
-	}
-
+    
 	/*
 	 * 작성일 : 2017.03.24
 	 * 작성자	: 김민지

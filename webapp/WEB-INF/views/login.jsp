@@ -30,7 +30,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>Remember Me : <input type="checkbox" name="remember-me"/></td>
+				<td>
 					<input type="submit" id="loginbtn" value="로그인"/>
 				</td>
 			</tr>
