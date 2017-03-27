@@ -4,18 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.toy.user.model.MemberDto;
-import com.toy.user.model.MemberVo;
 import com.toy.user.service.MemberService;
 
 @Controller
@@ -64,18 +59,6 @@ public class SecurityController {
         model.addAttribute("auth", auth);
         model.addAttribute("errMsg", ade);
         return "error/denied";
-    }
-    
-    
-    /*
-	 * 작성일 : 2017.03.24
-	 * 작성자	: 송하람
-	 * 설명 : 접근권한이 없을 경우에 이동할 페이지
-	*/
-    @RequestMapping("/admin")
-    public String adminTest(){
-        System.out.println("admin test");
-        return "/admin";
     }
     
 //	/*

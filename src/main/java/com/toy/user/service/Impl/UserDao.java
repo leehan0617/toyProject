@@ -31,4 +31,8 @@ public class UserDao {
 		return sqlSession.update("user.update" , userDto);
 	}
 
+	public int delete(String userId) {
+		return sqlSession.delete("user.delete" , userId);
+	}
+
 }

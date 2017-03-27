@@ -34,4 +34,10 @@
 				,mod_date = sysdate()
 			WHERE user_id = #{user_id}
 	</update>
+	
+	<!-- 20170328 이한빈 user를 삭제하는 쿼리문 -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM user
+			WHERE user_id = #{user_id}
+	</delete>
 </mapper>

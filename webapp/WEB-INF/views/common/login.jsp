@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
 <c:set var="root" value="#{pageContext.request.contextPath }"/>
 <c:set var="loginUrl" value="/login"/>
+<c:set var="joinUrl" value="/user/join"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,8 @@
 				<td colspan="2">Remember Me : <input type="checkbox" name="remember-me"/></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="로그인"/>
+				<td><input type="submit" value="로그인"/></td>
+				<td><a href="${root}${joinUrl}">회원가입</a></td>
 			</tr>
 		</table>
 	</form>

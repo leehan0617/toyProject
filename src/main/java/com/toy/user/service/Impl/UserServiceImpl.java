@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 			
 			if(!bcryptEncoder.matches(password ,user.getPassword())) {
 				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
-			};
+			}
 			
 			authorities = user.getAuthorities();
 		} catch (UsernameNotFoundException e) {
@@ -106,10 +106,25 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 	public UserDto getUser(String userId) {
 		return userDao.getUser(userId);
 	}
-
+	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : user 정보를 수정하는 메소드
+	 */
 	@Override
 	public int update(UserDto userDto) {
 		userDto.setPassword(bcryptEncoder.encode(userDto.getPassword()));
 		return userDao.update(userDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명  : user를 삭제하는 메소드
+	 */
+	@Override
+	public int delete(String userId) {
+		return userDao.delete(userId);
 	}
 }
