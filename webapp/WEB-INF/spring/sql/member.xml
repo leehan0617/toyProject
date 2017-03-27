@@ -40,4 +40,20 @@
 					(#{user_id},
 					#{auth_code})
     </insert>
+      <!-- 로그인 -->
+    <select id="getUserLogin" parameterType="com.toy.user.model.MemberVo" resultType="com.toy.user.model.MemberDto">
+    		SELECT user_id 
+    			  , PASSWORD 
+    			  , case enabled when '1' then 'true' else 'false' end as  enabled 
+    	   FROM user 
+    	   WHERE user_id = #{user_id}        
+    </select>
+    <!-- 로그인 권한 -->
+     <select id="getUserLoginAuth" parameterType="com.toy.user.model.MemberVo" resultType="com.toy.user.model.MemberDto">
+		    SELECT user.user_id, authority.auth_name 
+				FROM user
+				left join userauthority on userauthority.user_id = user.user_id 
+				left join authority on authority.auth_code = userauthority.auth_code
+			WHERE user.user_id = #{user_id}    
+	</select>
 </mapper>

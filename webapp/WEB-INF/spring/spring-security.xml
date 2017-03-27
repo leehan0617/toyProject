@@ -29,28 +29,18 @@
 		<logout invalidate-session="true" logout-url="/logout"
 			logout-success-url="/" />
 		-->
-		<!-- 중복세션 -->
+				<!-- 중복세션 -->
 		<session-management invalid-session-url="/main">
 		 <concurrency-control max-sessions="1" expired-url="/main"/>
 		</session-management>
-
 	</http>
-	
-	<jdbc-user-service data-source-ref="dataSource" id="userService"
-	 users-by-username-query="SELECT user_id , PASSWORD , enabled as  enabled FROM user WHERE user_id = ?"
-	 authorities-by-username-query="SELECT user.user_id, authority.auth_name 
-		FROM user
-		left join userauthority on userauthority.user_id = user.user_id 
-		left join authority on authority.auth_code = userauthority.auth_code
-		WHERE user.user_id=?"
-	 />
-          
+
      <!-- 비밀 번호 암호화 -->
      <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 	 </beans:bean>
 	
 	<authentication-manager>
-	 	<authentication-provider user-service-ref="userService">
+	 	<authentication-provider user-service-ref="toyUserDetailsService">
 	 		<password-encoder ref="encoder" />
 	 	</authentication-provider>
 	</authentication-manager>

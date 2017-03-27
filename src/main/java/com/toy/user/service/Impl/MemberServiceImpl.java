@@ -1,5 +1,7 @@
 package com.toy.user.service.Impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -43,5 +45,22 @@ public class MemberServiceImpl implements MemberService{
     public void updateMember(MemberVo vo) throws Exception {
         memberDao.updateMember(vo);
     }
+
+    /*
+	 * 작성일 : 2017.03.27
+	 * 작성자 : 김민지
+	 * 설명 : 로그인정보가져오기
+	*/
+	public MemberDto getUserLogin(String user_id) throws Exception {
+		return memberDao.getUserLogin(user_id);
+	}
+	/*
+	 * 작성일 : 2017.03.27
+	 * 작성자 : 김민지
+	 * 설명 : 로그인권한정보가져오기
+	*/
+	public List<MemberDto> getUserLoginAuth(String user_id) throws Exception {
+		return memberDao.getUserLoginAuth(user_id);
+	}
 
 }
