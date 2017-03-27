@@ -16,13 +16,8 @@ public class UserAuthority implements GrantedAuthority{
 	private static final long serialVersionUID = 1L;
 	
 	private String user_id;
-	private List<Authority> authorityList;
+	private List<Authority> authorities;
 	
-	@Override
-	public String getAuthority() {
-		return this.user_id;
-	}
-
 	public String getUser_id() {
 		return user_id;
 	}
@@ -30,12 +25,17 @@ public class UserAuthority implements GrantedAuthority{
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-
+	
+	@Override
+	public String getAuthority() {
+		return this.user_id;
+	}
+	
 	public List<Authority> getAuthorityList() {
-		return authorityList;
+		return authorities;
 	}
 
-	public void setAuthorityList(List<Authority> authorityList) {
-		this.authorityList = authorityList;
+	public void setAuthorityList(List<Authority> authorities) {
+		this.authorities = authorities;
 	}
 }

@@ -41,8 +41,8 @@
 			default-target-url="/main"
 			authentication-failure-url="/login?error=1"
 			login-processing-url="/login"
-			authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
-		
+			/>
+		<!-- authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler" remember-me 구현중 -->
 		<!-- 로그아웃 
 			invalidate-session : 세션 삭제 여부
 			logout-success-url : 로그아웃 성공 후 호출될 URL
@@ -52,28 +52,25 @@
 			logout-success-url="/login?logout=success"/>
 			
 		<!-- Remember me -->
+		<!--  
 		<remember-me token-validity-seconds="1209600"
 			remember-me-parameter="remember-me"
 			data-source-ref="dataSource"/>
+			-->
 		<!-- 중복세션 -->
 		<session-management invalid-session-url="/main">
 		 <concurrency-control max-sessions="1" expired-url="/main"/>
 		</session-management>
 	</http>
 	
-	<!-- 매번 비밀번호가 바뀌기 때문에 방지하기 위한 메소드이다. -->
-	<beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
-		<beans:property name="userPropertyToUse" value="username"/>
-	</beans:bean>	
 	<!-- 암호화 알고리즘 설정 -->
-    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+    <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     	
 	<!-- 로그인 로직 설정 -->
 	<authentication-manager>
-	 	<authentication-provider user-service-ref="userService">
-	 		<password-encoder ref="encoder">
-	 			<security:salt-source ref="saltSource"/>
-	 		</password-encoder>
+		<authentication-provider ref="userServiceImpl"/>
+	 	<authentication-provider user-service-ref="userServiceImpl">
+	 		<password-encoder ref="bcryptEncoder"/>
 	 	</authentication-provider>
 	</authentication-manager>
 </beans:beans>

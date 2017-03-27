@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -53,7 +52,7 @@ public class SecurityController {
 	@PreAuthorize("authenticated")
 	@RequestMapping(value="/main")
 	public String main(Model model) {
-		model.addAttribute("user" , getUserInfo());
+//		model.addAttribute("user" , getUserInfo());
 		
 		return "project/main";
 	}
@@ -63,10 +62,10 @@ public class SecurityController {
      * 작성자 : 이한빈
      * 설  명 : 로그인 한 user 정보를 가져오는 함수
      */
-	private User getUserInfo() {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return user;
-	}
+//	private String getUserInfo() {
+//		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		return user;
+//	}
 	
 	/*
 	 * 작성일 : 2017.03.10

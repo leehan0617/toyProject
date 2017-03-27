@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<!-- 20170327 이한빈 user 정보를 가져오는 쿼리문 -->
+	<select id="getUser" parameterType="String" resultType="com.toy.user.model.UserDto">
+		SELECT user.* 
+			FROM user
+				WHERE user_id = #{userId}
+	</select>
+	
+	<!--  -->
+	<select id="getAuthorities" parameterType="String" resultType="com.toy.user.model.UserAuthority">
+		SELECT userAuthority.user_id 
+			FROM authority , userAuthority
+				WHERE authority.auth_code = userAuthority.auth_code
+				  AND user_id = #{userId}
+	</select>
+</mapper>
