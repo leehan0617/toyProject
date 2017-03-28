@@ -20,7 +20,7 @@
 			<h3>로그아웃 성공</h3>
 		</c:when>
 		<c:when test="${error != null }">
-			<h3>로그인 실패</h3>
+			<h3>로그인 실패 : ${error}</h3>
 			<h3>원인 : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</h3>
 			<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
 		</c:when>

@@ -62,8 +62,11 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 			// 우선 user에 관한 정보를 가져온다.
 			user = this.loadUserByUsername(userId);
 			
-			// db에 있는 비밀번호와 입력한 비밀번호의 값이 맞는지 확인한다.
-			if(!bcryptEncoder.matches(password ,user.getPassword())) {
+			System.out.println("username : " + user.getUsername());
+			if(user.getUsername() == null || user.getUsername() == "") {
+				throw new UsernameNotFoundException("존재하지 않는 사용자 입니다.");
+			} else if(!bcryptEncoder.matches(password ,user.getPassword())) {
+				// db에 있는 비밀번호와 입력한 비밀번호의 값이 맞는지 확인한다.
 				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 			}
 			
