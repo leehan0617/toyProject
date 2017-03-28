@@ -53,7 +53,7 @@
 			logout-success-url="/login?logout=success"
 			invalidate-session="true"
 			delete-cookies="JSESSIONID"/>
-			
+		
 		<!-- Remember me -->
 		<!--  
 		<remember-me token-validity-seconds="1209600"
