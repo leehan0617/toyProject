@@ -34,15 +34,15 @@
 			authentication-failure-url : 로그인이 실패될때 호출되는 url (? 뒤의값은 실패인지 최초접속인지 등등 구분하기 위한 값)
 			authentication-success-handler-ref : 로그인 성공 이후 호출되는 핸들러, 직접 후처리를 작업할 경우 사용
 			login-processing-url : 로그인 처리를 호출할때 사용 할 URL 보여지는 URL 일뿐 j_spring_security_check가 호출되어 로그인 처리한다.
+			default-target-url="/project" (authentication-success-handler를 사용안할 경우 사용한다.)
 		-->
 		<form-login login-page="/login"
 			username-parameter="loginId"
 			password-parameter="loginPwd"
-			default-target-url="/project"
-			authentication-failure-url="/login?error=1"
 			login-processing-url="/login"
-			/>
-		<!-- authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler" remember-me 구현중 -->
+			authentication-success-handler-ref="loginSuccessHandler"
+			authentication-failure-url="/login?error=1"/>
+		
 		<!-- 로그아웃 
 			invalidate-session : 세션 삭제 여부
 			logout-success-url : 로그아웃 성공 후 호출될 URL
@@ -55,20 +55,25 @@
 			delete-cookies="JSESSIONID"/>
 		
 		<!-- Remember me -->
-		<!--  
-		<remember-me token-validity-seconds="1209600"
-			remember-me-parameter="remember-me"
-			data-source-ref="dataSource"/>
-			-->
+		<remember-me key="toyKey" 
+		token-validity-seconds="1209600"
+			remember-me-parameter="remember-me"/>
+			<!--data-source-ref="dataSource"/>-->
+					
 		<!-- 중복세션 -->
-		<session-management invalid-session-url="/main">
-		 <concurrency-control max-sessions="1" expired-url="/main"/>
+		<session-management invalid-session-url="/login">
+		 <concurrency-control max-sessions="1" expired-url="/login"/>
 		</session-management>
+		
+		<!-- csrf 설정 -->
+		<csrf/>
 	</http>
 	
 	<!-- 암호화 알고리즘 설정 -->
     <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-    	
+	<!-- 로그인 성공 핸들러 설정 -->
+	<beans:bean id="loginSuccessHandler" class="com.toy.util.LoginSuccessHandler"/>    	
+	
 	<!-- 로그인 로직 설정 -->
 	<authentication-manager>
 		<authentication-provider ref="userServiceImpl"/>

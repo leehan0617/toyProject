@@ -5,6 +5,8 @@
 <c:set var="root" value="#{pageContext.request.contextPath }"/>
 <c:set var="loginUrl" value="/login"/>
 <c:set var="joinUrl" value="/user/join"/>
+<%-- -<c:url var="login" value="${root}/auth/login_check?targetUrl=${targetUrl}" />
+--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,23 +14,20 @@
 <title>로그인페이지</title>
 </head>
 <body>
-	<form id="loginForm" name="loginForm" method="POST" action="${root}${loginUrl}">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-		
-		<c:if test="${logout != null}">
+	
+	<c:choose>
+		<c:when test="${logout != null}">
 			<h3>로그아웃 성공</h3>
-		</c:if>
+		</c:when>
+		<c:when test="${error != null }">
+			<h3>로그인 실패</h3>
+			<h3>원인 : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</h3>
+			<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
+		</c:when>
+	</c:choose>
 		
-		<c:choose>
-			<c:when test="${logout != null}">
-				<h3>로그아웃 성공</h3>
-			</c:when>
-			<c:when test="${error != null }">
-				<h3>로그인 실패</h3>
-				<h3>원인 : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</h3>
-				<c:remove var="SPRING_SECURITY_LAST_EXCEPTION" scope="session"/>
-			</c:when>
-		</c:choose>
+	<form name="loginForm" method="POST" action="${root}${loginUrl}">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		
 		<table>
 			<tr>

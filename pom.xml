@@ -79,6 +79,12 @@
 	    <artifactId>jstl</artifactId>
 	    <version>1.2</version>
 	</dependency>
+	<!-- jsp-api -->
+	<dependency>
+	    <groupId>javax.servlet.jsp</groupId>
+	    <artifactId>jsp-api</artifactId>
+	    <version>2.2</version>
+	</dependency>
 	
 	<!-- java servlet -->
 	<dependency>
@@ -115,7 +121,6 @@
 	</dependency>
 	
 	<!-- mybatis -->
-	
 	<dependency>
 	    <groupId>org.mybatis</groupId>
 	    <artifactId>mybatis</artifactId>

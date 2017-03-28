@@ -1,5 +1,7 @@
 package com.toy.common.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,9 +33,17 @@ public class MappingController {
 	 */
 	@RequestMapping(value={"/" , "/login"} , method=RequestMethod.GET)
 	public String login(@RequestParam(value="error" , required=false) String error ,
-			@RequestParam(value="logout" , required=false) String logout , Model model) {
-		model.addAttribute("error" , error);
-		model.addAttribute("logout" , logout);
+			@RequestParam(value="logout" , required=false) String logout 
+			, Model model , HttpServletRequest request) {
+		
+		if(error != null) {
+			model.addAttribute("error" , error);
+		}else if(logout != null) {
+			model.addAttribute("logout" , logout);
+		}else {
+			model.addAttribute("check" , "checkIN");
+		}
+		
 		return "common/login";
 	}
 	

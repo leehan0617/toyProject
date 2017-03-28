@@ -9,7 +9,7 @@
  						   http://www.springframework.org/schema/mvc
         				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
  
-    <bean id="dataSource"    class="com.zaxxer.hikari.HikariDataSource">
+    <bean id="dataSource"  class="com.zaxxer.hikari.HikariDataSource">
         <property name="dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource" />
                  <property name="dataSourceProperties">
                     <props>
@@ -26,11 +26,6 @@
     </bean>
  
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="sqlSessionFactory">
-    </constructor-arg></bean>
-    
-    <bean id="savedRequestAwareAuthenticationSuccessHandler"
-		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-		<property name="targetUrlParameter" value="targetUrl" />
-  	</bean>
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
 </beans>
