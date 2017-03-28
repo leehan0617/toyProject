@@ -20,8 +20,8 @@
 	<!-- 20170328 이한빈 신규가입 쿼리문 -->
 	<insert id="joinUser" parameterType="com.toy.user.model.UserDto">
 		INSERT INTO user
-			(user_id , user_name , password , email , memo , depart_code , reg_date)
-			VALUES (#{user_id} , #{user_name} , #{password} , #{email} , #{memo} , #{depart_code} , sysdate())
+			(user_id , user_name , password , email , depart_code , reg_date)
+			VALUES (#{user_id} , #{user_name} , #{password} , #{email} , #{depart_code} , sysdate())
 	</insert>
 	
 	<!-- 20170328 이한빈 user정보 수정 쿼리문 -->

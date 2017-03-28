@@ -1,13 +1,44 @@
 <%-- 회원가입 페이지 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="#{pageContext.request.contextPath }"/>
+<c:set var="joinUrl" value="/user"/>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	join page
+	<form action="${root}${joinUrl}" method="POST">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		<table>
+			<tr>
+				<td>ID</td>
+				<td><input type="text" name="user_id"/></td>
+			</tr>
+			<tr>
+				<td>PASSWORD</td>
+				<td><input type="password" name="password"/></td>
+			</tr>
+			<tr>
+				<td>NAME</td>
+				<td><input type="text" name="user_name"/></td>
+			</tr>
+			<tr>
+				<td>EMAIL</td>
+				<td><input type="text" name="email"/></td>
+			</tr>
+			<tr>
+				<td>DEPARTMENT</td>
+				<td><input type="text" name="depart_code"/></td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="submit" value="가입"/></td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>

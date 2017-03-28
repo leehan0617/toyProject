@@ -38,7 +38,7 @@
 		<form-login login-page="/login"
 			username-parameter="loginId"
 			password-parameter="loginPwd"
-			default-target-url="/main"
+			default-target-url="/project"
 			authentication-failure-url="/login?error=1"
 			login-processing-url="/login"
 			/>

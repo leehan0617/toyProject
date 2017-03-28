@@ -1,5 +1,6 @@
 package com.toy.user.model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,12 @@ public class UserDto implements UserDetails{
 	private boolean accountNonLocked = true; 
 	private boolean credentialsNonExpired = true; 
 	private int enabled;
+	
+	private String user_name;
+	private String email;
+	private String depart_code;
+	private LocalDate reg_date;
+	private LocalDate mod_date;
 	
 	@Override
 	public String getUsername() {
@@ -67,4 +74,51 @@ public class UserDto implements UserDetails{
 		return (this.enabled == 1 ? true : false);
 	}
 	
+	public String getUser_id() {
+		return user_id;
+	}
+	
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getDepart_code() {
+		return depart_code;
+	}
+
+	public void setDepart_code(String depart_code) {
+		this.depart_code = depart_code;
+	}
+
+	public LocalDate getReg_date() {
+		return reg_date;
+	}
+
+	public void setReg_date(LocalDate reg_date) {
+		this.reg_date = reg_date;
+	}
+
+	public LocalDate getMod_date() {
+		return mod_date;
+	}
+
+	public void setMod_date(LocalDate mod_date) {
+		this.mod_date = mod_date;
+	}
 }
