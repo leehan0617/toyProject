@@ -47,9 +47,12 @@
 			invalidate-session : 세션 삭제 여부
 			logout-success-url : 로그아웃 성공 후 호출될 URL
 			logout-url : 로그아웃 처리를 요청할때 사용할 URL. 보여지는 URL 일뿐 j_spring_security_logout이 호출되어 로그아웃을 처리한다.
+			delete-cookie : 쿠키를 삭제한다. remember me가 구현되면 사용되어질 예정
 		-->
-		<logout invalidate-session="true" logout-url="/logout"
-			logout-success-url="/login?logout=success"/>
+		<logout logout-url="/logout"
+			logout-success-url="/login?logout=success"
+			invalidate-session="true"
+			delete-cookies="JSESSIONID"/>
 			
 		<!-- Remember me -->
 		<!--  

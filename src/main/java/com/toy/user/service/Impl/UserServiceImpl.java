@@ -1,6 +1,5 @@
 package com.toy.user.service.Impl;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,14 +56,13 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 		String password = (String) authentication.getCredentials();
 		
 		UserDto user;
-		Collection<? extends GrantedAuthority> authorities;
+		List<UserAuthority> authorities;
 		
 		try {
+			// 우선 user에 관한 정보를 가져온다.
 			user = this.loadUserByUsername(userId);
-			String bcryptPassword = bcryptEncoder.encode(password);
 			
-			System.out.println(bcryptEncoder.matches(password, bcryptPassword));
-			
+			// db에 있는 비밀번호와 입력한 비밀번호의 값이 맞는지 확인한다.
 			if(!bcryptEncoder.matches(password ,user.getPassword())) {
 				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 			}

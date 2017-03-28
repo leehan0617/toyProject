@@ -13,7 +13,9 @@
 </head>
 <body>
 	<span>${user.getUsername()} 님</span>
-	<a href="${root}${logoutUrl}">로그아웃</a>
+	<form action="${root}${logoutUrl}" method="POST">
+		<input type="submit" value="로그아웃"/>
+	</form>
 	<a href="${root}${updateUrl}">정보수정</a>
 	프로젝트 메인 페이지 입니다.
 	
