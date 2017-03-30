@@ -92,7 +92,7 @@
 	    <artifactId>javax.servlet-api</artifactId>
 	    <version>3.1.0</version>
 	</dependency>
-		
+
 	<!-- junit -->
     <dependency>
 	    <groupId>junit</groupId>
@@ -145,6 +145,26 @@
 	    <groupId>cglib</groupId>
 	    <artifactId>cglib</artifactId>
 	    <version>3.1</version>
+	</dependency>
+	
+	<!-- Junit 디비 스프링 연결하기 위새서 필요 Spring-test -->
+	<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-test</artifactId>
+        <version>4.3.7.RELEASE</version>
+    </dependency>
+	<dependency>
+	   <groupId>org.apache.tomcat.embed</groupId>
+	   <artifactId>tomcat-embed-websocket</artifactId>
+	   <version>9.0.0.M18</version>
+	</dependency>
+	
+	<!-- 스프링 Controller test 를 위한 Mockito -->
+	<dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-all</artifactId>
+	    <version>2.0.2-beta</version>
+	    <scope>test</scope>
 	</dependency>
   </dependencies>
   <build>
