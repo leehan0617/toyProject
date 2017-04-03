@@ -5,3 +5,5 @@ target/
 .project
 bin/
 bootstrap/
+.iml
+.idea/

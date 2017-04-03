@@ -199,6 +199,10 @@
   				<password>osstem</password>
   			</configuration>
   		</plugin>
+  		<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>sonar-maven-plugin</artifactId>
+  		</plugin>
   	</plugins>
     <finalName>toyProject</finalName>
   </build>
