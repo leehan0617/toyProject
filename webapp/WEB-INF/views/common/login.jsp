@@ -14,7 +14,7 @@
 <title>로그인페이지</title>
 </head>
 <body>
-	jenkins success
+	jenkins success ss
 	<c:choose>
 		<c:when test="${logout != null}">
 			<h3>로그아웃 성공</h3>
