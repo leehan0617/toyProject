@@ -15,6 +15,7 @@
 </head>
 <body>
 	testsdfsadf	
+	ㅎㅇㅎㅇㅎㅇ
 	<c:choose>
 		<c:when test="${logout != null}">
 			<h3>로그아웃 성공</h3>
