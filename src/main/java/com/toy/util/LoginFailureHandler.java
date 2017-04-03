@@ -21,8 +21,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		String message = "";
-		System.out.println("에러접근");
+		String message;
+		//System.out.println("에러접근");
 		if(exception.getClass() == UsernameNotFoundException.class) {
 			message = "존재하지 않는 유저입니다.";
 		} else if (exception.getClass() == BadCredentialsException.class) {
