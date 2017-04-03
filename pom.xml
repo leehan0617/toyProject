@@ -167,9 +167,20 @@
   			<configuration>
   				<warSourceDirectory>webapp</warSourceDirectory>
   				<webXml>webapp/WEB-INF/web.xml</webXml>
-				
   			</configuration>
   		</plugin>
+  		<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.7</version>
+            <dependencies>
+            	<dependency>
+            		<groupId>org.apache.maven.shared</groupId>
+	                <artifactId>maven-filtering</artifactId>
+	                <version>1.3</version>
+            	</dependency>
+            </dependencies>
+        </plugin>
   		<plugin>
   			<groupId>org.apache.tomcat.maven</groupId>
   			<artifactId>tomcat7-maven-plugin</artifactId>
@@ -182,12 +193,11 @@
 				<warFile>/home/osstem/www/toyProject.war</warFile>
   			</configuration>
   		</plugin>
-  		<!--  
+  		
   		<plugin>
   			<groupId>org.codehaus.mojo</groupId>
   			<artifactId>sonar-maven-plugin</artifactId>
   		</plugin>
-  		-->
   	</plugins>
   	<!-- 개발환경에서는 directory tag를 주석 처리 -->
 	<directory>/home/osstem/www</directory>
