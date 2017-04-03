@@ -173,10 +173,11 @@
   			<artifactId>tomcat7-maven-plugin</artifactId>
   			<version>2.2</version>
   			<configuration>
-  				<url>http://localhost:8080/manager/text</url>
-  				<path>/test</path>
+  				<url>http://gohanbin.com/manager/text</url>
+  				<path>/</path>
   				<username>osstem</username>
   				<password>osstem</password>
+				<warFile>/home/osstem/www/toyProject.war</warFile>
   			</configuration>
   		</plugin>
   		<plugin>
@@ -184,6 +185,7 @@
   			<artifactId>sonar-maven-plugin</artifactId>
   		</plugin>
   	</plugins>
+	<directory>/home/osstem/www</directory>
     <finalName>toyProject</finalName>
   </build>
 </project>
