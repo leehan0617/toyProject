@@ -185,7 +185,10 @@
   			<artifactId>sonar-maven-plugin</artifactId>
   		</plugin>
   	</plugins>
+  	<!-- 개발환경에서는 directory tag를 주석 처리 -->
+  	<!--  
 	<directory>/home/osstem/www</directory>
+	-->
     <finalName>toyProject</finalName>
   </build>
 </project>
