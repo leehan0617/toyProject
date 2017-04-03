@@ -9,6 +9,4 @@ Java Web Project
 * DATABASE : 미정
 * BACKEND : JAVA 1.8
 * FRONTEND : JSP 
-* FRAMEWORK : SPRING 
- 
- jenkins test5
+* FRAMEWORK : SPRING  
