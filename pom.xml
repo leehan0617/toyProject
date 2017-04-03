@@ -182,10 +182,12 @@
 				<warFile>/home/osstem/www/toyProject.war</warFile>
   			</configuration>
   		</plugin>
+  		<!--  
   		<plugin>
   			<groupId>org.codehaus.mojo</groupId>
   			<artifactId>sonar-maven-plugin</artifactId>
   		</plugin>
+  		-->
   	</plugins>
   	<!-- 개발환경에서는 directory tag를 주석 처리 -->
 	<directory>/home/osstem/www</directory>
