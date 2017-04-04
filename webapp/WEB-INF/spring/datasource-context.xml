@@ -13,9 +13,9 @@
         <property name="dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource" />
                  <property name="dataSourceProperties">
                     <props>
-                        <prop key="url">jdbc:mysql://localhost:3306/toyproject</prop>
+                        <prop key="url">jdbc:mysql://toyproject.ck7nahoylct7.ap-northeast-2.rds.amazonaws.com:3306/toyproject</prop>
                         <prop key="user">osstem</prop>
-                        <prop key="password">osstem</prop>
+                        <prop key="password">osstemosstem</prop>
                     </props>
               </property>
     </bean>

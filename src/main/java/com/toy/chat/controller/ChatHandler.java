@@ -10,7 +10,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class ChatHandler extends TextWebSocketHandler {
 	// implements InitializingBean
-	private Set<WebSocketSession> sessionSet = new HashSet<WebSocketSession> ();
+	private Set<WebSocketSession> sessionSet = new HashSet<> ();
 
 	public ChatHandler() {
 		super();

@@ -9,6 +9,8 @@
   <url>http://maven.apache.org</url>
   <properties>
   	<org.springframework.version>4.3.5.RELEASE</org.springframework.version>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
   <dependencies>
   	<!-- spring core -->
@@ -185,7 +187,6 @@
   			<configuration>
   				<warSourceDirectory>webapp</warSourceDirectory>
   				<webXml>webapp/WEB-INF/web.xml</webXml>
-				
   			</configuration>
   		</plugin>
   		<plugin>
@@ -200,11 +201,14 @@
 				<warFile>/home/osstem/www/toyProject.war</warFile>
   			</configuration>
   		</plugin>
+  		<!--  
   		<plugin>
   			<groupId>org.codehaus.mojo</groupId>
   			<artifactId>sonar-maven-plugin</artifactId>
   		</plugin>
+  		-->
   	</plugins>
+  	<!-- 개발환경에서는 directory tag를 주석 처리 -->
 	<directory>/home/osstem/www</directory>
     <finalName>toyProject</finalName>
   </build>
