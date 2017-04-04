@@ -4,7 +4,7 @@ Java Web Project
 
 # 개발환경
 
-* OS : Window 7 , Mac
+* OS : Window 7 , Mac , Ubuntu
 * CI : Jenkins
 * BUILD : MAVEN
 * DATABASE : Maria DB 10.0.29
