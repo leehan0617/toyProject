@@ -1,0 +1,24 @@
+{
+  "name": "toyproject",
+  "version": "1.0.0",
+  "description": "Java Web Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start http://localhost:80/toyProject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leehan0617/toyProject.git"
+  },
+  "author": "minji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leehan0617/toyProject/issues"
+  },
+  "homepage": "https://github.com/leehan0617/toyProject#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}
