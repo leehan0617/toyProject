@@ -16,7 +16,7 @@ CREATE TABLE USER (
 -- 권한
 CREATE TABLE AUTHORITY (
 	auth_code VARCHAR(20)  NOT NULL, -- 권한코드
-	auth_name VARCHAR(200) NULL      -- 권한이름
+	auth_name VARCHAR(200) NULL   ,   -- 권한이름
 	comment   VARCHAR(200) NULL      -- 설명
 );
 
