@@ -6,17 +6,18 @@ CREATE TABLE USER (
 	email       VARCHAR(50)   NULL,     -- 이메일
 	depart_code VARCHAR(20)   NULL,     -- 직무코드
 	reg_date    DATE          NULL,     -- 등록일
-	reg_id      VARCHAR(50)   NULL,     -- 등록아이디
 	mod_date    DATE          NULL,     -- 수정일
-	mod_id      VARCHAR(50)   NULL,     -- 수정아이디
-	enabled     INTEGER(1)    NOT NULL DEFAULT 1  -- 시큐리티 설정값
+	enabled     INTEGER(1)    NOT NULL DEFAULT 1,  -- 계정사용가능여부
+	account_non_expired     INTEGER(1)    NOT NULL DEFAULT 1, -- 사용자계정만료여부
+	account_non_locked      INTEGER(1)    NOT NULL DEFAULT 1, -- 자격증명만료여부
+	credentials_non_expired INTEGER(1)    NOT NULL DEFAULT 1 -- 잠겨있는지 여부
 );
-
 
 -- 권한
 CREATE TABLE AUTHORITY (
 	auth_code VARCHAR(20)  NOT NULL, -- 권한코드
 	auth_name VARCHAR(200) NULL      -- 권한이름
+	comment   VARCHAR(200) NULL      -- 설명
 );
 
 -- 회원권한
@@ -45,12 +46,12 @@ CREATE TABLE ACTHISTORY (
 -- 프로젝트테이블
 CREATE TABLE PROJECT (
 	project_id         VARCHAR(20)   NOT NULL, -- 프로젝트아이디
-	project_nm         VARCHAR(200)  NULL,     -- 프로젝트명
+	project_name         VARCHAR(200)  NULL,     -- 프로젝트명
 	project_start_date DATE          NULL,     -- 시작날짜
 	project_end_date   DATE          NULL,     -- 끝날짜
 	usercount          NUMERIC       NULL,     -- 인원
 	project_detail     VARCHAR(2000) NULL,     -- 상세설명
-	pm_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
+	manager_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
 	state_code         VARCHAR(50)   NULL,     -- 상태코드(프로젝트)
 	reg_date           DATE          NULL,     -- 등록일
 	mod_date           DATE          NULL,     -- 수정일
@@ -92,9 +93,9 @@ CREATE TABLE ISSUE (
 	issue_start_date DATE          NULL,     -- 시작날짜
 	issue_end_date   DATE          NULL,     -- 종료날짜
 	state_code       VARCHAR(20)   NULL,     -- 상태코드(일감)
-	reg_dt           DATE          NULL,     -- 등록일
+	reg_date           DATE          NULL,     -- 등록일
 	reg_id           VARCHAR(50)   NULL,     -- 등록아이디
-	mod_dt           DATE          NULL,     -- 수정일
+	mod_date           DATE          NULL,     -- 수정일
 	mod_id           VARCHAR(50)   NULL      -- 수정아이디
 );
 

@@ -254,7 +254,7 @@ ALTER TABLE PROJECT
 	ADD
 		CONSTRAINT FK_USER_TO_PROJECT -- 회원 -> 프로젝트테이블
 		FOREIGN KEY (
-			pm_id -- 회원아이디(PM)
+			manager_id -- 회원아이디(PM)
 		)
 		REFERENCES USER ( -- 회원
 			user_id -- 회원아이디
