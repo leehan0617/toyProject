@@ -1,5 +1,5 @@
 -- 회원
-CREATE TABLE USER (
+CREATE TABLE user (
 	user_id     VARCHAR(50)   NOT NULL, -- 회원아이디
 	user_name   VARCHAR(40)   NOT NULL, -- 이름
 	password    VARCHAR(2000) NOT NULL, -- 비밀번호
@@ -14,28 +14,28 @@ CREATE TABLE USER (
 );
 
 -- 권한
-CREATE TABLE AUTHORITY (
+CREATE TABLE authority (
 	auth_code VARCHAR(20)  NOT NULL, -- 권한코드
 	auth_name VARCHAR(200) NULL   ,   -- 권한이름
 	comment   VARCHAR(200) NULL      -- 설명
 );
 
 -- 회원권한
-CREATE TABLE USERAUTHORITY (
+CREATE TABLE userauthority (
 	user_id   VARCHAR(50) NOT NULL, -- 회원아이디
 	auth_code VARCHAR(20) NOT NULL  -- 권한코드
 );
 
 
 -- 직무테이블
-CREATE TABLE DEPARTMENT (
+CREATE TABLE department (
 	depart_code VARCHAR(20)  NOT NULL, -- 직무코드
 	depart_name VARCHAR(200) NOT NULL  -- 직무이름
 );
 
 
 -- 활동내역
-CREATE TABLE ACTHISTORY (
+CREATE TABLE acthistory (
 	history_id NUMERIC      NOT NULL, -- 활동시퀀스
 	user_id    VARCHAR(50)  NOT NULL, -- 회원아이디
 	act_code   VARCHAR(20)  NOT NULL, -- 활동코드
@@ -44,7 +44,7 @@ CREATE TABLE ACTHISTORY (
 );
 
 -- 프로젝트테이블
-CREATE TABLE PROJECT (
+CREATE TABLE project (
 	project_id         VARCHAR(20)   NOT NULL, -- 프로젝트아이디
 	project_name         VARCHAR(200)  NULL,     -- 프로젝트명
 	project_start_date DATE          NULL,     -- 시작날짜
@@ -59,7 +59,7 @@ CREATE TABLE PROJECT (
 );
 
 -- 프로젝트참여자
-CREATE TABLE PROJECTMEMBER (
+CREATE TABLE projectmember (
 	project_id    VARCHAR(20)  NOT NULL, -- 프로젝트아이디
 	user_id       VARCHAR(50)  NOT NULL, -- 회원아이디(참여)
 	state_code    VARCHAR(20)  NULL,     -- 상태코드(참여)
@@ -72,20 +72,20 @@ CREATE TABLE PROJECTMEMBER (
 
 
 -- 직무그룹테이블
-CREATE TABLE DEPARTGROUP (
+CREATE TABLE departgroup (
 	depart_group_code VARCHAR(20)  NOT NULL, -- 직무그룹코드
 	depart_group_name VARCHAR(200) NULL      -- 직무그룹명
 );
 
 
 -- 직무그룹매핑
-CREATE TABLE DEPARTGROUPMAPPING (
+CREATE TABLE departgroupmapping (
 	depart_group_code VARCHAR(20) NOT NULL, -- 직무그룹코드
 	depart_code       VARCHAR(20) NOT NULL  -- 직무코드
 );
 
 -- 일감
-CREATE TABLE ISSUE (
+CREATE TABLE issue (
 	issue_id         NUMERIC       NOT NULL, -- 일감아이디
 	project_id       VARCHAR(20)   NOT NULL, -- 프로젝트아이디
 	issue_name       VARCHAR(200)  NULL,     -- 일감이름
@@ -100,19 +100,19 @@ CREATE TABLE ISSUE (
 );
 
 -- 활동코드
-CREATE TABLE ACT (
+CREATE TABLE act (
 	act_code VARCHAR(20)  NOT NULL, -- 활동코드
 	act_name VARCHAR(500) NULL      -- 활동내용
 );
 
 -- 상태테이블
-CREATE TABLE STATE (
+CREATE TABLE state (
 	state_code VARCHAR(20)  NOT NULL, -- 상태코드
 	state_name VARCHAR(200) NULL      -- 상태명
 );
 
 -- 포지션테이블
-CREATE TABLE PROJECTDEPARTMENTE (
+CREATE TABLE projectdepartment (
 	project_id  VARCHAR(20) NOT NULL, -- 프로젝트아이디
 	depart_code VARCHAR(20) NOT NULL  -- 직무코드
 );
