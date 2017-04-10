@@ -17,7 +17,7 @@ public class ErrorController {
 	 @RequestMapping(value = "/error/{error}", method = RequestMethod.GET)
 	 public String error(@PathVariable String error,Model model) {
 		 model.addAttribute("error", error);
-		  return "/common/error/error";
+		  return "/error/error";
 	 }
 	 
 	 /**
