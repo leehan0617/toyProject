@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 	 * 설 명  : user 에 관한 권한 및 인증을 하는 메소드
 	 */
 	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) {
 		String userId = authentication.getName();
 		String password = (String) authentication.getCredentials();
 		
