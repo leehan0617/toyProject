@@ -1,3 +1,5 @@
+/node_modules
+/webapp/WEB-INF/bower_components
 .classpath
 target/
 .settings/

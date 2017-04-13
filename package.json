@@ -19,6 +19,7 @@
   "homepage": "https://github.com/leehan0617/toyProject#readme",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bower": "^1.8.0",
     "jquery": "^3.2.1"
   }
 }

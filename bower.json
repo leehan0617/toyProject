@@ -1,0 +1,22 @@
+{
+  "name": "toyproject",
+  "description": "Java Web Project",
+  "main": "index.js",
+  "authors": [
+    "minji"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/leehan0617/toyProject#readme",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "webapp/WEB-INF/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap": "^3.3.7"
+  }
+}
