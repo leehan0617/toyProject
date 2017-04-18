@@ -1,5 +1,5 @@
 /node_modules
-/webapp/WEB-INF/bower_components
+/webapp/js/bower_components
 .classpath
 target/
 .settings/
