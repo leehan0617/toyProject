@@ -11,9 +11,9 @@
 	
 	<!-- 20170328 이한빈 user에 관한 권한을 가져오는 쿼리문-->
 	<select id="getAuthorities" parameterType="String" resultType="com.toy.user.model.UserAuthority">
-		SELECT userAuthority.user_id , userAuthority.auth_code
+		SELECT userauthority.user_id , userauthority.auth_code
 			FROM authority , userAuthority
-				WHERE authority.auth_code = userAuthority.auth_code
+				WHERE authority.auth_code = userauthority.auth_code
 				  AND user_id = #{userId}
 	</select>
 	
