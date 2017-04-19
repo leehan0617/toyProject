@@ -175,11 +175,11 @@
         <artifactId>spring-test</artifactId>
         <version>4.3.7.RELEASE</version>
     </dependency>
-	<dependency>
-	   <groupId>org.apache.tomcat.embed</groupId>
-	   <artifactId>tomcat-embed-websocket</artifactId>
-	   <version>9.0.0.M18</version>
-	</dependency>
+    <dependency>
+    	<groupId>org.apache.tomcat.embed</groupId>
+    	<artifactId>tomcat-embed-websocket</artifactId>
+    	<version>8.0.39</version>
+     </dependency>
   </dependencies>
   <build>
   	<plugins>
