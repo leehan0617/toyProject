@@ -84,9 +84,9 @@
 	
 	<!-- spring messaging -->
 	<dependency>
-    		<groupId>org.springframework</groupId>
-    		<artifactId>spring-messaging</artifactId>
-    		<version>4.3.5.RELEASE</version>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-messaging</artifactId>
+	    <version>4.3.5.RELEASE</version>
 	</dependency>
 	
 	<!-- jstl -->
