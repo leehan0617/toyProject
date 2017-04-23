@@ -56,8 +56,7 @@
 		
 		<!-- Remember me -->
 		<remember-me key="toyKey" 
-		token-validity-seconds="1209600"
-			remember-me-parameter="remember-me"/>
+		token-validity-seconds="1209600"/>
 			<!--data-source-ref="dataSource"/>-->
 					
 		<!-- 중복세션 -->
