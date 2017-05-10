@@ -1,14 +1,30 @@
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack');
+
+const extractSass = new ExtractTextPlugin({
+    filename: "[name].css"
+});
+
 module.exports = {
   context: __dirname + '/webapp/js',
-  entry: {main:'./webpacktest/index.js',jqeury:'./bower_components/jquery/index.js'},
+  entry: {main:'./webpacktest'},
   output: {
     path: __dirname + '/webapp/js/dist',
     filename: '[name].js'
   },
   module: {
-	    loaders: [
-	      { test: /\.(css|scss)$/, use: ['style-loader', 'css-loader','sass-loader'] }
-	      , {
+	  rules: [
+	      { test: /\.(css|scss)$/, 
+    	    loader: extractSass.extract({
+                use: [{
+                    loader: "css-loader"
+                }, {
+                    loader: "sass-loader"
+                }],
+                fallback: "style-loader"
+            })
+	      }, 
+	      {
 		        test: /\.js$/,
 		        loader: 'babel-loader',
 		        exclude: /(node_modules|bower_components)/,
@@ -17,7 +33,16 @@ module.exports = {
 		              'es2015'
 		            ]
 		          }
-		      }
+		  }
 	    ]
-  }
+  },
+  plugins: [
+            new webpack.optimize.UglifyJsPlugin({
+            	compress: {
+            		warnings: false
+            		, drop_console: true
+            	}
+            }),
+			extractSass
+          ]
 };
