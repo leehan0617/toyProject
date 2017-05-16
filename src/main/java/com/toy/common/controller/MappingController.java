@@ -1,5 +1,9 @@
 package com.toy.common.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +109,17 @@ public class MappingController {
 	@RequestMapping(value="/admin" , method=RequestMethod.GET)
 	public String admin() {
 		return "user/admin";
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String hello(Locale locale, Model model) {
+	
+	  Date date = new Date();
+	  DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+	
+	  String formattedDate = dateFormat.format(date);
+	
+	  model.addAttribute("serverTime", formattedDate );
+	  return "tiles";
 	}
 }
