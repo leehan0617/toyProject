@@ -31,7 +31,7 @@ public class MappingController {
 	 * 작성자 : 이한빈 
 	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
 	 */
-	@RequestMapping(value={"/" , "/login"} , method=RequestMethod.GET)
+	@RequestMapping(value={"/" , "/login" , "/logout"} , method=RequestMethod.GET)
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
 			, Model model , HttpServletRequest request) {
