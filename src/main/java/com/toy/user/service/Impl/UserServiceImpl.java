@@ -2,6 +2,8 @@ package com.toy.user.service.Impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,6 +26,7 @@ import com.toy.user.service.UserService;
 @Service(value="userServiceImpl")
 public class UserServiceImpl implements UserService , UserDetailsService , AuthenticationProvider{
 	
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserDao userDao;
 	
@@ -37,9 +40,18 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 	 */
 	@Override
 	public UserDto loadUserByUsername(String userId) throws UsernameNotFoundException {
+		logger.info("loadUserByUsername 접근");
+		
 		UserDto user = userDao.getUser(userId);
+		
 		List<UserAuthority> authorities = userDao.getAuthorities(userId);
 		user.setAuthorities(authorities);
+		
+		for(int i = 0 ; i < authorities.size() ; i ++) {
+			logger.info(authorities.get(i).getAuth_code());
+			logger.info(authorities.get(i).getAuthority());
+			logger.info(authorities.get(i).getUser_id());
+		}
 		
 		return user;
 	}
@@ -51,22 +63,20 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 	 */
 	@Override
 	public Authentication authenticate(Authentication authentication) {
-		String userId = authentication.getName();
-		String password = (String) authentication.getCredentials();
-		
-		UserDto user;
-		List<UserAuthority> authorities;
+		logger.info("authenticate 접근");
 		
 		try {
-			// 우선 user에 관한 정보를 가져온다.
-			user = this.loadUserByUsername(userId);
+			String userId = authentication.getName();
+			String password = (String) authentication.getCredentials();
 			
+			// 우선 user에 관한 정보를 가져온다.
+			UserDto user = this.loadUserByUsername(userId);
 			// db에 있는 비밀번호와 입력한 비밀번호의 값이 맞는지 확인한다.
 			if(!bcryptEncoder.matches(password ,user.getPassword())) {
 				throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
 			}
 			
-			authorities = user.getAuthorities();
+			return new UsernamePasswordAuthenticationToken(user , password , user.getAuthorities());
 		} catch (UsernameNotFoundException e) {
 			throw new UsernameNotFoundException(e.getMessage());
 		} catch (BadCredentialsException e) {
@@ -74,7 +84,6 @@ public class UserServiceImpl implements UserService , UserDetailsService , Authe
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		return new UsernamePasswordAuthenticationToken(user , password , authorities);
 	}
 
 	@Override

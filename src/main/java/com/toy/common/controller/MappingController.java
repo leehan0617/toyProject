@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +29,7 @@ import com.toy.user.service.UserService;
 @Controller
 public class MappingController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(MappingController.class);
 	@Autowired
 	private UserService userService;
 	
@@ -35,10 +38,11 @@ public class MappingController {
 	 * 작성자 : 이한빈 
 	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
 	 */
-	@RequestMapping(value={"/" , "/login" , "/logout"} , method=RequestMethod.GET)
+	@RequestMapping(value={"/" , "/login" , "/logout"})
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
 			, Model model , HttpServletRequest request) {
+		logger.info("MappingController login 메소드 접근");
 		
 		if(error != null) {
 			model.addAttribute("error" , error);
@@ -58,6 +62,8 @@ public class MappingController {
 	 */
 	@RequestMapping(value="/project" , method=RequestMethod.GET)
 	public String project(Model model) {
+		logger.info("MappingController project 메소드 접근");
+		
 		// 회원정보를 가져간다.
 		model.addAttribute("userDto" , this.getPrincipal());
 		return "project/main";

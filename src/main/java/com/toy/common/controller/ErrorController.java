@@ -18,9 +18,9 @@ public class ErrorController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 	
-	
 	@RequestMapping(value="/error/{error}" , method=RequestMethod.GET)
 	public String error(@PathVariable String error , Model model) {
+		logger.info("error 페이지 접근", error);
 		model.addAttribute("error" , error);
 		return "error/error";
 	}
