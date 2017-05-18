@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-footer 입니다.
+footer입니다.
 </body>
 </html>

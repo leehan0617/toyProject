@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-header입니다.
+이슈리스트페이지
 </body>
 </html>

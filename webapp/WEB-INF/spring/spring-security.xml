@@ -16,12 +16,11 @@
 	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 	
 	<http auto-config="true" use-expressions="true">
-		<!-- url 별 권한정보 , annotation으로 대체함 (2017.03.27)  
+		<!-- url 별 권한정보 , 추후 annotation으로 대체-->  
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
-		<intercept-url pattern="/main" access="permitAll" />
+		<intercept-url pattern="/project" access="hasRole('01')" />
 		<intercept-url pattern="/**" access="permitAll" />
-		-->
 		
 		<!-- 접속 권한이 없을때 실행 -->
         <access-denied-handler error-page="/denied"/>
@@ -52,10 +51,11 @@
 		<logout logout-url="/logout"
 			logout-success-url="/login?logout=success"
 			invalidate-session="true"
-			delete-cookies="JSESSIONID"/>
+			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
 		
 		<!-- Remember me -->
-		<remember-me key="toyKey" 
+		<remember-me key="toyKey"
+		remember-me-parameter="custom_remember_me" 
 		token-validity-seconds="1209600"/>
 			<!--data-source-ref="dataSource"/>-->
 					

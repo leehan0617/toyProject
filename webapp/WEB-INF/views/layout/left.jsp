@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-header입니다.
+left페이지
 </body>
 </html>

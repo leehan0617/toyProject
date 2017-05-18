@@ -14,14 +14,14 @@ public class AppWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer
 	
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/topic");
-		config.setApplicationDestinationPrefixes("/calcApp");
-		config.setUserDestinationPrefix("/user");
+		config.enableSimpleBroker("/topic" ,"/topic2" , "/topic3"); // // 서버가 클라이언트에게 보낼때 prefix 설정 (전역)
+		config.setApplicationDestinationPrefixes("/calcApp"); // 클라이언트가 서버에게 메세지를 보낼떄 prefix 설정
+		config.setUserDestinationPrefix("/user"); // 개인 클라이언트에게 메세지를 보낼때 prefix 설정
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/add").withSockJS();
+		registry.addEndpoint("/add").withSockJS(); // endpoint 설정 최초 socket 연결시 사용하는 url이다.
 	}
 	
 }

@@ -19,7 +19,7 @@
 		}
 		
 		function connect() {
-			var socket = new SockJS('${root}/add');
+			var socket = new SockJS('${root}/add'); // endpoint 설정
 			stompClient = Stomp.over(socket);
 			stompClient.connect({} , function(frame) {
 				setConnected(true);
@@ -29,6 +29,21 @@
 					console.log(calResult.body);
 					showResult(calResult.body);
 					//showResult(JSON.parse(calResult.body).result);
+				});
+				
+				stompClient.subscribe('/user/topic2/privateMsg' , function(calResult) {
+					console.log(calResult);
+					alert(calResult.body);
+				});
+				
+				stompClient.subscribe('/topic3/otherMsg' , function(calResult) {
+					console.log(calResult);
+					showResult(calResult.body);
+				});
+				
+				stompClient.subscribe('/user/topic2/test' , function(calResult) {
+					console.log(calResult);
+					showResult(calResult.body);
 				});
 			});
 		}
@@ -40,8 +55,19 @@
 		}
 		
 		function sendNum() {
-			var num1 = document.getElementById('num1').value;
+			var num1 = document.getElementById('msg').value;
 			stompClient.send('/calcApp/add' , {} , JSON.stringify({'num1' : num1}));
+		}
+		
+		function sendOther() {
+			var msg = document.getElementById('msg').value;
+			stompClient.send('/calcApp/add2' , {} , JSON.stringify({'msg' : msg}));
+		}
+		
+		function sendPrivateMsg() {
+			var text = document.getElementById('privateInput').value;
+			console.log(text);
+			stompClient.send('/calcApp/privateMsg' , {} , JSON.stringify({'text' : text}));
 		}
 		
 		function showResult(message) {
@@ -51,19 +77,24 @@
 			p.appendChild(document.createTextNode(message));
 			response.appendChild(p);
 		}
+		
 	</script>
 </head>
 <body>
 	<h1>stomp test</h1>
-		
+	<div>
+		<input type="text" id="privateInput"/>
+		<button onclick="sendPrivateMsg()">Send Private Msg</button>
+	</div>		
 	<div>
 		<div>
 			<button id="connect" onclick="connect();">Connect</button>
 			<button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
 		</div>
 		<div id="calculationDiv">
-			<label>value1:</label><input type="text" id="num1" /><br/>
-	        <button id="sendNum" onclick="sendNum();">Send to Add</button>
+			<label>메세지 : </label><input type="text" id="msg" /><br/>
+	        <button onclick="sendNum();">Send to Add</button>
+	        <button onclick="sendOther();">Send to Other</button>
 	        <p id="calResponse"></p>
 		</div>
 	</div>

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-메인테스트이다.
+메인테스트입니다.
 </body>
 </html>
