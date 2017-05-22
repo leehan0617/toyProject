@@ -36,7 +36,7 @@ public class ProjectDto implements Serializable{
 	private String reg_date;
 	
 	//모집 포지션코드 리스트
-	private List depart_code;
+	private List<String> depart_code;
 	
 	//모집 포지션 명
 	private String depart_name;
@@ -95,10 +95,10 @@ public class ProjectDto implements Serializable{
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	public List getDepart_code() {
+	public List<String> getDepart_code() {
 		return depart_code;
 	}
-	public void setDepart_code(List depart_code) {
+	public void setDepart_code(List<String> depart_code) {
 		this.depart_code = depart_code;
 	}
 	public String getManager_name() {

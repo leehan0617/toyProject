@@ -11,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.toy.project.model.DepartmentDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.ProjectService;
 import com.toy.user.model.UserDto;
@@ -48,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		//프로젝트별 직무 생성
 		if(projectDto.getDepart_code() != null){
-			if(projectDto.getDepart_code().size() > 0){
+			if(!projectDto.getDepart_code().isEmpty()){
 				projectDao.insertProjectDepart(projectDto);
 			}
 		}
@@ -64,9 +63,9 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		List<ProjectDto> projectList = projectDao.getProjectList(projectDto);
 		
-		Map<Integer,ProjectDto> map  = new HashMap();
+		Map<Integer,ProjectDto> map  = new HashMap<>();
 		
-		if(projectList.size() > 0){
+		if(!projectList.isEmpty()){
 			
 			//프로젝트 별로 직무 합치기 
 			for(int i = 0 ; i <projectList.size();i++){
@@ -75,13 +74,13 @@ public class ProjectServiceImpl implements ProjectService{
 				
 				if(!map.containsKey(key)){//map 에 키가 존재할때
 					ProjectDto dto = projectList.get(i);
-					List departList = new ArrayList();
+					List<String> departList = new ArrayList<>();
 					departList.add(projectList.get(i).getDepart_name());
 					dto.setDepart_code(departList);
 					map.put(key, dto);
 				}else{
 					ProjectDto dto = map.get(key);
-					List departList = dto.getDepart_code();
+					List<String> departList = dto.getDepart_code();
 					departList.add(projectList.get(i).getDepart_name());
 					dto.setDepart_code(departList);
 					map.put(key, dto);
