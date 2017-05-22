@@ -116,7 +116,6 @@ public class MappingController {
 	public String admin() {
 		return "user/admin";
 	}
-	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public String hello(Locale locale, Model model) {
 	
