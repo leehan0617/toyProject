@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,7 +39,7 @@ public class MappingController {
 	 * 작성자 : 이한빈 
 	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
 	 */
-	@RequestMapping(value={"/" , "/login" , "/logout"})
+	@RequestMapping(value={"/" , "/logout"})
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
 			, Model model , HttpServletRequest request) {
@@ -53,6 +54,12 @@ public class MappingController {
 		}
 		
 		return "common/login";
+	}
+	
+	@RequestMapping(value="/login")
+	public String test(HttpServletRequest request , HttpServletResponse response) {
+		logger.info("로그인로직실행");
+		return "project/project";
 	}
 	
 	/**

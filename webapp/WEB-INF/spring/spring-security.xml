@@ -17,9 +17,9 @@
 	
 	<http auto-config="true" use-expressions="true">
 		<!-- url 별 권한정보 , 추후 annotation으로 대체-->  
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/login" access="isAnonymous()" />
-		<intercept-url pattern="/project" access="hasRole('01')" />
+		<intercept-url pattern="/admin/**" access="hasRole('01')" />
+		<intercept-url pattern="/project" access="hasRole('02')" />
 		<intercept-url pattern="/**" access="permitAll" />
 		
 		<!-- 접속 권한이 없을때 실행 -->

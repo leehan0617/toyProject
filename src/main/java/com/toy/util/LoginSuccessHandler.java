@@ -28,6 +28,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		logger.info("LoginSuccess Handler 접근");
+		logger.info("auth type : " + request.getAuthType());
 		response.sendRedirect(request.getContextPath() + "/project");
 	}
 }
