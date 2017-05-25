@@ -59,7 +59,7 @@ public class MappingController {
 	@RequestMapping(value="/login")
 	public String test(HttpServletRequest request , HttpServletResponse response) {
 		logger.info("로그인로직실행");
-		return "project/project";
+		return "common/login";
 	}
 	
 	/**
@@ -133,5 +133,15 @@ public class MappingController {
 	
 	  model.addAttribute("serverTime", formattedDate );
 	  return "tiles";
+	}
+	
+	/**
+	 * 작성일 : 2017. 05.24
+	 * 작성자 : 송하람
+	 * 설  명 : 회원수정 페이지로 이동하는 메소드
+	 */
+	@RequestMapping(value="/issue/add" , method=RequestMethod.GET) 
+	public String addIssue() {
+		return "issue/addIssue";
 	}
 }

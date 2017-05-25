@@ -7,10 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-이슈리스트페이지
-<br>
-<button onclick="window.open('./add','이슈생성','width=430,height=500,location=no,status=no,scrollbars=yes');">이슈생성</button>
+이슈제목 : <input id = 'issueTitle' type = 'text'><br>
+참여자 : <select id = 'memberSelect'></select><br>
+상세내용 :<br>
+<textarea id = 'issueDetail'></textarea><br>
 
-
+<input type = 'button' value = '이슈생성'> <input type = 'button' value = '취소' onclick = 'window.close()'>
 </body>
 </html>
