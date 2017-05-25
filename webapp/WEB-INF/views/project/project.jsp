@@ -13,9 +13,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript">
-console.log("안녕")
-</script>
 <input type="hidden" id="user_id" value="${userDto.getUser_id()}">
 
 <div style="display: inline;">
@@ -57,15 +54,14 @@ console.log("안녕")
 		<ul style="border: 1px solid">
 						<dt>프로젝트명 : ${i.getProject_name()} </dt>
 						<li style="list-style:square;">기간</li>
-						<li style="list-style:square;">총인원 : ${i.getUsercount()}</li>
 						<li style="list-style:square;">모집직무 :
-							<c:forEach var="depart_name" items="${i.getDepart_code()}" begin="0" end = "${i.getDepart_code().size()}">
-								${depart_name}
+							<c:forEach var="departMap" items="${i.getDepartMap()}">
+								${departMap.key} - ${departMap.value} 명
 							</c:forEach>
 						</li>
 						<li style="list-style:square;">담당자 : ${i.getManager_name()}</li>
 						<li style="list-style:square;">모집상태 : ${i.getState_name()}</li>
-						<li style="list-style:square;"><input type="button" value="상세보기"/></li>
+						<li style="list-style:square;"><input type="button" value="상세보기" onclick="project.projectDetail(${i.getProject_id()})"/></li>
 						<li style="list-style:square;"><input type="button" value="신청하기"/></li>
 		</ul>
 	</c:forEach>

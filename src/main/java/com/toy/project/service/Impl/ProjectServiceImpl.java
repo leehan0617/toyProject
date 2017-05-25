@@ -48,7 +48,18 @@ public class ProjectServiceImpl implements ProjectService{
 		//프로젝트별 직무 생성
 		if(projectDto.getDepart_code() != null){
 			if(!projectDto.getDepart_code().isEmpty()){
-				projectDao.insertProjectDepart(projectDto);
+				
+				for(String departCode : projectDto.getDepart_code()){
+					
+					HashMap<String, String> map = new HashMap<>();
+					
+					map.put("project_id", String.valueOf(projectDto.getProject_id()));
+					map.put("depart_code", departCode);
+					map.put("usercount", projectDto.getDepartMap().get(departCode));
+					System.out.println("훗"+map.toString());
+					projectDao.insertProjectDepart(map);
+				}
+				
 			}
 		}
 		
@@ -72,19 +83,21 @@ public class ProjectServiceImpl implements ProjectService{
 				
 				int key = projectList.get(i).getProject_id();
 				
+				ProjectDto dto;
+				Map<String,String> departMap;
+				
 				if(!map.containsKey(key)){//map 에 키가 존재할때
-					ProjectDto dto = projectList.get(i);
-					List<String> departList = new ArrayList<>();
-					departList.add(projectList.get(i).getDepart_name());
-					dto.setDepart_code(departList);
-					map.put(key, dto);
+					dto = projectList.get(i);
+					departMap = new HashMap<>();
 				}else{
-					ProjectDto dto = map.get(key);
-					List<String> departList = dto.getDepart_code();
-					departList.add(projectList.get(i).getDepart_name());
-					dto.setDepart_code(departList);
-					map.put(key, dto);
+					dto = map.get(key);
+					departMap = dto.getDepartMap();
 				}
+
+				departMap.put(projectList.get(i).getDepart_name(), String.valueOf(projectList.get(i).getUsercount()));
+				dto.setDepartMap(departMap);
+				
+				map.put(key, dto);
 			}
 		}
 		
@@ -92,6 +105,29 @@ public class ProjectServiceImpl implements ProjectService{
 		List<ProjectDto> resultList = new ArrayList<>(map.values());
 		
 		return resultList;
+	}
+
+	/**
+	 * 작성일 : 2017. 5 .24
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 상세  가져오기
+	 */
+	public ProjectDto getProjectDetail(ProjectDto projectDto) {
+		
+		ProjectDto projectDetailDto = projectDao.getProjectDetail(projectDto);
+		
+		return projectDetailDto;
+	}
+
+	/**
+	 * 작성일 : 2017. 5 .24
+	 * 작성자 : 김민지
+	 * 설  명 : 직무 리스트 가져오기
+	 */
+	public List<ProjectDto> getProjectDePDetail(ProjectDto projectDto) {
+		
+		List<ProjectDto> projectDePDetail = projectDao.getProjectDePDetail(projectDto);
+		return projectDePDetail;
 	}
 	
 

@@ -49,7 +49,6 @@ CREATE TABLE project (
 	project_name         VARCHAR(200)  NULL,     -- 프로젝트명
 	project_start_date DATE          NULL,     -- 시작날짜
 	project_end_date   DATE          NULL,     -- 끝날짜
-	usercount          NUMERIC       NULL,     -- 인원
 	project_detail     VARCHAR(2000) NULL,     -- 상세설명
 	manager_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
 	state_code         VARCHAR(50)   NULL,     -- 상태코드(프로젝트)
@@ -114,5 +113,6 @@ CREATE TABLE state (
 -- 포지션테이블
 CREATE TABLE projectdepartment (
 	project_id  VARCHAR(20) NOT NULL, -- 프로젝트아이디
-	depart_code VARCHAR(20) NOT NULL  -- 직무코드
+	depart_code VARCHAR(20) NOT NULL,  -- 직무코드
+	usercount   NUMERIC  NULL,     -- 인원
 );

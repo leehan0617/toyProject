@@ -28,21 +28,28 @@
 			<th>기간</th>
 			<td></td>
 		</tr>
-		<tr>
-			<th>최대인원</th>
-			<td>
-				<select id="usercount" name="usercount">
-					<c:forEach begin="1" end="10" var="i"> <!-- 최대 인원 숫자 프로퍼티 값으로 빼기  -->
-						<option value="${i}">${i}</option>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
+<!-- 		<tr> -->
+<!-- 			<th>최대인원</th> -->
+<!-- 			<td> -->
+<!-- 				<select id="depart_code" name="depart_code"> -->
+<%-- 					<c:forEach begin="1" end="10" var="i"> <!-- 최대 인원 숫자 프로퍼티 값으로 빼기  --> --%>
+<%-- 						<option value="${i}">${i}</option> --%>
+<%-- 					</c:forEach> --%>
+<!-- 				</select> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
 		<tr>
 			<th>모집포지션</th>
 			<td>
 			   <c:forEach begin="0" var="i" items="${departList}" end="${departList.size()}">
-					<input type="checkbox" id="depart_code" name="depart_code" value="${i.getDepart_code()}" /> ${i.getDepart_name()}
+					<input type="checkbox" id="depart_code" name="depart_code" value="${i.getDepart_code()}" onchange="project.departCount(this)"/> ${i.getDepart_name()}
+					<div id="${i.getDepart_code()}_count" style="display: none;">
+						<select id="departMap[${i.getDepart_code()}]" name="departMap[${i.getDepart_code()}]">
+							<c:forEach begin="1" end="10" var="i"> <!-- 직무별 인원수 정하기  -->
+								<option value="${i}">${i}</option>
+							</c:forEach>
+						</select>
+					</div>
 			   </c:forEach>
 			</td>
 		</tr>

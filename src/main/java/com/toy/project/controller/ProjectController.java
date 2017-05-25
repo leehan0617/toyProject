@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -82,7 +83,39 @@ public class ProjectController {
 	 */
 	@RequestMapping(value="/project" , method=RequestMethod.POST)
 	public String insertproject(ProjectDto projectDto) throws Exception {
+		System.out.println(projectDto.getDepart_code().size());
+		System.out.println(projectDto.getDepartMap().size());
+		System.out.println(projectDto.getDepartMap().toString());
 		projectService.saveNewProject(projectDto);
 		return "redirect:/projectList/";
+	}
+	
+	/**
+	 * 작성일 : 2017. 5. 15.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 생성하는 페이지 매핑하기.
+	 */
+	@RequestMapping(value="/project/{projectId}" , method=RequestMethod.GET)
+	public String projectdetail(@PathVariable int projectId ,Model model) {
+		
+		// 로그인정보를 가져온다.
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		UserDto currentUser = (UserDto) auth.getPrincipal();
+		
+		ProjectDto projectDto = new ProjectDto();
+		projectDto.setProject_id(projectId);
+		
+		//프로젝트 상세 정보 불러오기
+		ProjectDto projectDetail = projectService.getProjectDetail(projectDto);
+		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
+		// 전체 직무 리스트 불러오기
+		List<DepartmentDto> departList = departmentService.getDepartment();
+		
+		model.addAttribute("projectDetail" , projectDetail);
+		model.addAttribute("projectDep" , projectDep);
+		model.addAttribute("userDto" , currentUser);
+		model.addAttribute("departList" , departList);
+		return "project/projectDetail";
 	}
 }
