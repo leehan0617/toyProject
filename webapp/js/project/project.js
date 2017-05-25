@@ -16,6 +16,17 @@ var project = {
 		//목록으로 돌아가기
 		projectList : function(){
 			location.href = "/projectList"
+		},
+		//직무별 사람 수 정하기
+		departCount : function(depart){
+			if(depart.checked){// 직무별로 프로젝트 단위로 사람수 지정하기
+				document.getElementById(depart.value + "_count").style.display = "inline-table";
+			}else{
+				document.getElementById(depart.value + "_count").style.display = "none";
+			}
+		},
+		projectDetail : function(projectId){
+			location.href = "/project/"+projectId;
 		}
 		
 }

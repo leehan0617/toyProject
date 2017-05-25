@@ -9,7 +9,6 @@
 				project_name
 				, project_start_date
 				, project_end_date
-				, usercount
 				, project_detail
 				, manager_id
 				, state_code
@@ -20,7 +19,6 @@
 			  #{project_name}
 			 ,#{project_start_date}
 			 ,#{project_end_date}
-			 ,#{usercount}
 			 ,#{project_detail}
 			 ,#{manager_id}
 			 ,'0101'
@@ -32,17 +30,18 @@
 	</insert>
 	
 	<!-- 20170516 김민지 프로젝트별 직무 생성하기-->
-	<insert id="insertProjectDepart" parameterType="com.toy.project.model.ProjectDto">
+	<insert id="insertProjectDepart" parameterType="HashMap">
 		insert into projectdepartment
 		(    project_id
-			,depart_code
+			, depart_code
+			, usercount
 		)
 		VALUES
-		<foreach collection="depart_code" item="depart_code" separator=",">
 			(
 			#{project_id}	
-			,#{depart_code})
-		</foreach>	
+			,#{depart_code}
+			,#{usercount}
+			)
 	</insert>
 	<!-- 20170517 김민지 프로젝트 리스트 불러오기 -->
 	<select id="getProjectList" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
@@ -53,15 +52,44 @@
 				, project_end_date
 				, usercount
 				, project_detail
+				, manager_id
 				, (select user_name from user where user_id = manager_id) as manager_name
+				, state_code
 				, (select state_name from state where state_code = project.state_code) as state_name
 				, reg_date
-				, (select depart_name from department where depart_code = projectdepartment.depart_code) as depart_name
-		from project , projectdepartment
-		where project.project_id = projectdepartment.project_id
+				, depart_code
+				, (select depart_name from department where depart_code = prodepart.depart_code) as depart_name
+		from project 
+        left join (
+				select *
+				from projectdepartment
+		)prodepart on project.project_id = prodepart.project_id
 		<if test="manager_id != null">
 			where manager_id = #{manager_id}
 		</if>
 <!-- 				project_start_date	 -->
+	</select>
+	
+	<!-- 20170524 김민지 프로젝트 상세  -->
+	<select id="getProjectDetail" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
+		select 
+				project.project_id
+				, project_name
+				, project_start_date
+				, project_end_date
+				, project_detail
+				, manager_id
+				, (select user_name from user where user_id = manager_id) as manager_name
+		from project 
+		where project_id = #{project_id}
+	</select>
+	<!-- 20170524 김민지 프로젝트 상세 직무 보기 -->
+	<select id="getProjectDePDetail" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
+		select project_id
+			   ,depart_code
+			   ,(select depart_name from department where depart_code = projectdepartment.depart_code) as depart_name
+			   ,usercount
+		from projectdepartment
+		where project_id = #{project_id}
 	</select>
 </mapper>

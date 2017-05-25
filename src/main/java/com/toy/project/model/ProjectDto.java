@@ -2,6 +2,7 @@ package com.toy.project.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 작성일 : 2017. 5. 16.
@@ -40,6 +41,9 @@ public class ProjectDto implements Serializable{
 	
 	//모집 포지션 명
 	private String depart_name;
+	
+	//모집 포지션 별로 인원수
+	private Map<String,String> departMap;
 	
 	public int getProject_id() {
 		return project_id;
@@ -118,5 +122,11 @@ public class ProjectDto implements Serializable{
 	}
 	public void setDepart_name(String depart_name) {
 		this.depart_name = depart_name;
+	}
+	public Map<String,String> getDepartMap() {
+		return departMap;
+	}
+	public void setDepartMap(Map<String,String> departMap) {
+		this.departMap = departMap;
 	}
 }

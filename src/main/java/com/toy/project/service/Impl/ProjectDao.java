@@ -1,5 +1,6 @@
 package com.toy.project.service.Impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -28,8 +29,8 @@ public class ProjectDao {
 	 * 작성자 : 김민지
 	 * 설  명 : 프로잭트별 직무 생성하기
 	 */
-	public int insertProjectDepart(ProjectDto projectDto) {
-		return sqlSession.insert("project.insertProjectDepart",projectDto);
+	public int insertProjectDepart(HashMap<String, String> departMap) {
+		return sqlSession.insert("project.insertProjectDepart",departMap);
 	}
 	
 	/**
@@ -40,5 +41,24 @@ public class ProjectDao {
 	public List<ProjectDto> getProjectList(ProjectDto projectDto) {
 		return sqlSession.selectList("project.getProjectList",projectDto);
 	}
+	
+	/**
+	 * 작성일 : 2017. 5 .24
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 상세  가져오기
+	 */
+	public ProjectDto getProjectDetail(ProjectDto projectDto) {
+		return sqlSession.selectOne("project.getProjectDetail",projectDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 5 .24
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트  직무 리스트 가져오기
+	 */
+	public List<ProjectDto> getProjectDePDetail(ProjectDto projectDto) {
+		return sqlSession.selectList("project.getProjectDePDetail",projectDto);
+	}
+	
 	
 }

@@ -27,4 +27,19 @@ public interface ProjectService {
 	 * @return 
 	 */
 	public List<ProjectDto> getProjectList(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 5 .24
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 상세  가져오기
+	 */
+	public ProjectDto getProjectDetail(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 5. 24.
+	 * 작성자 : 김민지 
+	 * 설 명  : 프로젝트 상세  직무 가져오기
+	 * @return 
+	 */
+	public List<ProjectDto> getProjectDePDetail(ProjectDto projectDto);
 }
