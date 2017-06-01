@@ -7,11 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div>
 이슈제목 : <input id = 'issueTitle' type = 'text'><br>
 참여자 : <select id = 'memberSelect'></select><br>
 상세내용 :<br>
 <textarea id = 'issueDetail'></textarea><br>
 
 <input type = 'button' value = '이슈생성'> <input type = 'button' value = '취소' onclick = 'window.close()'>
+</div>
 </body>
 </html>

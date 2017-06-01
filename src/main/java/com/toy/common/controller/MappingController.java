@@ -2,6 +2,8 @@ package com.toy.common.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.toy.project.model.ProjectDto;
+import com.toy.project.service.IssueService;
 import com.toy.user.model.UserDto;
 import com.toy.user.service.UserService;
 
@@ -33,6 +38,9 @@ public class MappingController {
 	private static final Logger logger = LoggerFactory.getLogger(MappingController.class);
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private IssueService issueService;
 	
 	/**
 	 * 작성일 : 2017. 3. 28.
@@ -138,10 +146,35 @@ public class MappingController {
 	/**
 	 * 작성일 : 2017. 05.24
 	 * 작성자 : 송하람
-	 * 설  명 : 회원수정 페이지로 이동하는 메소드
+	 * 설  명 : 이슈페이지
 	 */
 	@RequestMapping(value="/issue/add" , method=RequestMethod.GET) 
 	public String addIssue() {
 		return "issue/addIssue";
+	}
+	
+	@RequestMapping(value={"/issue/detail/{projectId}"} , method=RequestMethod.GET)
+	public ModelAndView showIssueList(@PathVariable String projectId) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("issue/issueList");
+		
+		//프로젝트에 해당하는 이슈리스트가져오기
+//		List<HashMap<String, Object>> memberList = issueService.selectApplyListFromProjectMember(projectId);
+//		mav.addObject("projectMember", memberList);
+		return mav;
+	}
+	
+	@RequestMapping(value={"/issue/projectlist"} , method=RequestMethod.GET)
+	public ModelAndView showProjectList(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		UserDto dto = new UserDto();
+		dto = (UserDto)this.getPrincipal();
+		
+		List<ProjectDto> projectList = issueService.selectAllProjectList(dto.getUser_id());
+		mav.addObject("projectList", projectList);
+		mav.addObject("myInfo", dto);
+		
+		mav.setViewName("issue/projectList");
+		return mav;
 	}
 }
