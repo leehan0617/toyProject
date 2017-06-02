@@ -92,4 +92,21 @@
 		from projectdepartment
 		where project_id = #{project_id}
 	</select>
+	<!-- 20170601 프로젝트 맴버 insert -->
+	<insert id="insertProjectMember" parameterType="com.toy.project.model.ProjectDto">
+		insert into projectmember
+		(   project_id
+			,user_id
+			,state_code
+			,reg_date
+			,reg_id
+		)
+		values(
+			#{project_id}	
+			,#{user_id}
+			,#{state_code}
+			,sysdate()
+			,#{reg_id}
+		)
+	</insert>
 </mapper>

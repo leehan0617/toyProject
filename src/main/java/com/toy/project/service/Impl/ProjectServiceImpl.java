@@ -46,23 +46,27 @@ public class ProjectServiceImpl implements ProjectService{
 		projectDao.insertProject(projectDto);
 		
 		//프로젝트별 직무 생성
-		if(projectDto.getDepart_code() != null){
-			if(!projectDto.getDepart_code().isEmpty()){
+		System.out.println(projectDto.getDepartCodeList());
+		if(projectDto.getDepartCodeList() != null){
+			if(!projectDto.getDepartCodeList().isEmpty()){
 				
-				for(String departCode : projectDto.getDepart_code()){
+				for(String departCode : projectDto.getDepartCodeList()){
 					
 					HashMap<String, String> map = new HashMap<>();
 					
 					map.put("project_id", String.valueOf(projectDto.getProject_id()));
 					map.put("depart_code", departCode);
 					map.put("usercount", projectDto.getDepartMap().get(departCode));
-					System.out.println("훗"+map.toString());
 					projectDao.insertProjectDepart(map);
 				}
 				
 			}
 		}
 		
+		projectDto.setUser_id(currentUser.getUser_id());
+		projectDto.setReg_id(currentUser.getUser_id());
+		projectDto.setState_code("01");//매니저 자동으로 프로젝트 참여01:수락 상태 넣기 
+		projectDao.insertProjectMember(projectDto);
 	}
 	
 	/**
@@ -114,9 +118,8 @@ public class ProjectServiceImpl implements ProjectService{
 	 */
 	public ProjectDto getProjectDetail(ProjectDto projectDto) {
 		
-		ProjectDto projectDetailDto = projectDao.getProjectDetail(projectDto);
-		
-		return projectDetailDto;
+		ProjectDto projectList = projectDao.getProjectDetail(projectDto);
+		return projectList;
 	}
 
 	/**

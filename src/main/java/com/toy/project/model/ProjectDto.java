@@ -37,10 +37,19 @@ public class ProjectDto implements Serializable{
 	private String reg_date;
 	
 	//모집 포지션코드 리스트
-	private List<String> depart_code;
+	private List<String> departCodeList;
 	
+	//모집 포지션코드 
+	private String depart_code;
+		
 	//모집 포지션 명
 	private String depart_name;
+	
+	//등록한 id
+	private String reg_id;
+	
+	//사용자 id
+	private String user_id;
 	
 	//모집 포지션 별로 인원수
 	private Map<String,String> departMap;
@@ -99,12 +108,6 @@ public class ProjectDto implements Serializable{
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	public List<String> getDepart_code() {
-		return depart_code;
-	}
-	public void setDepart_code(List<String> depart_code) {
-		this.depart_code = depart_code;
-	}
 	public String getManager_name() {
 		return manager_name;
 	}
@@ -128,5 +131,29 @@ public class ProjectDto implements Serializable{
 	}
 	public void setDepartMap(Map<String,String> departMap) {
 		this.departMap = departMap;
+	}
+	public String getDepart_code() {
+		return depart_code;
+	}
+	public void setDepart_code(String depart_code) {
+		this.depart_code = depart_code;
+	}
+	public List<String> getDepartCodeList() {
+		return departCodeList;
+	}
+	public void setDepartCodeList(List<String> departCodeList) {
+		this.departCodeList = departCodeList;
+	}
+	public String getReg_id() {
+		return reg_id;
+	}
+	public void setReg_id(String reg_id) {
+		this.reg_id = reg_id;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
 	}
 }

@@ -21,4 +21,8 @@ insert into state (state_code , state_name)
 insert into state (state_code , state_name)
 	values ('0102' , '모집완료');
 insert into state (state_code , state_name)
-	values ('0103' , '신청완료');
+	values ('01' , '수락');
+insert into state (state_code , state_name)
+	values ('02' , '거절');
+insert into state (state_code , state_name)
+	values ('03' , '신청');

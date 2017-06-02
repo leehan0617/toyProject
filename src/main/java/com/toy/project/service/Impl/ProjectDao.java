@@ -60,5 +60,14 @@ public class ProjectDao {
 		return sqlSession.selectList("project.getProjectDePDetail",projectDto);
 	}
 	
+	/**
+	 * 작성일 : 2017. 6 .1
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트별 멤버 테이블에 insert
+	 */
+	public int insertProjectMember(ProjectDto projectDto) {
+		return sqlSession.insert("project.insertProjectMember",projectDto);
+	}
+	
 	
 }

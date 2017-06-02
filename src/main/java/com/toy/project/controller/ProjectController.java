@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.toy.project.model.DepartmentDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.DepartmentService;
 import com.toy.project.service.ProjectService;
 import com.toy.user.model.UserDto;
+
+import net.sf.json.JSONObject;
 
 /**
  * 작성일 : 2017. 5. 16.
@@ -83,9 +86,6 @@ public class ProjectController {
 	 */
 	@RequestMapping(value="/project" , method=RequestMethod.POST)
 	public String insertproject(ProjectDto projectDto) throws Exception {
-		System.out.println(projectDto.getDepart_code().size());
-		System.out.println(projectDto.getDepartMap().size());
-		System.out.println(projectDto.getDepartMap().toString());
 		projectService.saveNewProject(projectDto);
 		return "redirect:/projectList/";
 	}
@@ -111,11 +111,26 @@ public class ProjectController {
 		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result",projectDep);
 		
+		model.addAttribute("projectDep", jsonObject.toString());
 		model.addAttribute("projectDetail" , projectDetail);
-		model.addAttribute("projectDep" , projectDep);
+//		model.addAttribute("projectDep" , projectDep);
 		model.addAttribute("userDto" , currentUser);
 		model.addAttribute("departList" , departList);
 		return "project/projectDetail";
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 01.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 삭제하기.
+	 */
+	@RequestMapping(value="/project/{projectId}" , method=RequestMethod.DELETE)
+	public String deleteproject(@PathVariable int projectId) throws Exception {
+		System.out.println(projectId);
+		return "redirect:/projectList/";
 	}
 }
