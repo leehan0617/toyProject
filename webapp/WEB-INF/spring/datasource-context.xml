@@ -2,24 +2,29 @@
 	   xmlns="http://www.springframework.org/schema/beans"
  	   xmlns:context="http://www.springframework.org/schema/context"
  	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+ 	   xmlns:util="http://www.springframework.org/schema/util"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
  						   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
  						   http://www.springframework.org/schema/context
  						   http://www.springframework.org/schema/context/spring-context-4.0.xsd
  						   http://www.springframework.org/schema/mvc
-        				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
- 
-    <bean id="dataSource"  class="com.zaxxer.hikari.HikariDataSource">
-        <property name="dataSourceClassName" value="org.mariadb.jdbc.MariaDbDataSource" />
-                 <property name="dataSourceProperties">
-                    <props>
-                        <prop key="url">jdbc:mysql://toyproject.ck7nahoylct7.ap-northeast-2.rds.amazonaws.com:3306/toyproject</prop>
-                        <prop key="user">osstem</prop>
-                        <prop key="password">osstemosstem</prop>
-                    </props>
-              </property>
+        				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        				   http://www.springframework.org/schema/util
+        				   http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+ 	
+ 	<util:properties id="dbConfig" location="/WEB-INF/config/database-config.xml" />
+ 	
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+    	<property name="maximumPoolSize" value="#{dbConfig['maximumPoolSize']}"/>
+    	<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+    	<property name="jdbcUrl" value="#{dbConfig['jdbcUrl']}"/>
+    	<property name="dataSourceProperties">
+    		<props>
+    			<prop key="user">#{dbConfig['user']}</prop>
+    			<prop key="password">#{dbConfig['password']}</prop>
+    		</props>
+    	</property>
     </bean>
-    
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="/WEB-INF/spring/sql/**/*.xml"/>

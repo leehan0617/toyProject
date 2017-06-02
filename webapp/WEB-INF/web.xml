@@ -79,10 +79,14 @@
 	    </error-page>
 		
 		<!-- http method 제한 -->
+		<!-- /* url 패턴에 대해서 아래와 같은 http method를 거절한다. (PUT , DELETE는 추후 재검토)  -->
 		<security-constraint>
 			<web-resource-collection>
 				<web-resource-name>Protected Context</web-resource-name>
-				<url-pattern>/*</url-pattern>
+				<url-pattern>/*</url-pattern> 
+				<http-method>PUT</http-method>
+				<http-method>DELETE</http-method>
+				<http-method>HEAD</http-method>
 				<http-method>TRACE</http-method>
 				<http-method>OPTIONS</http-method>
 			</web-resource-collection>

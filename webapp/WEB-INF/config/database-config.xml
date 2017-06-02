@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>데이터 베이스 접속 정보</comment>
+	<!--  
+	<entry key="url">jdbc:mysql://toyproject.ck7nahoylct7.ap-northeast-2.rds.amazonaws.com:3306/toyproject</entry>
+	-->
+	<entry key="jdbcUrl">jdbc:log4jdbc:mariadb://toyproject.ck7nahoylct7.ap-northeast-2.rds.amazonaws.com:3306/toyproject</entry>
+	<entry key="user">osstem</entry>
+	<entry key="password">osstemosstem</entry>
+	<entry key="maximumPoolSize">20</entry>
+</properties>
