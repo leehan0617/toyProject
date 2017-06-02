@@ -160,7 +160,7 @@ public class MappingController {
 		
 		//프로젝트에 해당하는 이슈리스트가져오기
 //		List<HashMap<String, Object>> memberList = issueService.selectApplyListFromProjectMember(projectId);
-//		mav.addObject("projectMember", memberList);
+		mav.addObject("projectId", projectId);
 		return mav;
 	}
 	
