@@ -38,17 +38,14 @@
 			<param-value>
 				classpath:spring/root/datasource-context.xml
 				classpath:spring/root/basic-context.xml
-				/WEB-INF/spring/spring-security.xml
-				<!--  /WEB-INF/spring/spring-scheduling.xml
-				/WEB-INF/spring/dispatcher-servlet.xml
-				/WEB-INF/spring/datasource-context.xml
-				-->
+				classpath:spring/root/security-context.xml
 			</param-value>
 		</context-param>
 		
 		<listener>
 			<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 		</listener>
+		<!-- 중복로그인 방지 -->
 		<listener>
 		 <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 		</listener>
