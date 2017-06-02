@@ -12,7 +12,7 @@
         				   http://www.springframework.org/schema/util
         				   http://www.springframework.org/schema/util/spring-util-4.0.xsd">
  	
- 	<util:properties id="dbConfig" location="/WEB-INF/config/database-config.xml" />
+ 	<util:properties id="dbConfig" location="classpath:config/database-config.xml" />
  	
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
     	<property name="maximumPoolSize" value="#{dbConfig['maximumPoolSize']}"/>
