@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+	
+	<!-- 20170327 이한빈 user 정보를 가져오는 쿼리문 -->
+	<select id="getUser" parameterType="String" resultType="com.toy.user.model.UserDto">
+		SELECT user.* 
+			FROM user
+				WHERE user_id = #{userId}
+	</select>
+	
+	<!-- 20170328 이한빈 user에 관한 권한을 가져오는 쿼리문-->
+	<select id="getAuthorities" parameterType="String" resultType="com.toy.user.model.UserAuthority">
+		SELECT userauthority.user_id , userauthority.auth_code
+			FROM authority , userauthority
+				WHERE authority.auth_code = userauthority.auth_code
+				  AND user_id = #{userId}
+	</select>
+	
+	<!-- 20170328 이한빈 신규가입 쿼리문 -->
+	<insert id="joinUser" parameterType="com.toy.user.model.UserDto">
+		INSERT INTO user
+			(user_id , user_name , password , email , depart_code , reg_date)
+			VALUES (#{user_id} , #{user_name} , #{password} , #{email} , #{depart_code} , sysdate())
+	</insert>
+	
+	<!-- 20170328 이한빈 user정보 수정 쿼리문 -->
+	<update id="update" parameterType="com.toy.user.model.UserDto">
+		UPDATE user
+			SET password = #{password}
+				,email = #{email}
+				,memo = #{memo}
+				,depart_code = #{depart_code}
+				,mod_date = sysdate()
+			WHERE user_id = #{user_id}
+	</update>
+	
+	<!-- 20170328 이한빈 user를 삭제하는 쿼리문 -->
+	<delete id="delete" parameterType="String">
+		DELETE FROM user
+			WHERE user_id = #{user_id}
+	</delete>
+</mapper>
