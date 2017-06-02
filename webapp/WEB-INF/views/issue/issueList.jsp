@@ -5,16 +5,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta name="csrf-token" content="${_csrf.token}"/>
+<meta  name="csrf-token" content="${_csrf.headerName}"/>
 
 <title>Insert title here</title>
 </head>
 <body>
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
 <script type="text/javascript" src="${root}/js/issue/issue.js" charset="utf-8"></script>
+<input id = 'rootValue' type = 'hidden' value = "${root}">
 이슈리스트페이지
 
 <br>
-<button onclick = 'issue.addIssuePopUp()'>이슈생성</button>
+<button onclick = 'issue.addIssuePopUp(${projectId})'>이슈생성</button>
 <%-- <button onclick="window.open('${root}/issue/add','이슈생성','width=430,height=500,location=no,status=no,scrollbars=yes');">이슈생성</button> --%>
 
 <div id = 'issuePopup' style = 'display:none; width:500px; height:400px; border:1px solid black' >
