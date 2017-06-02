@@ -25,7 +25,7 @@ import com.toy.user.service.UserService;
  */
 @Service(value="userServiceImpl")
 public class UserServiceImpl implements UserService , UserDetailsService , AuthenticationProvider{
-	
+//	public class UserServiceImpl implements UserService , UserDetailsService {	
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	@Autowired
 	private UserDao userDao;

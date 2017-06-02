@@ -32,6 +32,6 @@ public class UserAuthority implements GrantedAuthority{
 
 	@Override
 	public String getAuthority() {
-		return this.user_id;
+		return this.auth_code;
 	}
 }
