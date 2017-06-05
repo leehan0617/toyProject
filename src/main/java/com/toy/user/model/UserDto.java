@@ -15,7 +15,7 @@ public class UserDto implements UserDetails{
 	
 	private String user_id;
 	private String password;
-	private List<Authority> authorities;
+	private List<UserAuthority> authorities;
 	private boolean accountNonExpired = true; 
 	private boolean accountNonLocked = true; 
 	private boolean credentialsNonExpired = true; 
@@ -55,11 +55,11 @@ public class UserDto implements UserDetails{
 	}
 	
 	@Override
-	public List<Authority> getAuthorities() {
+	public List<UserAuthority> getAuthorities() {
 		return this.authorities;
 	}
 	
-	public void setAuthorities(List<Authority> authorities) {
+	public void setAuthorities(List<UserAuthority> authorities) {
 		this.authorities = authorities;
 	}
 	
