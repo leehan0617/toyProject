@@ -1,13 +1,14 @@
 package com.toy.common.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,39 +44,67 @@ public class MappingController {
 	private IssueService issueService;
 	
 	/**
-	 * 작성일 : 2017. 3. 28.
-	 * 작성자 : 이한빈 
-	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
+	 * 작성일 : 2017. 6. 5.
+	 * 작성자 : 이한빈
+	 * 설  명 : 서버가 최초 켜질때 실행되는 메소드
 	 */
-	@RequestMapping(value="/logout")
+	@RequestMapping(value="/")
+	public String loadOnStart(HttpServletRequest request , HttpServletResponse response) {
+		logger.info("MappingController - loadOnStart 메소드 접근");
+		return "common/start";
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 5.
+	 * 작성자 : 이한빈
+	 * 설  명 : 로그인페이지 이동 메소드
+	 */
+	@RequestMapping(value="/login")
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
-			, Model model , HttpServletRequest request) {
-		logger.info("MappingController login 메소드 접근");
+			, Model model , HttpServletRequest request , HttpServletResponse response) {
+		logger.info("MappingController - login 메소드 접근");
 		
 		if(error != null) {
 			model.addAttribute("error" , error);
-		}else if(logout != null) {
+		} else if (logout != null) {
 			model.addAttribute("logout" , logout);
-		}else {
-			model.addAttribute("check" , "checkIN");
 		}
 		
 		return "common/login";
 	}
 	
-	@RequestMapping(value="/login")
-	public String test(HttpServletRequest request , HttpServletResponse response) {
-		logger.info("로그인로직실행");
+	@RequestMapping(value="/loginSuccess")
+	public String loginSuccess(HttpSession session) {
+		logger.info("로그인 성공");
+		
+		Object userDto = SecurityContextHolder.getContext().getAuthentication().getDetails();
+		
+		logger.info("loginSuccess {} , {}" , session.getId() , userDto.toString());
+		session.setAttribute("userLoginInfo", userDto);
+		return "common/loginSuccess";
+	}
+	
+	/**
+	 * 작성일 : 2017. 3. 28.
+	 * 작성자 : 이한빈 
+	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
+	 */
+	@RequestMapping(value="/logout")
+	public String logout(@RequestParam(value="error" , required=false) String error ,
+			@RequestParam(value="logout" , required=false) String logout 
+			, Model model , HttpServletRequest request) {
+		logger.info("MappingController - logout 메소드 접근");
+		
 		return "common/login";
 	}
 	
-	@RequestMapping(value="/")
-	public String test2() {
-		logger.info("test2");
-		return "layout/mainTest";
+	@RequestMapping(value="loginDuplicate")
+	public String loginDuplicate() {
+		logger.info("MappingController - loginDuplicate 메소드 접근");
+		
+		return "common/login";
 	}
-	
 	/**
 	 * 작성일 : 2017. 3. 27.
 	 * 작성자 : 이한빈

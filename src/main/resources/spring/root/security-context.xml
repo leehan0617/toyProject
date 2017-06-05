@@ -38,11 +38,13 @@
 		<form-login login-page="/login"
 			username-parameter="loginId"
 			password-parameter="loginPwd"
-			default-target-url="/projectList"
-			always-use-default-target="true"
-			login-processing-url="/login"
-			authentication-success-handler-ref="loginSuccessHandler"
-			authentication-failure-url="/login?error=1"/>
+			login-processing-url="/loginProcess"
+			default-target-url="/loginSuccess"
+			authentication-failure-url="/login?error=1"
+			always-use-default-target="true"/>
+		<!-- 
+		authentication-success-handler-ref="loginSuccessHandler"
+		 -->
 		
 		<!-- 로그아웃 
 			invalidate-session : 세션 삭제 여부
@@ -63,23 +65,24 @@
 					
 		<!-- 중복세션 -->
 		<session-management invalid-session-url="/login">
-		 <concurrency-control max-sessions="1" expired-url="/login"/>
+		 <concurrency-control max-sessions="1" expired-url="/loginDuplicate"/>
 		</session-management>
 		
 		<!-- csrf 설정 -->
 		<csrf/>
 	</http>
 	
+	<beans:bean class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
+	
 	<!-- 암호화 알고리즘 설정 -->
     <beans:bean id="bcryptEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
-	<!-- 로그인 성공 핸들러 설정 -->
-	<beans:bean id="loginSuccessHandler" class="com.toy.util.LoginSuccessHandler"/>    	
 	
 	<!-- 로그인 로직 설정 -->
 	<authentication-manager>
-		<authentication-provider ref="userServiceImpl"/>
-	 	<authentication-provider user-service-ref="userServiceImpl">
+	 	<authentication-provider user-service-ref="userServiceImpl"> 
 	 		<password-encoder ref="bcryptEncoder"/>
 	 	</authentication-provider>
 	</authentication-manager>
+	<!-- 로그인 로직 핸들러 설정 -->
+	<beans:bean id="userServiceImpl" class="com.toy.user.service.impl.UserServiceImpl"/>
 </beans:beans>

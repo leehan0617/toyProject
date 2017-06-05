@@ -36,9 +36,7 @@
 		<context-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				classpath:spring/root/datasource-context.xml
-				classpath:spring/root/basic-context.xml
-				classpath:spring/root/security-context.xml
+				classpath:spring/root/*-context.xml
 			</param-value>
 		</context-param>
 		
@@ -55,7 +53,7 @@
 			<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 			<init-param>
 				<param-name>contextConfigLocation</param-name>
-				<param-value>classpath:spring/servlet/servlet-context.xml</param-value>
+				<param-value>classpath:spring/servlet/*-context.xml</param-value>
 			</init-param>
 			<load-on-startup>1</load-on-startup>
 		</servlet>

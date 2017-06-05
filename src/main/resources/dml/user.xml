@@ -10,11 +10,11 @@
 	</select>
 	
 	<!-- 20170328 이한빈 user에 관한 권한을 가져오는 쿼리문-->
-	<select id="getAuthorities" parameterType="String" resultType="com.toy.user.model.UserAuthority">
-		SELECT userauthority.user_id , userauthority.auth_code
+	<select id="getAuthorities" parameterType="String" resultType="com.toy.user.model.Authority">
+		SELECT userauthority.auth_code as authCode
 			FROM authority , userauthority
 				WHERE authority.auth_code = userauthority.auth_code
-				  AND user_id = #{userId}
+				  AND userauthority.user_id = #{userId}
 	</select>
 	
 	<!-- 20170328 이한빈 신규가입 쿼리문 -->
