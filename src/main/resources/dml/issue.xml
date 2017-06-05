@@ -3,13 +3,16 @@
 <mapper namespace="issue">
 <!-- 프로젝트 전체 리스트(모집완료된 데이터) -->
 <select id="selectAllProjectList" resultType="com.toy.project.model.ProjectDto" parameterType="String">
-select a.user_id, b.project_id, b.project_name 
+select c.project_id, c.project_name, d.user_id from (select b.project_id, b.project_name 
 from projectmember a
 join
   (select project_id, project_name, state_code from project
   ) b
 on a.project_id = b.project_id
-where a.user_id = #{user_id}
+where a.user_id = #{user_id})c
+join 
+projectmember d
+where d.project_id = c.project_id
 </select>
 
 <!-- 프로젝트 이슈 참여자 대상 조회하기 -->
