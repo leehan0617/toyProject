@@ -15,7 +15,7 @@ public class UserDto implements UserDetails{
 	
 	private String user_id;
 	private String password;
-	private List<UserAuthority> authorities;
+	private List<Authority> authorities;
 	private boolean accountNonExpired = true; 
 	private boolean accountNonLocked = true; 
 	private boolean credentialsNonExpired = true; 
@@ -26,6 +26,15 @@ public class UserDto implements UserDetails{
 	private String depart_code;
 	private LocalDate reg_date;
 	private LocalDate mod_date;
+	
+	public UserDto() {
+		// default 생성자
+	}
+	
+	public UserDto(String id , String password) {
+		this.user_id = id;
+		this.password = password;
+	}
 	
 	@Override
 	public String getUsername() {
@@ -46,11 +55,11 @@ public class UserDto implements UserDetails{
 	}
 	
 	@Override
-	public List<UserAuthority> getAuthorities() {
+	public List<Authority> getAuthorities() {
 		return this.authorities;
 	}
 	
-	public void setAuthorities(List<UserAuthority> authorities) {
+	public void setAuthorities(List<Authority> authorities) {
 		this.authorities = authorities;
 	}
 	
