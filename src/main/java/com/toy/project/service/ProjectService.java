@@ -42,4 +42,25 @@ public interface ProjectService {
 	 * @return 
 	 */
 	public List<ProjectDto> getProjectDePDetail(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트별 상태코드 확인 
+	 */
+	public String selectProjectState(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트별 신청한 사람 있는지 체크 
+	 */
+	public int selectProjectMemberCnt(ProjectDto projectDto) ;
+	
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 삭제하기
+	 */
+	public void deleteProjectAll(ProjectDto projectDto) ;
 }

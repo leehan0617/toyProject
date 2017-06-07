@@ -1,5 +1,5 @@
 <!-- 전체 프로젝트 리스트 -->
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,8 +8,8 @@
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<script type="text/javascript" src="/js/project/project.js" charset="utf-8"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="${root}/js/project/project.js" charset="utf-8"></script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -69,11 +69,11 @@
 <!-- //프로젝트 리스트 불러오기 -->
 
 <div style="display: inline;">
-	<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}">
-		<c:if test="${i.getAuth_code().equals('02') }">
-				<br/><a href="${root}/project/new">프로젝트 생성하기</a><br/>		
-		</c:if>
-	</c:forEach>
+<%-- 	<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}"> --%>
+<%-- 		<c:if test="${i.getAuth_code().equals('02') }"> --%>
+				<br/><a href="${root}/project/new">프로젝트 생성하기 </a><br/>		
+<%-- 		</c:if> --%>
+<%-- 	</c:forEach> --%>
 </div>
 </body>
 </html>

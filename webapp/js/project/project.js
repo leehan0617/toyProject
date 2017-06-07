@@ -26,12 +26,73 @@ let project = {
 			}
 		},
 		//프로젝트 상세보기
-		projectDetail : (projectId) =>{
+		projectDetail : (projectId) => {
 			location.href = "/project/"+projectId;
 		},
 		//프로젝트 삭제하기
-		projectDelete : (projectId) =>{
-			location.href = "/project/"+projectId;
+		projectDelete : (projectId) => {
+			detail.deleteCheck(projectId).then(result => {
+					detail.deleteAll(projectId).then(result => {
+						  console.log(result); // "success"
+						  alert("성공");
+						  location.href = "/projectList";
+					}).catch(err => {
+					  alert("오류발생")
+					});
+			}).catch(err => {
+			  alert("삭제할수 없습니다.")
+			});
 		}
 		
 }
+
+//프로젝트 상세보기 페이지
+let detail = {
+		// delete 여부 체크
+		deleteCheck : (projectId) =>{
+			return new Promise((resolve, reject) => {
+				let req = new XMLHttpRequest();
+				req.open('GET','/project/json/'+projectId);
+				req.send();
+				
+				req.onload = () =>{//로드 했을떄 
+					 if(req.status == 200){
+						 if(req.responseText == "true"){//true 일때
+							 resolve(req.responseText);
+						 }else{
+							 reject(new Error(req.statusText));
+						 }
+					 }else{
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+				
+			});
+		},
+		// delete 하기
+		deleteAll : (projectId) =>{
+			return new Promise((resolve, reject) => {
+				let req = new XMLHttpRequest();
+				req.open('GET','/project/delete/'+projectId);
+				req.send();
+				
+				req.onload = () => {//로드 했을떄 
+					 if(req.status == 200){
+						 resolve(req.responseText);
+					 }else{
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+				
+			});
+		}
+}
+

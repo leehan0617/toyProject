@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -7,7 +7,7 @@
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="${root}/js/project/project.js" charset="utf-8"></script>
 <title>Insert title here</title>
 </head>
@@ -18,7 +18,7 @@ window.onload = function () {
 	let checkbox = document.getElementsByName("departcodeList");
 	
 	for (let i of checkbox) {
-		for (let j of projectDep.result) {
+		for (let j of projectDep) {
 			if(i.value == j.depart_code){
 				document.getElementById(i.value).checked = true;
 				document.getElementById(i.value+"_count").style.display = "inline-table";
@@ -71,9 +71,14 @@ window.onload = function () {
 	</table>
 </form>	
 	<input type="button" onclick="project.projectList()" value="목록"/>
-	<input type="submit" value="수정"/>
-	<input type="submit" value="삭제" onclick="project.projectDelete(${projectDetail.getProject_id()})" data-mathod="delete"/>
-	<input type="submit" value="신청"/>
+	<c:set var="loginId" value="${userDto.getUser_id()}"></c:set>
+	<c:set var="ManagerId" value="${projectDetail.getManager_id()}"></c:set>
 
+	<c:if test="${ManagerId == loginId}"><!-- 자신이 등록한 프로젝트만 수정/삭제 가능 -->
+		<input type="submit" value="수정"/>
+		<input type="submit" value="삭제" onclick="project.projectDelete(${projectDetail.getProject_id()})"/>
+	</c:if>
+	<input type="submit" value="신청"/>
+	
 </body>
 </html>

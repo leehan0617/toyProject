@@ -109,4 +109,39 @@
 			,#{reg_id}
 		)
 	</insert>
+	
+	<!-- 20170605 김민지 프로젝트 삭제하기 -->
+	<delete id="deleteProject" parameterType="com.toy.project.model.ProjectDto">
+		delete 
+		from  project
+		where project_id = #{project_id}
+ 	</delete>
+	<!-- 20170605 김민지 프로젝트상세직무 삭제하기 -->
+	<delete id="deleteProjectDePDetail" parameterType="com.toy.project.model.ProjectDto">
+		delete 
+		from  projectdepartment
+		where project_id = #{project_id}
+	</delete>
+	
+	<!-- 20170605 김민지 프로젝트맴버 삭제하기 -->
+	<delete id="deleteProjectMember" parameterType="com.toy.project.model.ProjectDto">
+		delete 
+		from  projectmember
+		where project_id = #{project_id}
+	</delete>
+	
+	<!-- 20170605 김민지 프로젝트맴버  등록여부(본인제외) -->
+	<select id="selectProjectMemberCnt" parameterType="com.toy.project.model.ProjectDto" resultType="int">
+		select count(*) as cnt
+		from  projectmember
+		where project_id = #{project_id}
+		and user_id != #{user_id}
+	</select>
+	
+	<!-- 20170605 김민지 프로젝트 모집완료여부 -->
+	<select id="selectProjectState" parameterType="com.toy.project.model.ProjectDto" resultType="string">
+		select state_code  
+		from  project
+		where project_id = #{project_id}
+	</select>
 </mapper>

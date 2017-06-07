@@ -1,4 +1,4 @@
-package com.toy.project.service.Impl;
+package com.toy.project.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,6 @@ public class ProjectServiceImpl implements ProjectService{
 		projectDao.insertProject(projectDto);
 		
 		//프로젝트별 직무 생성
-		System.out.println(projectDto.getDepartCodeList());
 		if(projectDto.getDepartCodeList() != null){
 			if(!projectDto.getDepartCodeList().isEmpty()){
 				
@@ -132,6 +131,36 @@ public class ProjectServiceImpl implements ProjectService{
 		List<ProjectDto> projectDePDetail = projectDao.getProjectDePDetail(projectDto);
 		return projectDePDetail;
 	}
-	
 
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트별 상태코드 확인 
+	 */
+
+	public String selectProjectState(ProjectDto projectDto) {
+		return projectDao.selectProjectState(projectDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트별 신청한 사람 있는지 체크 
+	 */
+	public int selectProjectMemberCnt(ProjectDto projectDto) {
+		return projectDao.selectProjectMemberCnt(projectDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .5
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 삭제하기
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void deleteProjectAll(ProjectDto projectDto) {
+		projectDao.deleteProjectMember(projectDto);//프로젝트 참여자 삭제
+		projectDao.deleteProjectDePDetail(projectDto);//프로젝트 상세 직무 삭제
+		projectDao.deleteProject(projectDto);//프로젝트 삭제
+	}
+	
 }
