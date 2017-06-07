@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
@@ -35,25 +35,25 @@ window.onload = function () {
 <input type="hidden" id="projectDep" value="${projectDep}"/>
 	<table>
 		<tr>
-			<th>ÇÁ·ÎÁ§Æ® »ı¼º ÀÌ¸§</th>
+			<th>í”„ë¡œì íŠ¸ ìƒì„± ì´ë¦„</th>
 			<td><input name = "project_name" id ="project_name" type="text" value="${projectDetail.getProject_name()}"/></td>
 		</tr>
 		<tr>
-			<th>´ã´çÀÚ</th>
+			<th>ë‹´ë‹¹ì</th>
 			<td>${projectDetail.getManager_name()}</td>
 		</tr>
 		<tr>
-			<th>±â°£</th>
+			<th>ê¸°ê°„</th>
 			<td></td>
 		</tr>
 		<tr>
-			<th>¸ğÁıÆ÷Áö¼Ç</th>
+			<th>ëª¨ì§‘í¬ì§€ì…˜</th>
 			<td>
 			  <c:forEach begin="0" var="i" items="${departList}" end="${departList.size()}">
 					<input type="checkbox" id="${i.getDepart_code()}" name="departcodeList" value="${i.getDepart_code()}" onchange="project.departCount(this)"> ${i.getDepart_name()} 
 						<div id="${i.getDepart_code()}_count" style="display:none;">
 							<select id="${i.getDepart_code()}_select" name="departMap[${i.getDepart_code()}]">
-								<c:forEach begin="1" end="10" var="i"> <!-- Á÷¹«º° ÀÎ¿ø¼ö Á¤ÇÏ±â --> 
+								<c:forEach begin="1" end="10" var="i"> <!-- ì§ë¬´ë³„ ì¸ì›ìˆ˜ ì •í•˜ê¸° --> 
 									<option value="${i}">${i}</option>
 								</c:forEach>
 							</select>
@@ -62,7 +62,7 @@ window.onload = function () {
 			</td>
 		</tr>
 		<tr>
-			<th>ÇÁ·ÎÁ§Æ®»ó¼¼¼³¸í</th>
+			<th>í”„ë¡œì íŠ¸ìƒì„¸ì„¤ëª…</th>
 			<td><textarea id="project_detail" name="project_detail">
 					${projectDetail.getProject_detail()}
 				</textarea>
@@ -70,15 +70,15 @@ window.onload = function () {
 		</tr>
 	</table>
 </form>	
-	<input type="button" onclick="project.projectList()" value="¸ñ·Ï"/>
+	<input type="button" onclick="project.projectList()" value="ëª©ë¡"/>
 	<c:set var="loginId" value="${userDto.getUser_id()}"></c:set>
 	<c:set var="ManagerId" value="${projectDetail.getManager_id()}"></c:set>
 
-	<c:if test="${ManagerId == loginId}"><!-- ÀÚ½ÅÀÌ µî·ÏÇÑ ÇÁ·ÎÁ§Æ®¸¸ ¼öÁ¤/»èÁ¦ °¡´É -->
-		<input type="submit" value="¼öÁ¤"/>
-		<input type="submit" value="»èÁ¦" onclick="project.projectDelete(${projectDetail.getProject_id()})"/>
+	<c:if test="${ManagerId == loginId}"><!-- ìì‹ ì´ ë“±ë¡í•œ í”„ë¡œì íŠ¸ë§Œ ìˆ˜ì •/ì‚­ì œ ê°€ëŠ¥ -->
+		<input type="submit" value="ìˆ˜ì •"/>
+		<input type="submit" value="ì‚­ì œ" onclick="project.projectDelete(${projectDetail.getProject_id()})"/>
 	</c:if>
-	<input type="submit" value="½ÅÃ»"/>
+	<input type="submit" value="ì‹ ì²­"/>
 	
 </body>
 </html>

@@ -26,3 +26,6 @@ insert into state (state_code , state_name)
 	values ('02' , '거절');
 insert into state (state_code , state_name)
 	values ('03' , '신청');
+	
+-- 테이블 한글 설정 mysql
+ALTER TABLE state CHARSET utf8 ,CHANGE state_name state_name varchar(200) character set utf8;

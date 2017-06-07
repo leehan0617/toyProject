@@ -1,6 +1,6 @@
-<!-- ÀüÃ¼ ÇÁ·ÎÁ§Æ® ¸®½ºÆ® -->
+<!-- ì „ì²´ í”„ë¡œì íŠ¸ ë¦¬ìŠ¤íŠ¸ -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="EUC-KR"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
@@ -16,62 +16,62 @@
 <input type="hidden" id="user_id" value="${userDto.getUser_id()}">
 
 <div style="display: inline;">
-	<!-- °Ë»öÁ¶°Ç Å×ÀÌºí -->
+	<!-- ê²€ìƒ‰ì¡°ê±´ í…Œì´ë¸” -->
 	<table>
 		<thead>
 			<tr>
-				<th>°Ë»öÁ¶°Ç</th>
+				<th>ê²€ìƒ‰ì¡°ê±´</th>
 			</tr>
 			</thead>
 		<tbody>
 			<tr>
-				<td>¸ğÁı»óÅÂº°·Î °Ë»ö(¸ğÁıÁß,¸ğÁı¿Ï·á)</td>
+				<td>ëª¨ì§‘ìƒíƒœë³„ë¡œ ê²€ìƒ‰(ëª¨ì§‘ì¤‘,ëª¨ì§‘ì™„ë£Œ)</td>
 			</tr>
 			<tr>
-				<td>±â°£º°·Î °Ë»ö</td>
+				<td>ê¸°ê°„ë³„ë¡œ ê²€ìƒ‰</td>
 			</tr>
 			<tr>
-				<td>Á÷¹«º°·Î °Ë»ö</td>
+				<td>ì§ë¬´ë³„ë¡œ ê²€ìƒ‰</td>
 			</tr>
-				<!-- °ü¸®ÀÚ ±ÇÇÑ ÀÌ ÀÖ´Â »ç¶÷¸¸ ÀÚ±â°¡ µî·ÏÇÑ ÇÁ·ÎÁ§Æ® ÇÊÅÍ °¡´É -->
+				<!-- ê´€ë¦¬ì ê¶Œí•œ ì´ ìˆëŠ” ì‚¬ëŒë§Œ ìê¸°ê°€ ë“±ë¡í•œ í”„ë¡œì íŠ¸ í•„í„° ê°€ëŠ¥ -->
 			<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}">
 				<c:if test="${i.getAuth_code().equals('02') }">
 						<tr> 
 							<td>
-								<input type="checkbox" id="myCheck" name="myCheck" onchange="project.myPjoectList(this)"/>³»°¡ µî·ÏÇÑ ÇÁ·ÎÁ§Æ® º¸±â
+								<input type="checkbox" id="myCheck" name="myCheck" onchange="project.myPjoectList(this)"/>ë‚´ê°€ ë“±ë¡í•œ í”„ë¡œì íŠ¸ ë³´ê¸°
 							</td>
 						</tr>	
 				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
-	<!-- // °Ë»öÁ¶°Ç Å×ÀÌºí -->
+	<!-- // ê²€ìƒ‰ì¡°ê±´ í…Œì´ë¸” -->
 </div>
 
-<!-- ÇÁ·ÎÁ§Æ® ¸®½ºÆ® ºÒ·¯¿À±â -->
+<!-- í”„ë¡œì íŠ¸ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸° -->
 <div style="display: inline-table;">
 	<c:forEach var="i" items="${projectList}" begin="0" end="${projectList.size()}">
 		<ul style="border: 1px solid">
-						<dt>ÇÁ·ÎÁ§Æ®¸í : ${i.getProject_name()} </dt>
-						<li style="list-style:square;">±â°£</li>
-						<li style="list-style:square;">¸ğÁıÁ÷¹« :
+						<dt>í”„ë¡œì íŠ¸ëª… : ${i.getProject_name()} </dt>
+						<li style="list-style:square;">ê¸°ê°„</li>
+						<li style="list-style:square;">ëª¨ì§‘ì§ë¬´ :
 							<c:forEach var="departMap" items="${i.getDepartMap()}">
-								${departMap.key} - ${departMap.value} ¸í
+								${departMap.key} - ${departMap.value} ëª…
 							</c:forEach>
 						</li>
-						<li style="list-style:square;">´ã´çÀÚ : ${i.getManager_name()}</li>
-						<li style="list-style:square;">¸ğÁı»óÅÂ : ${i.getState_name()}</li>
-						<li style="list-style:square;"><input type="button" value="»ó¼¼º¸±â" onclick="project.projectDetail(${i.getProject_id()})"/></li>
-						<li style="list-style:square;"><input type="button" value="½ÅÃ»ÇÏ±â"/></li>
+						<li style="list-style:square;">ë‹´ë‹¹ì : ${i.getManager_name()}</li>
+						<li style="list-style:square;">ëª¨ì§‘ìƒíƒœ : ${i.getState_name()}</li>
+						<li style="list-style:square;"><input type="button" value="ìƒì„¸ë³´ê¸°" onclick="project.projectDetail(${i.getProject_id()})"/></li>
+						<li style="list-style:square;"><input type="button" value="ì‹ ì²­í•˜ê¸°"/></li>
 		</ul>
 	</c:forEach>
 </div>
-<!-- //ÇÁ·ÎÁ§Æ® ¸®½ºÆ® ºÒ·¯¿À±â -->
+<!-- //í”„ë¡œì íŠ¸ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸° -->
 
 <div style="display: inline;">
 <%-- 	<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}"> --%>
 <%-- 		<c:if test="${i.getAuth_code().equals('02') }"> --%>
-				<br/><a href="${root}/project/new">ÇÁ·ÎÁ§Æ® »ı¼ºÇÏ±â </a><br/>		
+				<br/><a href="${root}/project/new">í”„ë¡œì íŠ¸ ìƒì„±í•˜ê¸° </a><br/>		
 <%-- 		</c:if> --%>
 <%-- 	</c:forEach> --%>
 </div>
