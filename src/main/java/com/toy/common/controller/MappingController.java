@@ -1,6 +1,5 @@
 package com.toy.common.controller;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.toy.issue.model.issueDto;
+import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.IssueService;
 import com.toy.user.model.UserDto;
@@ -194,8 +195,16 @@ public class MappingController {
 		mav.setViewName("issue/issueList");
 		
 		//프로젝트에 해당하는 이슈리스트가져오기
-//		List<HashMap<String, Object>> memberList = issueService.selectApplyListFromProjectMember(projectId);
-		mav.addObject("projectId", projectId);
+		List<issueDto> issueList = issueService.selectIssueList(projectId);
+		mav.addObject("issueList", issueList);
+	
+		
+		UserDto dto = new UserDto();
+		dto = (UserDto)this.getPrincipal();
+		mav.addObject("myInfo", dto);
+		
+		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(projectId);
+		mav.addObject("memberList", memberList);
 		return mav;
 	}
 	

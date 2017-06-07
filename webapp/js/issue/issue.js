@@ -12,29 +12,10 @@ let issue = {
 			let popup = document.getElementById("issuePopup");
 			popup.style.display = 'block';
 			
-			let rootValue = document.getElementById("rootValue").value;
-			const csrfToken = document.querySelector("meta[name=csrf-token]").getAttribute("content");
-			console.log(csrfToken);
+			let root = document.getElementById("rootValue").value;
+			document.getElementById("addIssueForm").action = root+"/issue/addIssue/" + project_id;
 			
-			let params = {"project_id":project_id};
 			
-			let esc = encodeURIComponent
-			let query = Object.keys(params)
-			             .map(k => esc(k) + '=' + esc(params[k]))
-			             .join('&');
-
-			 let url = rootValue+"/issue/projectMember?" + query
-		   
-			fetch(url).then(function(response) {
-			    if (!response.ok) {
-				      throw Error(response.statusText);
-				    }
-				    return response.json();
-				  }).then((data) => {
-				    console.log(data);
-				  }).catch((e) => {
-				    console.log(e);
-		  });
 		}
 	
 }
