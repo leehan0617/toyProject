@@ -51,7 +51,7 @@ CREATE TABLE project (
 	project_end_date   DATE          NULL,     -- 끝날짜
 	project_detail     VARCHAR(2000) NULL,     -- 상세설명
 	manager_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
-	state_code         VARCHAR(50)   NULL,     -- 상태코드(프로젝트)
+	state_code         VARCHAR(20)   NULL,     -- 상태코드(프로젝트)
 	reg_date           DATE          NULL,     -- 등록일
 	mod_date           DATE          NULL,     -- 수정일
 	mod_id             VARCHAR(50)     NULL      -- 수정아이디
