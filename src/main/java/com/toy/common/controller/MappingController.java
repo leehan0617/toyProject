@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,7 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 서버가 최초 켜질때 실행되는 메소드
 	 */
+	@Secured("permitAll")
 	@RequestMapping(value="/")
 	public String loadOnStart(HttpServletRequest request , HttpServletResponse response) {
 		logger.info("MappingController - loadOnStart 메소드 접근");
@@ -60,6 +62,7 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인페이지 이동 메소드
 	 */
+	@Secured("isAnonymous()")
 	@RequestMapping(value="/login")
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
