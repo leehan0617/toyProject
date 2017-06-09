@@ -4,6 +4,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 
 import com.toy.user.model.UserDto;
 
+@Deprecated
 public interface UserService {
 
 	public int joinUser(UserDto userDto);

@@ -27,8 +27,8 @@ import com.toy.issue.model.issueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.IssueService;
+import com.toy.security.service.UserService;
 import com.toy.user.model.UserDto;
-import com.toy.user.service.UserService;
 
 /**
  * 작성일 : 2017. 3. 27.
@@ -39,8 +39,9 @@ import com.toy.user.service.UserService;
 public class MappingController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MappingController.class);
+	
 	@Autowired
-	private UserService userService;
+	private UserService userSerivce;
 	
 	@Autowired
 	private IssueService issueService;
@@ -157,7 +158,7 @@ public class MappingController {
 	 */
 	@RequestMapping(value="/user/update/{userId}" , method=RequestMethod.GET) 
 	public String update(@PathVariable String userId , Model model) {
-		model.addAttribute("userDto" , userService.getUser(userId));
+//		model.addAttribute("userDto" , userService.getUser(userId));
 		return "user/update";
 	}
 	

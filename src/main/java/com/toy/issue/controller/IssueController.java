@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.toy.project.service.IssueService;
-import com.toy.user.service.impl.UserServiceImpl;
 
 /**
  * 작성일 : 2017. 3. 27.
@@ -23,7 +22,7 @@ public class IssueController {
 	
 	@Autowired
 	IssueService issueService;
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
 	
 	@RequestMapping(value={"/issue/addIssue/{projectId}"}, method=RequestMethod.POST)
 	public String showProjectList(HttpServletRequest request, @PathVariable String projectId) {

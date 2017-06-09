@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="security">
+	
+	<select id="getUser" parameterType="String" resultType="com.toy.security.model.CustomUser">
+		SELECT user_id as username , user_name as name , password , email , depart_code as departCode
+			  ,reg_date as regDate , mod_date as modDate 
+			  , enabled , account_non_expired as accountNonExpired , account_non_locked as accountNonLocked
+			  , credentials_non_expired as credentialsNonExpired
+			FROM user
+				WHERE user_id = #{username}
+	</select>
+	
+	<select id="getAuthorities" parameterType="String" resultType="String">
+		SELECT userauthority.auth_code as authCode
+			FROM authority , userauthority
+				WHERE authority.auth_code = userauthority.auth_code
+				  AND userauthority.user_id = #{username}
+	</select>
+</mapper>

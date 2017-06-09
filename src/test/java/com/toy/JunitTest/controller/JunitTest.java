@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.toy.user.model.UserDto;
-import com.toy.user.service.impl.UserDao;
 
 /**
  * 작성일 : 2017. 3. 28.
@@ -45,7 +44,7 @@ public class JunitTest {
 	UserDto userDto;
 	
 	@Autowired
-	UserDao userDao;
+//	UserDao userDao;
 	
 	/**
 	 * 작성일 : 2017. 3. 28.
@@ -91,7 +90,7 @@ public class JunitTest {
 //	@Ignore
 	public void testmember() throws Exception {
 		System.out.println(userDto.getUser_id());
-		userDto = userDao.getUser(userDto.getUser_id());
+//		userDto = userDao.getUser(userDto.getUser_id());
 		assertNotNull(userDto);
 		System.out.println("not");
 	}

@@ -44,6 +44,8 @@
 			always-use-default-target="true"/>
 		<!-- 
 		authentication-success-handler-ref="loginSuccessHandler"
+		authentication-success-handler-ref="authenticationSuccessHandler"
+		authentication-failure-handler-ref="authenticationFailureHandler"
 		 -->
 		
 		<!-- 로그아웃 
@@ -58,9 +60,11 @@
 			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
 		
 		<!-- Remember me -->
+		<!--  
 		<remember-me key="toyKey"
 		remember-me-parameter="custom_remember_me" 
 		token-validity-seconds="1209600"/>
+		-->
 			<!--data-source-ref="dataSource"/>-->
 					
 		<!-- 중복세션 -->
@@ -79,10 +83,10 @@
 	
 	<!-- 로그인 로직 설정 -->
 	<authentication-manager>
-	 	<authentication-provider user-service-ref="userServiceImpl"> 
+	 	<authentication-provider user-service-ref="userService"> 
 	 		<password-encoder ref="bcryptEncoder"/>
 	 	</authentication-provider>
 	</authentication-manager>
 	<!-- 로그인 로직 핸들러 설정 -->
-	<beans:bean id="userServiceImpl" class="com.toy.user.service.impl.UserServiceImpl"/>
+	<beans:bean id="userService" class="com.toy.security.service.impl.UserServiceImpl"/>
 </beans:beans>
