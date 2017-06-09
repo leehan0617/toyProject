@@ -19,6 +19,7 @@
 	<c:set var="updateUrl" value="/user/update/${userDto.getUsername()}"/>
 	<span>${userDto.getUsername()} 님</span>
 	<h3>당신의 권한</h3>
+	<%--   
 	<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}">
 		<span>ID : ${i.getUser_id()}</span>
 		<span>AUTH : ${i.getAuth_code()}</span>
@@ -26,6 +27,7 @@
 			<br/><a href="${root}${adminUrl}">관리자 페이지</a><br/>		
 		</c:if>
 	</c:forEach>
+	--%>
 	<form action="${root}${logoutUrl}" method="POST">
 		<input type="submit" value="로그아웃"/>
 	</form>

@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="security">
 	
+	<!-- 유저 정보를 가져오는 쿼리문 -->
 	<select id="getUser" parameterType="String" resultType="com.toy.security.model.CustomUser">
 		SELECT user_id as username , user_name as name , password , email , depart_code as departCode
 			  ,reg_date as regDate , mod_date as modDate 
@@ -10,7 +11,7 @@
 			FROM user
 				WHERE user_id = #{username}
 	</select>
-	
+	<!-- 유저에 대한 권한정보를 가져오는 쿼리문 -->
 	<select id="getAuthorities" parameterType="String" resultType="String">
 		SELECT userauthority.auth_code as authCode
 			FROM authority , userauthority

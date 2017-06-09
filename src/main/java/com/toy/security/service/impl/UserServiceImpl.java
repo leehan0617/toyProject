@@ -22,7 +22,7 @@ import com.toy.security.service.UserService;
  * 작성자 : 이한빈
  * 설  명 : 실제 로그인이 수행되는 서비스
  */
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);

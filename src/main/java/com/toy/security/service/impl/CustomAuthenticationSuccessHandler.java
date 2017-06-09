@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 	
 	private static Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);
@@ -18,5 +20,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		logger.info("onAuthenticationSuccess 접근");
+		logger.info("추후 로그인 시간 및 계정에 관한 정보를 세팅하면 된다.");
 	}	
 }

@@ -2,7 +2,7 @@ package com.toy.security.model;
 
 import java.time.LocalDate;
 
-public class CustomUser extends User{
+public class CustomUser extends User {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -15,7 +15,7 @@ public class CustomUser extends User{
 	public String getName() {
 		return name;
 	}
-	public void setUserName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public String getEmail() {

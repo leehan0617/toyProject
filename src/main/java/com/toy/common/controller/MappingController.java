@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -27,6 +28,7 @@ import com.toy.issue.model.issueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.IssueService;
+import com.toy.security.model.CustomUser;
 import com.toy.security.service.UserService;
 import com.toy.user.model.UserDto;
 
@@ -40,7 +42,7 @@ public class MappingController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MappingController.class);
 	
-	@Autowired
+	@Resource(name="userService")
 	private UserService userSerivce;
 	
 	@Autowired
@@ -115,6 +117,7 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인 성공 이후 프로젝트 페이지 이동 메소드 (제거 고려)
 	 */
+	@Secured("02")
 	@RequestMapping(value="/project" , method=RequestMethod.GET)
 	public String project(Model model) {
 		logger.info("MappingController project 메소드 접근");
@@ -133,7 +136,7 @@ public class MappingController {
 		Object user = null;
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(principal instanceof UserDetails) {
-			user = (UserDto) principal;
+			user = (CustomUser) principal;
 		} else {
 			user = principal.toString();
 		}

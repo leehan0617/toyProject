@@ -1,8 +1,9 @@
 package com.toy.user.model;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collection;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -10,12 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  * 작성자 : 이한빈
  * 설  명 : User 에 관한 테이블
  */
+@Deprecated
 public class UserDto implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
 	private String user_id;
 	private String password;
-	private List<UserAuthority> authorities;
+	private Collection<? extends GrantedAuthority> authorities;
 	private boolean accountNonExpired = true; 
 	private boolean accountNonLocked = true; 
 	private boolean credentialsNonExpired = true; 
@@ -55,11 +57,11 @@ public class UserDto implements UserDetails{
 	}
 	
 	@Override
-	public List<UserAuthority> getAuthorities() {
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
 	
-	public void setAuthorities(List<UserAuthority> authorities) {
+	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}
 	
