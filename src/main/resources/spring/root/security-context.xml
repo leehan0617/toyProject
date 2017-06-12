@@ -29,7 +29,7 @@
 			login-page : 로그인 페이지 , 세션 인증이 없는 경우 호출되는 URL
 			username-parameter : 로그인 페이지에서 사용될 ID 파라미터 속성명 (name속성)
 			password-parameter : 로그인 페이지에서 사용될 PW 파라미터 속성명 (name속성)
-			default-target-url : 로그인 후 호출될 URL
+			default-target-url : 로그인 후 호출될 URL authentication-success-handler-ref를 구현하면 작동하지 않는다.
 			authentication-failure-url : 로그인이 실패될때 호출되는 url (? 뒤의값은 실패인지 최초접속인지 등등 구분하기 위한 값)
 			authentication-success-handler-ref : 로그인 성공 이후 호출되는 핸들러, 직접 후처리를 작업할 경우 사용
 			login-processing-url : 로그인 처리를 호출할때 사용 할 URL 보여지는 URL 일뿐 j_spring_security_check가 호출되어 로그인 처리한다.
@@ -39,7 +39,6 @@
 			username-parameter="loginId"
 			password-parameter="loginPwd"
 			login-processing-url="/loginProcess"
-			default-target-url="/loginSuccess"
 			authentication-failure-url="/login?error=1"
 			always-use-default-target="true"
 			authentication-success-handler-ref="customAuthenticationSuccessHandler"

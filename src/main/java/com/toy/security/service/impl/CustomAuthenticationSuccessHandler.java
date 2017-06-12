@@ -21,5 +21,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 		logger.info("onAuthenticationSuccess 접근");
 		logger.info("추후 로그인 시간 및 계정에 관한 정보를 세팅하면 된다.");
+		
+		response.sendRedirect("/loginSuccess");
 	}	
 }

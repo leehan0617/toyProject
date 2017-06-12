@@ -1,7 +1,9 @@
 package com.toy.common.controller;
 
 import java.text.DateFormat;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -85,9 +89,25 @@ public class MappingController {
 	public String loginSuccess(HttpSession session) {
 		logger.info("로그인 성공");
 		
-		Object userDto = SecurityContextHolder.getContext().getAuthentication().getDetails();
+		Object userDto =SecurityContextHolder.getContext().getAuthentication().getDetails();
+		
+		// 권한 확인을 할려면 이런식으로 해야함
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		Collection<? extends GrantedAuthority> list = au.getAuthorities();
+		Iterator<?> iter = list.iterator();
+		
+		while(iter.hasNext()) {
+			logger.info("test {}" , iter.next());
+		}
 		
 		logger.info("loginSuccess {} , {}" , session.getId() , userDto.toString());
+		if(userDto instanceof UserDetails) {
+			logger.info("test2 {} " , ((UserDetails) userDto).getUsername());
+		} else {
+			logger.info("test3 {} " , userDto.toString());
+			logger.info("test4 {}  , {} " , au.getName() , au.getCredentials());
+		}
+		
 		session.setAttribute("userLoginInfo", userDto);
 		return "common/loginSuccess";
 	}
