@@ -37,8 +37,8 @@
     
 	<bean id="jedisConnFactory" 
     	class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-    	p:host-name="localhost"
-    	p:port="6379"
+    	p:host-name="#{dbConfig['redisHostName']}"
+    	p:port="#{dbConfig['redisPort']}"
     	p:use-pool="true"/>    	
 	
 	<!-- 운영서버 redis 주소 p:host-name="hanbinredis.i3ru3z.ng.0001.apn2.cache.amazonaws.com" -->    
