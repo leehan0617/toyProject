@@ -31,10 +31,9 @@ import com.toy.user.model.UserDto;
  * 스프링 빈설정 위치 지정 - 위치를 지정하지 않으면 -> 테스트클래스파일이 있는 패키지내에서 인식
 */
 @ContextConfiguration(locations = {"file:src/test/resources/com/toy/junit/spring/*.xml",
-								   "file:webapp/WEB-INF/spring/dispatcher-servlet.xml",
-								   "file:webapp/WEB-INF/spring/spring-security.xml",
-								   "file:webapp/WEB-INF/spring/spring-scheduling.xml",
-								   "file:webapp/WEB-INF/spring/spring-websocket.xml"}) 
+								   "file:src/main/resources/spring/root/*-context.xml",
+								   "file:src/main/resources/spring/servlet/*-context.xml",
+								   }) 
 
 @WebAppConfiguration//웹전용으로 WebApplocationContext 로드하기 위해서 사용 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)//test 실행 순서 지정 (junit 4 버전 이상부터 가능)
