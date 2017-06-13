@@ -41,7 +41,6 @@
     	p:port="#{dbConfig['redisPort']}"
     	p:use-pool="true"/>    	
 	
-	<!-- 운영서버 redis 주소 p:host-name="hanbinredis.i3ru3z.ng.0001.apn2.cache.amazonaws.com" -->    
     <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
     	p:connection-factory-ref="jedisConnFactory"/>
 </beans>

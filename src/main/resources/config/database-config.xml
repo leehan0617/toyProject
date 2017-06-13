@@ -9,8 +9,10 @@
 	<entry key="maximumPoolSize">15</entry>
 	
 	<!-- 로컬환경 redis 주소 -->
+	<!--  
 	<entry key="redisHostName">localhost</entry>
+	-->
 	<!-- 운영서버 redis 주소 -->
-	<!-- <entry key="redisHostName">hanbinredis.i3ru3z.ng.0001.apn2.cache.amazonaws.com</entry> -->
+	<entry key="redisHostName">hanbinredis.i3ru3z.ng.0001.apn2.cache.amazonaws.com</entry>
 	<entry key="redisPort">6379</entry>
 </properties>

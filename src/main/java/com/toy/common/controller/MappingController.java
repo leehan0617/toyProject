@@ -93,9 +93,15 @@ public class MappingController {
 		
 		// 권한 확인을 할려면 이런식으로 해야함
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		// 권한 리스트
 		Collection<? extends GrantedAuthority> list = au.getAuthorities();
-		Iterator<?> iter = list.iterator();
+		// userId 
+		String userId = String.valueOf(au.getPrincipal());
+		// pwd null 값을 return 한다.
+		String pwd = String.valueOf(au.getCredentials());
 		
+		
+		Iterator<?> iter = list.iterator();
 		while(iter.hasNext()) {
 			logger.info("test {}" , iter.next());
 		}
