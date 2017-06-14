@@ -3,6 +3,7 @@
  	   xmlns:context="http://www.springframework.org/schema/context"
  	   xmlns:mvc="http://www.springframework.org/schema/mvc"
  	   xmlns:websocket="http://www.springframework.org/schema/websocket"
+ 	   xmlns:security="http://www.springframework.org/schema/security"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
  						   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
  						   http://www.springframework.org/schema/context
@@ -10,7 +11,11 @@
  						   http://www.springframework.org/schema/mvc
         				   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         				   http://www.springframework.org/schema/websocket
-        				   http://www.springframework.org/schema/websocket/spring-websocket-4.2.xsd">
+        				   http://www.springframework.org/schema/websocket/spring-websocket-4.2.xsd
+        				   http://www.springframework.org/schema/security
+						   http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+ 
+ <!-- security annotaion 설정 -->
  
  <mvc:annotation-driven/>
  <mvc:resources location="/resources/" mapping="/resources/**"/>
@@ -51,6 +56,7 @@
  	<property name="cacheSeconds" value="5"/>
  </bean>
  
+ <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
  <!--  
  	<websocket:handlers>
         	<websocket:mapping path="/websocket/chat" handler="chatHandler"/>

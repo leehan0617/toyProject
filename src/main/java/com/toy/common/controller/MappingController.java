@@ -1,5 +1,6 @@
 package com.toy.common.controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,10 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +61,6 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 서버가 최초 켜질때 실행되는 메소드
 	 */
-	@Secured("permitAll")
 	@RequestMapping(value="/")
 	public String loadOnStart(HttpServletRequest request , HttpServletResponse response) {
 		logger.info("MappingController - loadOnStart 메소드 접근");
@@ -69,7 +72,6 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인페이지 이동 메소드
 	 */
-	@Secured("isAnonymous()")
 	@RequestMapping(value="/login")
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
@@ -85,6 +87,7 @@ public class MappingController {
 		return "common/login";
 	}
 	
+//	@Secured({"01" , "02"})
 	@RequestMapping(value="/loginSuccess")
 	public String loginSuccess(HttpSession session) {
 		logger.info("로그인 성공");
@@ -121,15 +124,24 @@ public class MappingController {
 	/**
 	 * 작성일 : 2017. 3. 28.
 	 * 작성자 : 이한빈 
-	 * 설 명 : default 페이지 , 로그인을 할떄 호출되어지는 메소드
+	 * 설 명 : logout 페이지 
 	 */
 	@RequestMapping(value="/logout")
 	public String logout(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
-			, Model model , HttpServletRequest request) {
+			, Model model , HttpServletRequest request , HttpServletResponse response) {
 		logger.info("MappingController - logout 메소드 접근");
 		
-		return "common/login";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if(auth != null) {
+			logger.info("auth not null");
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+			logger.info("logout 성공");
+			return "redirect:/login?logout=success";
+		} 
+		
+		return "redirect:/login";
 	}
 	
 	@RequestMapping(value="loginDuplicate")

@@ -12,18 +12,18 @@
 	<http pattern="/**/*.css" security="none"/>
 	<http pattern="/image/*" security="none"/>
 	
-	<!-- security annotaion 설정 -->
-	<global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+	<!--  
+	<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+	-->
 	
 	<http auto-config="true" use-expressions="true">
 		<!-- url 별 권한정보 , 추후 annotation으로 대체-->  
+		<!--  
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/admin/**" access="hasRole('01')" />
-		<!--  <intercept-url pattern="/project" access="hasRole('02')" />-->
+		<intercept-url pattern="/project" access="hasRole('02')" />
 		<intercept-url pattern="/**" access="permitAll" />
-		
-		<!-- 접속 권한이 없을때 실행 -->
-        <access-denied-handler error-page="/denied"/>
+		-->
 		
 		<!--로그인
 			login-page : 로그인 페이지 , 세션 인증이 없는 경우 호출되는 URL
@@ -54,20 +54,18 @@
 			logout-success-url="/login?logout=success"
 			invalidate-session="true"
 			delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
-		
 		<!-- Remember me -->
-		<!--  
 		<remember-me key="toyKey"
-		remember-me-parameter="custom_remember_me" 
 		token-validity-seconds="1209600"/>
-		-->
-			<!--data-source-ref="dataSource"/>-->
-					
+		<!--data-source-ref="dataSource"/>-->
 		<!-- 중복세션 -->
+		<!--  
 		<session-management invalid-session-url="/login">
 		 <concurrency-control max-sessions="1" expired-url="/loginDuplicate"/>
 		</session-management>
-		
+		-->		
+		<!-- 접속 권한이 없을때 실행 -->
+ 		<access-denied-handler error-page="/denied"/>		
 		<!-- csrf 설정 -->
 		<csrf/>
 	</http>

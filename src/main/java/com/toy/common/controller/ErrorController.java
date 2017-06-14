@@ -20,7 +20,7 @@ public class ErrorController {
 	
 	@RequestMapping(value="/error/{error}" , method=RequestMethod.GET)
 	public String error(@PathVariable String error , Model model) {
-		logger.info("error 페이지 접근", error);
+		logger.info("error 페이지 접근 {}", error);
 		model.addAttribute("error" , error);
 		return "error/error";
 	}

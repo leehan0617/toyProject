@@ -44,7 +44,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">Remember Me : <input type="checkbox" name="custom_remember_me"/></td>
+				<td colspan="2">Remember Me : <input type="checkbox" name="_spring_security_remember_me"/></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="로그인"/></td>

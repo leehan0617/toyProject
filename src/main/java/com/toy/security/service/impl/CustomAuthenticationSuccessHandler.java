@@ -1,6 +1,8 @@
 package com.toy.security.service.impl;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +32,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 		logger.info("onAuthenticationSuccess 접근");
 		logger.info("추후 로그인 시간 및 계정에 관한 정보를 세팅하면 된다.");
+		
+		Collection<? extends GrantedAuthority> list = authentication.getAuthorities();
+		Iterator<?> iter = list.iterator();
+		
+		while(iter.hasNext()) {
+			logger.info("당신의 권한 : {}" , iter.next());
+		}
 		
 		try{
 			logger.info("redis 실행");
