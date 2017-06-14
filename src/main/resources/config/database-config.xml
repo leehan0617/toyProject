@@ -6,7 +6,7 @@
 	<entry key="jdbcUrl">jdbc:log4jdbc:mariadb://toyproject.ck7nahoylct7.ap-northeast-2.rds.amazonaws.com:3306/toyproject</entry>
 	<entry key="user">osstem</entry>
 	<entry key="password">osstemosstem</entry>
-	<entry key="maximumPoolSize">15</entry>
+	<entry key="maximumPoolSize">3</entry>
 	
 	<!-- 로컬환경 redis 주소 -->
 	<!--  
