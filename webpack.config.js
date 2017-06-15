@@ -7,7 +7,7 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
   context: __dirname + '/webapp/js',
-  entry: {main:'./webpacktest'},
+  entry: {main:'./project'},
   output: {
     path: __dirname + '/webapp/js/dist',
     filename: '[name].js'
