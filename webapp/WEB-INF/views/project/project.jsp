@@ -1,19 +1,16 @@
 <!-- 전체 프로젝트 리스트 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="ctg" tagdir="/WEB-INF/tags"%>
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.js" async defer></script>
 <script type="text/javascript" src="${root}/js/project/project.js" charset="utf-8"></script>
-<title>Insert title here</title>
-</head>
-<body>
-<input type="hidden" id="user_id" value="${userDto.getUser_id()}">
+<input type="hidden" name="csrf-token" value="${_csrf.token}"/>
+<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
+<input type="hidden" id="user_id" value="${user.getUsername()}">
+<input type = 'hidden' id = 'rootValue'  value = "${root}">
 
 <div style="display: inline;">
 	<!-- 검색조건 테이블 -->
@@ -34,8 +31,8 @@
 				<td>직무별로 검색</td>
 			</tr>
 				<!-- 관리자 권한 이 있는 사람만 자기가 등록한 프로젝트 필터 가능 -->
-			<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}">
-				<c:if test="${i.getAuth_code().equals('02') }">
+			<c:forEach var="i" items="${user.getAuthorities()}" begin="0" end="${user.getAuthorities().size()}">
+				<c:if test="${i == '02'}">
 						<tr> 
 							<td>
 								<input type="checkbox" id="myCheck" name="myCheck" onchange="project.myPjoectList(this)"/>내가 등록한 프로젝트 보기
@@ -61,19 +58,30 @@
 						</li>
 						<li style="list-style:square;">담당자 : ${i.getManager_name()}</li>
 						<li style="list-style:square;">모집상태 : ${i.getState_name()}</li>
-						<li style="list-style:square;"><input type="button" value="상세보기" onclick="project.projectDetail(${i.getProject_id()})"/></li>
-						<li style="list-style:square;"><input type="button" value="신청하기"/></li>
+						<li style="list-style:square;"><input type="button" value="상세보기" onclick="javascript:project.projectDetail(${i.getProject_id()})"/></li>
+						<li style="list-style:square;">
+							<c:if test="${i.getApplyyn().equals('Y') }"><!-- 이미내가 신청한 프로젝트 이면 다시 신청 못함 -->
+								<input type="button" value="신청하기" onclick="javascript:project.applyOpen(${i.getProject_id()})"/>
+							</c:if>
+							<c:if test="${i.getApplyyn().equals('N') }">
+								신청완료
+							</c:if>
+						</li>
 		</ul>
 	</c:forEach>
 </div>
-<!-- //프로젝트 리스트 불러오기 -->
+<!-- //프로젝트 리스트 불러오기 request-promise-->
 
 <div style="display: inline;">
-<%-- 	<c:forEach var="i" items="${userDto.getAuthorities()}" begin="0" end="${userDto.getAuthorities().size()}"> --%>
-<%-- 		<c:if test="${i.getAuth_code().equals('02') }"> --%>
-				<br/><a href="${root}/project/new">프로젝트 생성하기 </a><br/>		
-<%-- 		</c:if> --%>
-<%-- 	</c:forEach> --%>
+	<c:forEach var="i" items="${user.getAuthorities()}" begin="0" end="${user.getAuthorities().size()}">
+		<c:if test="${i == '02'}">
+				<br/><a href="${root}/project/new">프로젝트 생성하기</a><br/>		
+		</c:if>
+	</c:forEach>
 </div>
-</body>
-</html>
+
+<!-- 프로젝트 신청하기 팝업 -->
+<div id= "registDiv" style="display: none;">
+<jsp:include page="projectApply.jsp" flush="false"></jsp:include>
+</div>
+<!-- //프로젝트 신청하기 팝업 -->

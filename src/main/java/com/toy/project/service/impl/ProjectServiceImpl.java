@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.ProjectService;
-import com.toy.user.model.UserDto;
+import com.toy.security.model.CustomUser;
 
 /**
  * 작성일 : 2017. 5. 16.
@@ -35,36 +35,35 @@ public class ProjectServiceImpl implements ProjectService{
 	 */
 	@Transactional(rollbackFor=Exception.class)
 	public void saveNewProject(ProjectDto projectDto) throws Exception{
+		
 		// 로그인정보를 가져온다.
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
 		
-		UserDto currentUser = (UserDto) auth.getPrincipal();
-		
-		projectDto.setManager_id(currentUser.getUser_id());
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		projectDto.setManager_id(user.getUsername());
 		
 		//프로젝트 생성
 		projectDao.insertProject(projectDto);
 		
 		//프로젝트별 직무 생성
-		if(projectDto.getDepartCodeList() != null){
-			if(!projectDto.getDepartCodeList().isEmpty()){
+		if(projectDto.getDepartMap() != null && !projectDto.getDepartMap().isEmpty()){
+			
+			for(String key : projectDto.getDepartMap().keySet()){
 				
-				for(String departCode : projectDto.getDepartCodeList()){
-					
-					HashMap<String, String> map = new HashMap<>();
-					
-					map.put("project_id", String.valueOf(projectDto.getProject_id()));
-					map.put("depart_code", departCode);
-					map.put("usercount", projectDto.getDepartMap().get(departCode));
-					projectDao.insertProjectDepart(map);
-				}
+				HashMap<String, String> map = new HashMap<>();
 				
+				map.put("project_id", String.valueOf(projectDto.getProject_id()));
+				map.put("depart_code", key);
+				map.put("usercount", projectDto.getDepartMap().get(key));
+				projectDao.insertProjectDepart(map);
 			}
+			
 		}
-		
-		projectDto.setUser_id(currentUser.getUser_id());
-		projectDto.setReg_id(currentUser.getUser_id());
-		projectDto.setState_code("01");//매니저 자동으로 프로젝트 참여01:수락 상태 넣기 
+	
+		projectDto.setUser_id(user.getUsername());
+		projectDto.setReg_id(user.getUsername());
+		projectDto.setState_code("accept");//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기 
 		projectDao.insertProjectMember(projectDto);
 	}
 	
@@ -161,6 +160,51 @@ public class ProjectServiceImpl implements ProjectService{
 		projectDao.deleteProjectMember(projectDto);//프로젝트 참여자 삭제
 		projectDao.deleteProjectDePDetail(projectDto);//프로젝트 상세 직무 삭제
 		projectDao.deleteProject(projectDto);//프로젝트 삭제
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .8
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 수정하기
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public void updateProjectAll(ProjectDto projectDto) throws Exception  {
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		
+		projectDto.setMod_id(user.getUsername());
+		
+		//프로젝트 정보 수정
+		projectDao.updateProject(projectDto);
+		//프로젝트 상세 직무 삭제 
+		projectDao.deleteProjectDePDetail(projectDto);
+		
+		//프로젝트별 직무 생성
+		if(projectDto.getDepartMap() != null && !projectDto.getDepartMap().isEmpty()){
+			for(String key : projectDto.getDepartMap().keySet()){
+				HashMap<String, String> map = new HashMap<>();
+				
+				map.put("project_id", String.valueOf(projectDto.getProject_id()));
+				map.put("depart_code", key);
+				map.put("usercount", projectDto.getDepartMap().get(key));
+				//프로젝트 상세 직무 수정
+				projectDao.insertProjectDepart(map);
+			}
+		}
+		
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .8
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 신청하기
+	 */
+	public void insertProjectMember(ProjectDto projectDto) throws Exception {
+		projectDao.insertProjectMember(projectDto);
 	}
 	
 }
