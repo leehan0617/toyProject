@@ -110,4 +110,12 @@ public class ProjectDao {
 	public int deleteProjectMember(ProjectDto projectDto) {
 		return sqlSession.delete("project.deleteProjectMember",projectDto);
 	}
+	/**
+	 * 작성일 : 2017. 6 .8
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 정보 수정하기  
+	 */
+	public int updateProject(ProjectDto projectDto) {
+		return sqlSession.update("project.updateProject",projectDto);
+	}
 }

@@ -51,8 +51,17 @@ public class ProjectDto implements Serializable{
 	//사용자 id
 	private String user_id;
 	
+	//수정한 id
+	private String mod_id;
+		
 	//모집 포지션 별로 인원수
 	private Map<String,String> departMap;
+	
+	//상세직무설명
+	private String depart_detail;
+	
+	//프로젝트별 신청여부
+	private String applyyn;
 	
 	public int getProject_id() {
 		return project_id;
@@ -155,5 +164,23 @@ public class ProjectDto implements Serializable{
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public String getMod_id() {
+		return mod_id;
+	}
+	public void setMod_id(String mod_id) {
+		this.mod_id = mod_id;
+	}
+	public String getDepart_detail() {
+		return depart_detail;
+	}
+	public void setDepart_detail(String depart_detail) {
+		this.depart_detail = depart_detail;
+	}
+	public String getApplyyn() {
+		return applyyn;
+	}
+	public void setApplyyn(String applyyn) {
+		this.applyyn = applyyn;
 	}
 }

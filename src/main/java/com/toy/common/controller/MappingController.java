@@ -157,7 +157,7 @@ public class MappingController {
 	 * 설  명 : 로그인 성공 이후 프로젝트 페이지 이동 메소드 (제거 고려)
 	 */
 	@Secured("02")
-	@RequestMapping(value="/project" , method=RequestMethod.GET)
+	@RequestMapping(value="/main" , method=RequestMethod.GET)
 	public String project(Model model) {
 		logger.info("MappingController project 메소드 접근");
 		

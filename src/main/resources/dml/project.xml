@@ -21,7 +21,7 @@
 			 ,#{project_end_date}
 			 ,#{project_detail}
 			 ,#{manager_id}
-			 ,'0101'
+			 ,'recruiting'
 			 ,sysdate()
 			) 
 		<selectKey keyProperty="project_id" resultType="int">
@@ -54,16 +54,21 @@
 				, project_detail
 				, manager_id
 				, (select user_name from user where user_id = manager_id) as manager_name
-				, state_code
+				, project.state_code
 				, (select state_name from state where state_code = project.state_code) as state_name
-				, reg_date
+				, project.reg_date
 				, depart_code
 				, (select depart_name from department where depart_code = prodepart.depart_code) as depart_name
+				, if(isnull(promember.user_id),'Y','N') as applyyn
 		from project 
         left join (
 				select *
 				from projectdepartment
 		)prodepart on project.project_id = prodepart.project_id
+		 left join (
+				select *
+				from projectmember
+		)promember on project.project_id = promember.project_id and promember.user_id = #{user_id}
 		<if test="manager_id != null">
 			where manager_id = #{manager_id}
 		</if>
@@ -74,14 +79,19 @@
 	<select id="getProjectDetail" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
 		select 
 				project.project_id
-				, project_name
-				, project_start_date
-				, project_end_date
-				, project_detail
-				, manager_id
+				, project.project_name
+				, project.project_start_date
+				, project.project_end_date
+				, project.project_detail
+				, project.manager_id
 				, (select user_name from user where user_id = manager_id) as manager_name
-		from project 
-		where project_id = #{project_id}
+				, if(isnull(promember.user_id),'Y','N') as applyyn
+		from project project
+		left join (
+				select *
+				from projectmember
+		)promember on project.project_id = promember.project_id and promember.user_id = #{user_id}
+		where project.project_id = #{project_id}
 	</select>
 	<!-- 20170524 김민지 프로젝트 상세 직무 보기 -->
 	<select id="getProjectDePDetail" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
@@ -98,6 +108,7 @@
 		(   project_id
 			,user_id
 			,state_code
+			,depart_detail
 			,reg_date
 			,reg_id
 		)
@@ -105,6 +116,7 @@
 			#{project_id}	
 			,#{user_id}
 			,#{state_code}
+			,#{depart_detail}
 			,sysdate()
 			,#{reg_id}
 		)
@@ -144,4 +156,16 @@
 		from  project
 		where project_id = #{project_id}
 	</select>
+	
+	<!-- 20170608 김민지 프로젝트 수정하기-->
+	<update id="updateProject" parameterType="com.toy.project.model.ProjectDto">
+		update  project
+		set project_name =  #{project_name}
+			,project_start_date = #{project_start_date}
+			,project_end_date =  #{project_end_date}
+			,project_detail = #{project_detail}
+			,mod_id =  #{mod_id}
+			,mod_date  = sysdate()
+		where project_id = #{project_id}
+	</update>
 </mapper>

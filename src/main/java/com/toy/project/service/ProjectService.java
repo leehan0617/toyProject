@@ -63,4 +63,22 @@ public interface ProjectService {
 	 * 설  명 : 프로잭트 삭제하기
 	 */
 	public void deleteProjectAll(ProjectDto projectDto) ;
+	
+	
+	/**
+	 * 작성일 : 2017. 6. 08.
+	 * 작성자 : 김민지 
+	 * 설 명  : 프로젝트 수정하기
+	 * @return 
+	 */
+	public void updateProjectAll(ProjectDto projectDto) throws Exception;
+	
+	/**
+	 * 작성일 : 2017. 6. 14.
+	 * 작성자 : 김민지 
+	 * 설 명  : 프로젝트 신청하기
+	 * @return 
+	 */
+	public void insertProjectMember(ProjectDto projectDto) throws Exception;
+	
 }
