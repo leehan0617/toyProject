@@ -17,15 +17,15 @@ alter table project modify project_id int not null auto_increment;
 
 -- 상태코드
 insert into state (state_code , state_name)
-	values ('0101' , '모집중');
+	values ('recruiting' , '모집중');
 insert into state (state_code , state_name)
-	values ('0102' , '모집완료');
+	values ('complete' , '모집완료');
 insert into state (state_code , state_name)
-	values ('01' , '수락');
+	values ('accept' , '수락');
 insert into state (state_code , state_name)
-	values ('02' , '거절');
+	values ('refuse' , '거절');
 insert into state (state_code , state_name)
-	values ('03' , '신청');
+	values ('apply' , '신청');
 	
 -- 테이블 한글 설정 mysql
 ALTER TABLE state CHARSET utf8 ,CHANGE state_name state_name varchar(200) character set utf8;

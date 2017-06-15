@@ -32,7 +32,8 @@ import com.toy.user.model.UserDto;
 */
 @ContextConfiguration(locations = {"file:src/test/resources/com/toy/junit/spring/*.xml",
 								   "file:src/main/resources/spring/root/*-context.xml",
-								   "file:src/main/resources/spring/servlet/*-context.xml",
+								   "file:src/main/resources/spring/servlet/schedule-context.xml",
+								   "file:src/main/resources/spring/servlet/websocket-context.xml",
 								   }) 
 
 @WebAppConfiguration//웹전용으로 WebApplocationContext 로드하기 위해서 사용 
