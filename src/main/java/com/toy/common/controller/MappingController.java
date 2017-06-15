@@ -99,7 +99,7 @@ public class MappingController {
 		// 권한 리스트
 		Collection<? extends GrantedAuthority> list = au.getAuthorities();
 		// userId 
-		String userId = String.valueOf(au.getPrincipal());
+		CustomUser user = (CustomUser) au.getPrincipal();
 		// pwd null 값을 return 한다.
 		String pwd = String.valueOf(au.getCredentials());
 		
@@ -110,6 +110,7 @@ public class MappingController {
 		}
 		
 		logger.info("loginSuccess {} , {}" , session.getId() , userDto.toString());
+		logger.info("login Info {} , {} " , user.getUsername() , user.getPassword());
 		if(userDto instanceof UserDetails) {
 			logger.info("test2 {} " , ((UserDetails) userDto).getUsername());
 		} else {
