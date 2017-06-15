@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="root" value="#{pageContext.request.contextPath }"/>
-<c:set var="joinUrl" value="/user"/>
+<c:set var="joinUrl" value="/user/join"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,12 @@
 </head>
 <body>
 	join page
-	<form action="${root}${joinUrl}" method="POST">
+	<form action="${root}${joinUrl}" method="POST" onsubmit="test();">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<table>
 			<tr>
 				<td>ID</td>
-				<td><input type="text" name="user_id"/></td>
+				<td><input type="text" name="username"/></td>
 			</tr>
 			<tr>
 				<td>PASSWORD</td>
@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td>NAME</td>
-				<td><input type="text" name="user_name"/></td>
+				<td><input type="text" name="name"/></td>
 			</tr>
 			<tr>
 				<td>EMAIL</td>
@@ -33,7 +33,14 @@
 			</tr>
 			<tr>
 				<td>DEPARTMENT</td>
-				<td><input type="text" name="depart_code"/></td>
+				<td>
+					<select name="departCode">
+						<option>-</option>
+						<option value="dev">개발</option>
+						<option value="sal">영업</option>
+						<option value="art">디자인</option>
+					</select>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="가입"/></td>

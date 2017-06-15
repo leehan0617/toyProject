@@ -3,26 +3,26 @@
 <mapper namespace="user">
 	
 	<!-- 20170328 이한빈 신규가입 쿼리문 -->
-	<insert id="joinUser" parameterType="com.toy.user.model.UserDto">
+	<insert id="join" parameterType="com.toy.security.model.CustomUser">
 		INSERT INTO user
 			(user_id , user_name , password , email , depart_code , reg_date)
-			VALUES (#{user_id} , #{user_name} , #{password} , #{email} , #{depart_code} , sysdate())
+			VALUES (#{username} , #{name} , #{password} , #{email} , #{departCode} , sysdate())
 	</insert>
 	
 	<!-- 20170328 이한빈 user정보 수정 쿼리문 -->
-	<update id="update" parameterType="com.toy.user.model.UserDto">
+	<update id="update" parameterType="com.toy.security.model.CustomUser">
 		UPDATE user
 			SET password = #{password}
 				,email = #{email}
 				,memo = #{memo}
-				,depart_code = #{depart_code}
+				,depart_code = #{departCode}
 				,mod_date = sysdate()
-			WHERE user_id = #{user_id}
+			WHERE user_id = #{username}
 	</update>
 	
 	<!-- 20170328 이한빈 user를 삭제하는 쿼리문 -->
 	<delete id="delete" parameterType="String">
 		DELETE FROM user
-			WHERE user_id = #{user_id}
+			WHERE user_id = #{username}
 	</delete>
 </mapper>

@@ -1,15 +1,10 @@
 package com.toy.common.controller;
 
-import java.io.IOException;
-import java.text.DateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +58,7 @@ public class MappingController {
 	@RequestMapping(value="/")
 	public String loadOnStart(HttpServletRequest request , HttpServletResponse response) {
 		logger.info("MappingController - loadOnStart 메소드 접근");
+		
 		return "common/start";
 	}
 	
@@ -72,12 +67,19 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인페이지 이동 메소드
 	 */
+	@Secured("ROLE_ANONYMOUS")
 	@RequestMapping(value="/login")
 	public String login(@RequestParam(value="error" , required=false) String error ,
 			@RequestParam(value="logout" , required=false) String logout 
 			, Model model , HttpServletRequest request , HttpServletResponse response) {
 		logger.info("MappingController - login 메소드 접근");
 		
+		// 권한 확인을 할려면 이런식으로 해야함
+		Collection<? extends GrantedAuthority> list = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		Iterator<?> iter = list.iterator();
+		while(iter.hasNext()) {
+			logger.info("권한:  {}" , iter.next());
+		}
 		if(error != null) {
 			model.addAttribute("error" , error);
 		} else if (logout != null) {
@@ -87,7 +89,7 @@ public class MappingController {
 		return "common/login";
 	}
 	
-//	@Secured({"01" , "02"})
+	@Secured({"ROLE_HUMAN" , "ROLE_ADMIN"})
 	@RequestMapping(value="/loginSuccess")
 	public String loginSuccess(HttpSession session) {
 		logger.info("로그인 성공");
@@ -102,7 +104,6 @@ public class MappingController {
 		CustomUser user = (CustomUser) au.getPrincipal();
 		// pwd null 값을 return 한다.
 		String pwd = String.valueOf(au.getCredentials());
-		
 		
 		Iterator<?> iter = list.iterator();
 		while(iter.hasNext()) {
@@ -151,58 +152,6 @@ public class MappingController {
 		
 		return "common/login";
 	}
-	/**
-	 * 작성일 : 2017. 3. 27.
-	 * 작성자 : 이한빈
-	 * 설  명 : 로그인 성공 이후 프로젝트 페이지 이동 메소드 (제거 고려)
-	 */
-	@Secured("02")
-	@RequestMapping(value="/project" , method=RequestMethod.GET)
-	public String project(Model model) {
-		logger.info("MappingController project 메소드 접근");
-		
-		// 회원정보를 가져간다.
-		model.addAttribute("userDto" , this.getPrincipal());
-		return "project/main";
-	}
-	
-	/**
-	 * 작성일 : 2017. 3. 28.
-	 * 작성자 : 이한빈
-	 * 설  명 : 권한정보를 가져오는 메소드
-	 */
-	private Object getPrincipal() {
-		Object user = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(principal instanceof UserDetails) {
-			user = (CustomUser) principal;
-		} else {
-			user = principal.toString();
-		}
-		
-		return user;
-	}
-	
-	/**
-	 * 작성일 : 2017. 3. 28.
-	 * 작성자 : 이한빈 
-	 * 설 명  : 회원가입페이지로 이동하는 메소드
-	 */
-	@RequestMapping(value="/user/join" , method=RequestMethod.GET)
-	public String join() {
-		return "user/join";
-	}
-	
-	/**
-	 * 작성일 : 2017. 3. 28.
-	 * 작성자 : 이한빈
-	 * 설  명 : 회원수정 페이지로 이동하는 메소드
-	 */
-	@RequestMapping(value="/user/update/{userId}" , method=RequestMethod.GET) 
-	public String update(@PathVariable String userId , Model model) {
-//		model.addAttribute("userDto" , userService.getUser(userId));
-		return "user/update";
-	}
 	
 	/**
 	 * 작성일 : 2017. 3. 28.
@@ -213,28 +162,19 @@ public class MappingController {
 	public String admin() {
 		return "user/admin";
 	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String hello(Locale locale, Model model) {
-	
-	  Date date = new Date();
-	  DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-	
-	  String formattedDate = dateFormat.format(date);
-	
-	  model.addAttribute("serverTime", formattedDate );
-	  return "tiles";
-	}
 	
 	/**
 	 * 작성일 : 2017. 05.24
 	 * 작성자 : 송하람
 	 * 설  명 : 이슈페이지
 	 */
+	@Deprecated
 	@RequestMapping(value="/issue/add" , method=RequestMethod.GET) 
 	public String addIssue() {
 		return "issue/addIssue";
 	}
 	
+	@Deprecated
 	@RequestMapping(value={"/issue/detail/{projectId}"} , method=RequestMethod.GET)
 	public ModelAndView showIssueList(@PathVariable String projectId) {
 		ModelAndView mav = new ModelAndView();
@@ -246,7 +186,7 @@ public class MappingController {
 	
 		
 		UserDto dto = new UserDto();
-		dto = (UserDto)this.getPrincipal();
+//		dto = (UserDto)this.getPrincipal();
 		mav.addObject("myInfo", dto);
 		
 		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(projectId);
@@ -254,11 +194,12 @@ public class MappingController {
 		return mav;
 	}
 	
+	@Deprecated
 	@RequestMapping(value={"/issue/projectlist"} , method=RequestMethod.GET)
 	public ModelAndView showProjectList(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		UserDto dto = new UserDto();
-		dto = (UserDto)this.getPrincipal();
+//		dto = (UserDto)this.getPrincipal();
 		
 		List<ProjectDto> projectList = issueService.selectAllProjectList(dto.getUser_id());
 		mav.addObject("projectList", projectList);
