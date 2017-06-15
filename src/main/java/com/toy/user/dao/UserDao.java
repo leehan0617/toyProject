@@ -19,11 +19,7 @@ public class UserDao {
 	public int join(CustomUser user) {
 		return sqlSession.insert("user.join" , user);
 	}
-
-	public CustomUser getUser(String username) {
-		return sqlSession.selectOne("user.getUser" , username);
-	}
-
+	
 	public int update(CustomUser user) {
 		return sqlSession.update("user.update" , user);
 	}

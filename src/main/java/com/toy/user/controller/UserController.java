@@ -75,7 +75,7 @@ public class UserController {
 	 * 설 명  : 회원을 삭제하는 메소드
 	 */
 	@ResponseBody
-	@RequestMapping(value="user/delete/{username}" , method=RequestMethod.POST)
+	@RequestMapping(value="/user/delete/{username}" , method=RequestMethod.POST)
 	public int delete(@PathVariable String username) {
 		return userService.delete(username);
 	}

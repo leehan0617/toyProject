@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService{
 	 */
 	@Override
 	public CustomUser join(CustomUser user) {
+		logger.info("회원가입을 시작합니다. 비밀번호는 암호화 처리됩니다.");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
 		userDao.join(user);

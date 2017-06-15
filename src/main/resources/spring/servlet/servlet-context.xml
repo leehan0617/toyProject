@@ -21,7 +21,7 @@
  <mvc:resources location="/resources/" mapping="/resources/**"/>
  <mvc:resources location="/js/" mapping="/js/**" /> 
  <mvc:resources location="/css/" mapping="/css/**" />
-  <mvc:resources location="/img/" mapping="/favicon.ico" />
+ <mvc:resources location="/img/" mapping="/favicon.ico" />
  
  <context:component-scan base-package="com.toy">
 	<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
