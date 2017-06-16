@@ -67,61 +67,61 @@ public class MappingController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인페이지 이동 메소드
 	 */
-	@Secured("ROLE_ANONYMOUS")
-	@RequestMapping(value="/login")
-	public String login(@RequestParam(value="error" , required=false) String error ,
-			@RequestParam(value="logout" , required=false) String logout 
-			, Model model , HttpServletRequest request , HttpServletResponse response) {
-		logger.info("MappingController - login 메소드 접근");
-		
-		// 권한 확인을 할려면 이런식으로 해야함
-		Collection<? extends GrantedAuthority> list = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		Iterator<?> iter = list.iterator();
-		while(iter.hasNext()) {
-			logger.info("권한:  {}" , iter.next());
-		}
-		if(error != null) {
-			model.addAttribute("error" , error);
-		} else if (logout != null) {
-			model.addAttribute("logout" , logout);
-		}
-		
-		return "common/login";
-	}
+//	@Secured("ROLE_ANONYMOUS")
+//	@RequestMapping(value="/login")
+//	public String login(@RequestParam(value="error" , required=false) String error ,
+//			@RequestParam(value="logout" , required=false) String logout 
+//			, Model model , HttpServletRequest request , HttpServletResponse response) {
+//		logger.info("MappingController - login 메소드 접근");
+//		
+//		// 권한 확인을 할려면 이런식으로 해야함
+//		Collection<? extends GrantedAuthority> list = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+//		Iterator<?> iter = list.iterator();
+//		while(iter.hasNext()) {
+//			logger.info("권한:  {}" , iter.next());
+//		}
+//		if(error != null) {
+//			model.addAttribute("error" , error);
+//		} else if (logout != null) {
+//			model.addAttribute("logout" , logout);
+//		}
+//		
+//		return "common/login";
+//	}
 	
-	@Secured({"ROLE_HUMAN" , "ROLE_ADMIN"})
-	@RequestMapping(value="/loginSuccess")
-	public String loginSuccess(HttpSession session) {
-		logger.info("로그인 성공");
-		
-		Object userDto =SecurityContextHolder.getContext().getAuthentication().getDetails();
-		
-		// 권한 확인을 할려면 이런식으로 해야함
-		Authentication au = SecurityContextHolder.getContext().getAuthentication();
-		// 권한 리스트
-		Collection<? extends GrantedAuthority> list = au.getAuthorities();
-		// userId 
-		CustomUser user = (CustomUser) au.getPrincipal();
-		// pwd null 값을 return 한다.
-		String pwd = String.valueOf(au.getCredentials());
-		
-		Iterator<?> iter = list.iterator();
-		while(iter.hasNext()) {
-			logger.info("test {}" , iter.next());
-		}
-		
-		logger.info("loginSuccess {} , {}" , session.getId() , userDto.toString());
-		logger.info("login Info {} , {} " , user.getUsername() , user.getPassword());
-		if(userDto instanceof UserDetails) {
-			logger.info("test2 {} " , ((UserDetails) userDto).getUsername());
-		} else {
-			logger.info("test3 {} " , userDto.toString());
-			logger.info("test4 {}  , {} " , au.getName() , au.getCredentials());
-		}
-		
-		session.setAttribute("userLoginInfo", userDto);
-		return "common/loginSuccess";
-	}
+//	@Secured({"ROLE_HUMAN" , "ROLE_ADMIN"})
+//	@RequestMapping(value="/loginSuccess")
+//	public String loginSuccess(HttpSession session) {
+//		logger.info("로그인 성공");
+//		
+//		Object userDto =SecurityContextHolder.getContext().getAuthentication().getDetails();
+//		
+//		// 권한 확인을 할려면 이런식으로 해야함
+//		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+//		// 권한 리스트
+//		Collection<? extends GrantedAuthority> list = au.getAuthorities();
+//		// userId 
+//		CustomUser user = (CustomUser) au.getPrincipal();
+//		// pwd null 값을 return 한다.
+//		String pwd = String.valueOf(au.getCredentials());
+//		
+//		Iterator<?> iter = list.iterator();
+//		while(iter.hasNext()) {
+//			logger.info("test {}" , iter.next());
+//		}
+//		
+//		logger.info("loginSuccess {} , {}" , session.getId() , userDto.toString());
+//		logger.info("login Info {} , {} " , user.getUsername() , user.getPassword());
+//		if(userDto instanceof UserDetails) {
+//			logger.info("test2 {} " , ((UserDetails) userDto).getUsername());
+//		} else {
+//			logger.info("test3 {} " , userDto.toString());
+//			logger.info("test4 {}  , {} " , au.getName() , au.getCredentials());
+//		}
+//		
+//		session.setAttribute("userLoginInfo", userDto);
+//		return "common/loginSuccess";
+//	}
 	
 	/**
 	 * 작성일 : 2017. 3. 28.
