@@ -49,7 +49,39 @@ public class IssueServiceImpl implements IssueService{
 		return issueDao.selectIssueList(projectId);
 	}
 	
-	
+	/**
+	 * 작성일 : 2017.06.13
+	 * 메소드명 : insertIssue 
+	 * 작성자 : 송하람
+	 * 설명 : 프로젝트 이슈 생성
+	 *
+	 */
+	public void insertIssue(issueDto issueDto) {
+		issueDao.insertIssue(issueDto);
+	}
+
+	/**
+	 * 작성일 : 2017.06.15
+	 * 메소드명 : deleteIssue 
+	 * 작성자 : 송하람
+	 * 설명 : 프로젝트 이슈 삭제
+	 *
+	 */
+	public void deleteIssue(String issue_id) {
+		issueDao.deleteIssue(issue_id);
+		
+	}
+	/**
+	 * 작성일 : 2017.06.19
+	 * 메소드명 : changeIssueState 
+	 * 작성자 : 송하람
+	 * 설명 : 프로젝트 이슈 상태변경
+	 *
+	 */
+	public void changeIssueState(issueDto issueDto) {
+		issueDao.changeIssueState(issueDto);
+		
+	}
 	
 
 }

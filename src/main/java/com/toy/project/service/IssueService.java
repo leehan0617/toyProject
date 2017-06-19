@@ -14,5 +14,9 @@ public interface IssueService {
 	
 	public List<issueDto> selectIssueList (String projectId);
 	
-
+	public void insertIssue(issueDto issueDto);
+	
+	public void deleteIssue(String issue_id);
+	
+	public void changeIssueState(issueDto issueDto);
 }
