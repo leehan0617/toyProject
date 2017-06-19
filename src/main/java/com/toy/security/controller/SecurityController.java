@@ -1,15 +1,15 @@
 package com.toy.security.controller;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -17,10 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.toy.security.model.Authority;
 import com.toy.security.model.CustomUser;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * 작성일 : 2017. 6. 16.
@@ -37,12 +35,17 @@ public class SecurityController {
 	 * 작성자 : 이한빈
 	 * 설  명 : 로그인 페이지 이동 메소드
 	 */
-	@Secured("ROLE_ANONYMOUS")
 	@RequestMapping(value="/login")
 	public String login(@RequestParam(value="logout" , required=false) String logout , Model model) {
 		logger.info("/login 접근");
 		
-		if(logout != null) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if(principal instanceof CustomUser) {
+			CustomUser user = (CustomUser) principal;
+			logger.info("{} 계정은 자동로그인이 되었습니다. " , user.getUsername());
+			return "redirect:/loginSuccess";
+		} else if(logout != null) {
 			model.addAttribute("logout" , logout);
 		}
 		
@@ -60,7 +63,8 @@ public class SecurityController {
 		
 		// 권한 조회
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
-		Collection<? extends GrantedAuthority> list = au.getAuthorities();
+		@SuppressWarnings("unchecked")
+		Collection<Authority> list = (Collection<Authority>) au.getAuthorities();
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
 		Iterator<?> iter = list.iterator();
@@ -89,5 +93,16 @@ public class SecurityController {
 		}
 
 		return "redirect:/login";
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 19.
+	 * 작성자 : 이한빈
+	 * 설  명 : 권한없는 페이지 접속할 시 연결되는 페이지
+	 */
+	@RequestMapping(value="/denied")
+	public String denied(HttpServletRequest request , HttpServletResponse response 
+			, Model model , Authentication auth) {
+		return "error/denied";
 	}
 }
