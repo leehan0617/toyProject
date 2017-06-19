@@ -81,4 +81,24 @@ public interface ProjectService {
 	 */
 	public void insertProjectMember(ProjectDto projectDto) throws Exception;
 	
+	/**
+	 * 작성일 : 2017. 6 .16
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트  인원 리스트 가져오기
+	 */
+	public List<ProjectDto> getProjectMemberList(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 6 .19
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 멤버 정보 가져오기
+	 */
+	public ProjectDto getMemberInfo(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 6 .19
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 인원 상태코드 수정하기 
+	 */
+	public int updateProjectMember(ProjectDto projectDto);
 }

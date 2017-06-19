@@ -1,10 +1,14 @@
 package com.toy.project.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,6 +114,63 @@ public class ProjectRestController {
 		projectDto.setState_code("apply");//신청 코드 apply :신청
 		
 		projectService.insertProjectMember(projectDto);//프로젝트 신청하기(insert)
+		
+		return true;
+	}
+	/**
+	 * 작성일 : 2017. 6. 14.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 신청하기
+	 * @throws Throwable 
+	 */
+	@RequestMapping(value="/project/member/{projectId}" , method=RequestMethod.GET)
+	public List<ProjectDto> projectMemberList(@PathVariable int projectId) throws Throwable {
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+				
+		ProjectDto projectDto = new ProjectDto();
+		projectDto.setProject_id(projectId);
+		projectDto.setUser_id(user.getUsername());//mager_id 제외 (본인 제외)
+		
+		List<ProjectDto> mamberList = projectService.getProjectMemberList(projectDto);//프로젝트 멤버 리스트 가져오기
+		
+		return mamberList;
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 19.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 멤버 상세 조회
+	 */
+	@RequestMapping(value="/project/memberInfo" , method=RequestMethod.POST)
+	public ProjectDto projectMemberDetail(ProjectDto projectDto) {
+		
+		ProjectDto memberInfo = projectService.getMemberInfo(projectDto);
+		
+		return memberInfo;
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 19.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 멤버 승인하기(수락,거절).
+	 */
+	@RequestMapping(value="/project/approve" , method=RequestMethod.POST)
+	public boolean projectMemberApprove(ProjectDto projectDto) {
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		
+		projectDto.setMod_id(user.getUsername());//로그인 한 사람
+		
+		projectService.updateProjectMember(projectDto);
 		
 		return true;
 	}

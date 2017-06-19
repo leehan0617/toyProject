@@ -11,21 +11,36 @@
     <div id="layer2" class="pop-layer">
         <div class="pop-container">
             <div class="pop-conts">
-				<form method="POST" id = "memberApply">
-				<input type='hidden' id = 'project_id' name = 'project_id' value = "">
-					<table>
-						<tr>
-							<th>상세직무 설명 및 본인소개</th>
-						</tr>
-						<tr>
-							<td>
-								<textarea style="width: 100%" id= "depart_detail" name= "depart_detail"></textarea>
-							</td>
-						</tr>
-					</table>
-				</form>	
-				<input type="button" value="신청" onclick="project.projectApply();"/>
-                <input type="button"  onclick="project.applyClose()" value="Close" /><!-- 팝업 닫기 -->
+				<table>
+					<tr>
+						<th colspan="2">정보</th>
+					</tr>
+					<tr>
+						<td>
+							이름
+						</td>
+						<td id="name">
+							
+						</td>
+					</tr>
+					<tr>
+						<td>
+							부서
+						</td>
+						<td id="depart">
+							
+						</td>
+					</tr>
+					<tr>
+						<td>
+							자기소개
+						</td>
+						<td  id="depart_detail">
+							
+						</td>
+					</tr>
+				</table>
+                <input type="button"  onclick="project.infoDetailClose()" value="Close" /><!-- 팝업 닫기 -->
             </div>
         </div>
     </div>

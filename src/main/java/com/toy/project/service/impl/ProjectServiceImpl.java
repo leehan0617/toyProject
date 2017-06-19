@@ -206,5 +206,32 @@ public class ProjectServiceImpl implements ProjectService{
 	public void insertProjectMember(ProjectDto projectDto) throws Exception {
 		projectDao.insertProjectMember(projectDto);
 	}
+
+	/**
+	 * 작성일 : 2017. 6 .16
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트  사람리스트 가져오기
+	 */
+	public List<ProjectDto> getProjectMemberList(ProjectDto projectDto) {
+		return projectDao.getProjectMemberList(projectDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .19
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 멤버 정보 가져오기
+	 */
+	public ProjectDto getMemberInfo(ProjectDto projectDto) {
+		return projectDao.getMemberInfo(projectDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 6 .19
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 인원 상태코드 수정하기 
+	 */
+	public int updateProjectMember(ProjectDto projectDto) {
+		return projectDao.updateProjectMember(projectDto);
+	}
 	
 }

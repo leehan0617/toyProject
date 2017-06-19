@@ -51,6 +51,9 @@ public class ProjectDto implements Serializable{
 	//사용자 id
 	private String user_id;
 	
+	//사용자 이름 
+	private String user_name;
+	
 	//수정한 id
 	private String mod_id;
 		
@@ -182,5 +185,11 @@ public class ProjectDto implements Serializable{
 	}
 	public void setApplyyn(String applyyn) {
 		this.applyyn = applyyn;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 }

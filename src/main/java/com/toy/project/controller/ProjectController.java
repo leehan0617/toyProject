@@ -158,4 +158,31 @@ public class ProjectController {
 		return "project/projectModify";
 	}
 
+	/**
+	 * 작성일 : 2017. 6. 16.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 리스트 별 신청한 사람 인원.
+	 */
+	@RequestMapping(value="/project/member" , method=RequestMethod.GET)
+	public String projectMember(Model model) {
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		
+		ProjectDto projectDto = new ProjectDto();
+		
+		projectDto.setUser_id(user.getUsername());//본인이 신청한 프로젝트 구분하기
+		projectDto.setManager_id(user.getUsername());// 본인 담당 프로젝트 가져오기 
+		
+		List<ProjectDto> projectList = projectService.getProjectList(projectDto);
+		
+		model.addAttribute("projectList", projectList);
+		model.addAttribute("user", user);
+		
+		return "project/projectMember";
+	}
+	
 }

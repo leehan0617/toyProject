@@ -118,4 +118,32 @@ public class ProjectDao {
 	public int updateProject(ProjectDto projectDto) {
 		return sqlSession.update("project.updateProject",projectDto);
 	}
+	
+	/**
+	 * 작성일 : 2017. 6 .16
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트  직무 리스트 가져오기
+	 */
+	public List<ProjectDto> getProjectMemberList(ProjectDto projectDto) {
+		return sqlSession.selectList("project.getProjectMemberList",projectDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 6 .16
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 인원 상태코드 수정하기 
+	 */
+	public int updateProjectMember(ProjectDto projectDto) {
+		return sqlSession.update("project.updateProjectMember",projectDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 6 .19
+	 * 작성자 : 김민지
+	 * 설  명 : 프로잭트 멤버 정보 가져오기
+	 */
+	public ProjectDto getMemberInfo(ProjectDto projectDto) {
+		return sqlSession.selectOne("project.getMemberInfo",projectDto);
+	}
+	
 }

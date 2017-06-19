@@ -70,7 +70,7 @@
 		</ul>
 	</c:forEach>
 </div>
-<!-- //프로젝트 리스트 불러오기 request-promise-->
+<!-- //프로젝트 리스트 불러오기-->
 
 <div style="display: inline;">
 	<c:forEach var="i" items="${user.getAuthorities()}" begin="0" end="${user.getAuthorities().size()}">

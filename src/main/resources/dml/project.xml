@@ -168,4 +168,41 @@
 			,mod_date  = sysdate()
 		where project_id = #{project_id}
 	</update>
+	<!-- 20170616 김민지 프로젝트 인원 리스트 가져오기 (본인 제외-담당자)-->
+	<select id="getProjectMemberList" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
+		select member.project_id 
+			   ,member.user_id 
+			   ,(select user_name from user where user.user_id = member.user_id) as user_name
+			   ,member.state_code 
+			   ,(select state_name from state where state.state_code = member.state_code) as state_name
+			   ,member.depart_detail
+		from  projectmember member
+		where member.project_id = #{project_id}
+		and member.user_id != #{user_id}
+		order by user_name 
+	</select>
+	
+	<!-- 20170616 프로젝트 맴버 상태코드 update -->
+	<update id="updateProjectMember" parameterType="com.toy.project.model.ProjectDto">
+		update projectmember
+		set
+			state_code = #{state_code}	
+			,mod_id = #{mod_id}	
+			,mod_date  = sysdate()
+		where project_id = #{project_id}
+			 and user_id = #{user_id}
+	</update>
+	<!-- 20170619 프로젝트 맴버 정보 가져오기 -->
+	<select id = "getMemberInfo" parameterType="com.toy.project.model.ProjectDto" resultType="com.toy.project.model.ProjectDto">
+	   select member.project_id 
+			   ,member.user_id 
+			   ,user.user_name
+			   ,user.depart_code
+			   ,(select depart_name from department where depart_code = user.depart_code) as depart_name
+			   ,member.depart_detail
+		from  projectmember member
+		left join user user on user.user_id = member.user_id
+		where member.project_id = #{project_id}
+		and member.user_id = #{user_id}
+	</select>
 </mapper>
