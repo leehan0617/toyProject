@@ -6,11 +6,9 @@
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
  	</definition>
   
-  	<definition name="withLeft" template="/WEB-INF/views/layout/layout_left.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+  	<definition name="withLeft" extends="default">
 		<put-attribute name="left" value="/WEB-INF/views/layout/left.jsp"/>
 		<put-attribute name="body" value=""/>
-		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
  	</definition>
 
 	<definition name="common/*" extends="default">
