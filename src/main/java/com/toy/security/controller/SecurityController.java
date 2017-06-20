@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -104,5 +105,17 @@ public class SecurityController {
 	public String denied(HttpServletRequest request , HttpServletResponse response 
 			, Model model , Authentication auth) {
 		return "error/denied";
+	}
+	
+	/**
+	 * 작성일 : 2017. 6. 20.
+	 * 작성자 : 이한빈
+	 * 설  명 : 에러 페이지 발생시 연결하는 메소드
+	 */
+	@RequestMapping(value="/error/{error}")
+	public String error(@PathVariable String error , Model model) {
+		logger.info("error 페이지 접근 {}", error);
+		model.addAttribute("error" , error);
+		return "error/error";
 	}
 }
