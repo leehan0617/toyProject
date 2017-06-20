@@ -15,7 +15,10 @@
 		<div>
 			<span>
 				<sec:authentication property='principal.username'/>님
-				<a href="${root}/user/<sec:authentication property='principal.username'/>">정보수정</a>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<a href="${root}/admin">관리자 페이지</a>
+				</sec:authorize>
+				<a href="${root}/user/<sec:authentication property='principal.username'/>">개인정보수정</a>
 			</span>
 			<form action="${root}/logout" method="POST">
 				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

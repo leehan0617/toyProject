@@ -48,13 +48,24 @@ public class UserController {
 	}
 	
 	/**
+	 * 작성일 : 2017. 6. 20.
+	 * 작성자 : 이한빈
+	 * 설  명 : 개인정보 페이지로 이동하는 메소드
+	 */
+	@PreAuthorize("(#username == principal.Username) or hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/user/{username}" , method=RequestMethod.GET)
+	public String userPage(@PathVariable String username) {
+		return "user/user";
+	}
+	
+	/**
 	 * 작성일 : 2017. 3. 28.
 	 * 작성자 : 이한빈 
 	 * 설 명  : 회원 정보를 가져오는 메소드
 	 */
 	@PreAuthorize("(#username == principal.Username) or hasRole('ROLE_ADMIN')")
 	@ResponseBody
-	@RequestMapping(value="/user/{username}" , method=RequestMethod.GET)
+	@RequestMapping(value="/user/get/{username}" , method=RequestMethod.GET)
 	public CustomUser getUser(@PathVariable String username) {
 		return userService.getUser(username);
 	}
