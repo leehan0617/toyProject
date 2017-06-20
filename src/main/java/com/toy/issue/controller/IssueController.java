@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.toy.issue.model.issueDto;
+import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.IssueService;
@@ -56,7 +56,7 @@ public class IssueController {
 		mav.setViewName("issue/issueList");
 		
 		//프로젝트에 해당하는 이슈리스트가져오기
-		List<issueDto> issueList = issueService.selectIssueList(projectId);
+		List<IssueDto> issueList = issueService.selectIssueList(projectId);
 		mav.addObject("issueList", issueList);
 		
 		// 로그인정보를 가져온다.
@@ -94,7 +94,7 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value={"/issue/changeIssue"}, method=RequestMethod.POST)
-	public void changeIssue(HttpServletRequest request, issueDto dto) {
+	public void changeIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.insertIssue(dto);
 	}
 	

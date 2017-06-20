@@ -1,6 +1,6 @@
 package com.toy.issue.model;
 
-public class issueDto {
+public class IssueDto {
 	private String issue_id;
 	private String issue_name;
 	private String project_id;

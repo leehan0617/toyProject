@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.toy.issue.model.issueDto;
+import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.IssueService;
@@ -45,7 +45,7 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 이슈  가져오기
 	 *
 	 */
-	public List<issueDto> selectIssueList(String projectId) {
+	public List<IssueDto> selectIssueList(String projectId) {
 		return issueDao.selectIssueList(projectId);
 	}
 	
@@ -56,7 +56,7 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 프로젝트 이슈 생성
 	 *
 	 */
-	public void insertIssue(issueDto issueDto) {
+	public void insertIssue(IssueDto issueDto) {
 		issueDao.insertIssue(issueDto);
 	}
 
@@ -78,7 +78,7 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 프로젝트 이슈 상태변경
 	 *
 	 */
-	public void changeIssueState(issueDto issueDto) {
+	public void changeIssueState(IssueDto issueDto) {
 		issueDao.changeIssueState(issueDto);
 		
 	}

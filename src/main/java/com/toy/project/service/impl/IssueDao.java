@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.toy.issue.model.issueDto;
+import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.project.model.ProjectDto;
 
@@ -45,7 +45,7 @@ public class IssueDao {
 	 * 설명 : 프로젝트 이슈  가져오기.
 	 *
 	 */
-	public List<issueDto> selectIssueList (String projectId) {
+	public List<IssueDto> selectIssueList (String projectId) {
 		return sqlSession.selectList("issue.selectIssueList", projectId);
 		
 	}
@@ -56,7 +56,7 @@ public class IssueDao {
 	 * 설명 : 프로젝트 이슈 생성
 	 *
 	 */
-	public void insertIssue(issueDto issueDto) {
+	public void insertIssue(IssueDto issueDto) {
 		sqlSession.insert("issue.insertIssue", issueDto);
 	}
 	
@@ -78,7 +78,7 @@ public class IssueDao {
 	 * 설명 : 프로젝트 이슈 상태변경
 	 *
 	 */
-	public void changeIssueState(issueDto issueDto) {
+	public void changeIssueState(IssueDto issueDto) {
 		sqlSession.insert("issue.changeIssueState", issueDto);
 	}
 	
