@@ -7,7 +7,7 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
   context: __dirname + '/webapp/js',
-  entry: {main:'./project'},
+  entry: {main:'./project',bootstrap:'./bootstrap.js'},
   output: {
     path: __dirname + '/webapp/js/dist',
     filename: '[name].js'
@@ -33,16 +33,24 @@ module.exports = {
 		              'es2015'
 		            ]
 		          }
+		  },
+		  {    //웹포트 확장자(eot,woff,svg,ttf) 는 기본 mime type 에 등록 되어 있지 않기 때문에 설정을 추가 해줘야한다.
+			  test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+		      loader: 'url-loader',
+		      options: {
+		        name: '[name].[ext]',//[name]또는 [hash] 로 파일 명 지정 ,[ext]는 현재 확장자 그대로 하겠다는 뜻
+		        limit: 10000,//limit 보다 작은 파일은 base64(data-uri)로 인코딩 해서 인라인화 한다., limit보다 큰 파일은 file-loader 가 자동으로 처리 (폰트 파일을 output.publicpath 에 복사하고, 해당 @import 문이 이 복사된 파일을 가르키도록 대체)
+		      }
 		  }
 	    ]
   },
   plugins: [
-            new webpack.optimize.UglifyJsPlugin({
-            	compress: {
-            		warnings: false
-            		, drop_console: true
-            	}
-            }),
+//            new webpack.optimize.UglifyJsPlugin({
+//            	compress: {
+//            		warnings: false
+//            		 drop_console: true
+//            	}
+//            }),
 			extractSass
           ]
 };

@@ -7,14 +7,14 @@
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.js" async defer></script>
 <script type="text/javascript" src="${root}/js/project/project.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="${root}/js/dist/bootstrap.css" />
 <input type="hidden" name="csrf-token" value="${_csrf.token}"/>
 <input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 <input type="hidden" id="user_id" value="${user.getUsername()}">
 <input type = 'hidden' id = 'rootValue'  value = "${root}">
-
-<div style="display: inline;">
+<div style="display: inline;"  class="container">
 	<!-- 검색조건 테이블 -->
-	<table>
+	<table class="table">
 		<thead>
 			<tr>
 				<th>검색조건</th>

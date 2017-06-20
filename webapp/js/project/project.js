@@ -68,6 +68,13 @@ let project = {
 			document.getElementById("project_id").value = projectId ;//프로젝트 ID 셋팅
 			document.getElementById("depart_detail").value = "";//상세직무 설명 초기화
 		},
+		//신청하기 팝업 열기
+		applyOpen : (projectId) => {
+			document.getElementById("registDiv").style.display = "inline";
+			document.getElementById("layer2").style.top = (window.event.clientX)+"px";
+			document.getElementById("project_id").value = projectId ;//프로젝트 ID 셋팅
+			document.getElementById("depart_detail").value = "";//상세직무 설명 초기화
+		},
 		//신청하기 팝업 닫기 
 		applyClose : () => {
 			document.getElementById("registDiv").style.display = "none";
