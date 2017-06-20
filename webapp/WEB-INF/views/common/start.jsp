@@ -10,8 +10,5 @@
 	<div>
 	이곳은 최초 실행 페이지 입니다.
 	</div>
-	<div>
-	<a href="/login">로그인 이동</a>
-	</div>
 </body>
 </html>

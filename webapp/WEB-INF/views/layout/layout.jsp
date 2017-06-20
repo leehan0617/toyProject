@@ -10,23 +10,9 @@
 
 <body>
 	<div id="wrap">
-		<div>
-			<div>
-				<div>
-					<tiles:insertAttribute name="header" />
-				</div>
-			</div>
-			<div>
-				<div>
-					<tiles:insertAttribute name="body" />
-				</div>
-			</div>
-			<div>
-				<div>
-					<tiles:insertAttribute name="footer" />
-				</div>
-			</div>
-		</div>
+		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="body" />
+		<tiles:insertAttribute name="footer" />
 	</div>
 </body>
 </html>
