@@ -1,5 +1,7 @@
 package com.toy.issue.model;
 
+import java.util.List;
+
 public class IssueDto {
 	private String issue_id;
 	private String issue_name;
@@ -10,8 +12,28 @@ public class IssueDto {
 	private String issue_end_date;
 	private String state_code;
 	private String state_name;
+	private String user_id;
+	private String type;
+	private List<String> userList;
 	
-	
+	public List<String> getUserList() {
+		return userList;
+	}
+	public void setUserList(List<String> userList) {
+		this.userList = userList;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 	public String getState_name() {
 		return state_name;
 	}

@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
@@ -56,8 +59,26 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 프로젝트 이슈 생성
 	 *
 	 */
-	public void insertIssue(IssueDto issueDto) {
-		issueDao.insertIssue(issueDto);
+	@Transactional(rollbackFor=Exception.class)
+	public void insertIssue(IssueDto issueDto) throws Exception{
+		try {
+			issueDao.insertIssue(issueDto);
+			this.insertIssueHistory(issueDto);
+			
+			List<String> userList = issueDto.getUserList();
+			for (int i = 0; i < userList.size(); i++) {
+				IssueDto memberDto = new IssueDto();
+				memberDto.setIssue_id(issueDto.getIssue_id());
+				memberDto.setProject_id(issueDto.getProject_id());
+				memberDto.setUser_id(userList.get(i));
+				issueDao.insertIssueMember(memberDto);
+			}
+		}
+		catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+		
+		
 	}
 
 	/**
@@ -67,9 +88,10 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 프로젝트 이슈 삭제
 	 *
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteIssue(String issue_id) {
 		issueDao.deleteIssue(issue_id);
-		
+		issueDao.deleteIssueMember(issue_id);
 	}
 	/**
 	 * 작성일 : 2017.06.19
@@ -78,8 +100,9 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 프로젝트 이슈 상태변경
 	 *
 	 */
-	public void changeIssueState(IssueDto issueDto) {
-		issueDao.changeIssueState(issueDto);
+	public void insertIssueHistory(IssueDto issueDto) {
+		System.out.println("-------------------------------------2");
+		issueDao.insertIssueHistory(issueDto);
 		
 	}
 	

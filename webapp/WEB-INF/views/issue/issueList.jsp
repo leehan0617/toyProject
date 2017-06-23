@@ -35,14 +35,16 @@
 <input type = "hidden" id = "projectId" name = "project_id" value="${projectId}"/>
 이슈제목 : <input id = 'issueTitle' name = 'issue_name' type = 'text'><br>
 참여자 : 
-<c:set var ="myId" value="${myInfo.user_id}"/>
+<c:set var ="myId" value='${myInfo.username}'/>
 <input type="hidden" id = "reg_id" name = "reg_id" value = "${myId}">
 <c:forEach var = "member" items = "${memberList}" begin = "0" end = "${memberList.size()}">
 	<c:if test="${member.user_id != myId}">
-		<input type="checkbox" name="member_name" value="${member.user_id}">${member.user_id}
+		<input type="checkbox" name="userList" value="${member.user_id}">${member.user_id}
 	</c:if>
 </c:forEach>
 <br>
+시작날짜:<input type = "date" id = "issue_start_date" name = "issue_state_date">
+종료날짜:<input type = "date" id = "issue_end_date" name = "issue_end_date"><br>
 상세내용 :<br>
 <textarea id = 'issueDetail' name = "issue_detail"></textarea><br>
 <input type = 'button' value = "생성" onclick = "issue.issueSave(${projectId})">

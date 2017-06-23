@@ -44,10 +44,27 @@ public class IssueController {
 	 * 작성일 : 2017. 05.24
 	 * 작성자 : 송하람
 	 * 설  명 : 이슈페이지
+	 * @throws Exception 
 	 */
-	@RequestMapping(value="/issue/add" , method=RequestMethod.GET) 
-	public String addIssue() {
-		return "issue/addIssue";
+	@RequestMapping(value="/issue/add" , method=RequestMethod.POST) 
+	public String addIssue(IssueDto dto){
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// 나를 포함하여 userlist에 넣어줌
+		CustomUser user = (CustomUser) au.getPrincipal();
+		
+		List<String> userList = dto.getUserList();
+		userList.add(user.getUsername());
+		dto.setReg_id(user.getUsername());
+		dto.setUserList(userList);
+		
+		try {
+			issueService.insertIssue(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:/project/";
 	}
 	
 	@RequestMapping(value={"/issue/detail/{projectId}"} , method=RequestMethod.GET)
@@ -59,14 +76,14 @@ public class IssueController {
 		List<IssueDto> issueList = issueService.selectIssueList(projectId);
 		mav.addObject("issueList", issueList);
 		
+		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(projectId);
+		
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
 		
 		// userId 
 		CustomUser user = (CustomUser) au.getPrincipal();
 		mav.addObject("myInfo", user);
-		
-		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(projectId);
 		mav.addObject("memberList", memberList);
 		return mav;
 	}
@@ -82,20 +99,21 @@ public class IssueController {
 		
 		List<ProjectDto> projectList = issueService.selectAllProjectList(user.getUsername());
 		mav.addObject("projectList", projectList);
-		mav.addObject("myInfo", user);
 		
 		mav.setViewName("issue/projectList");
 		return mav;
 	}
 	
-	@RequestMapping(value={"/issue/delete/{issue_id}"}, method=RequestMethod.GET)
-	public void deleteIssue(HttpServletRequest request, @PathVariable String issue_id) {
-		issueService.deleteIssue(issue_id);
+	@RequestMapping(value={"/issue/delete"}, method=RequestMethod.POST)
+	public String deleteIssue(HttpServletRequest request, IssueDto issuedto) {
+		issueService.deleteIssue(issuedto.getIssue_id());
+		return "redirect:/issue/detail/"+issuedto.getProject_id();
 	}
 	
 	@RequestMapping(value={"/issue/changeIssue"}, method=RequestMethod.POST)
-	public void changeIssue(HttpServletRequest request, IssueDto dto) {
-		issueService.insertIssue(dto);
+	public String changeIssue(HttpServletRequest request, IssueDto dto) {
+		issueService.insertIssueHistory(dto);
+		return "redirect:/issue/detail/"+dto.getProject_id();
 	}
 	
 	

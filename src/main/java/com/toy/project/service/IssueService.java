@@ -1,5 +1,6 @@
 package com.toy.project.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.toy.issue.model.IssueDto;
@@ -14,9 +15,9 @@ public interface IssueService {
 	
 	public List<IssueDto> selectIssueList (String projectId);
 	
-	public void insertIssue(IssueDto issueDto);
+	public void insertIssue(IssueDto issueDto) throws Exception;
 	
 	public void deleteIssue(String issue_id);
 	
-	public void changeIssueState(IssueDto issueDto);
+	public void insertIssueHistory(IssueDto issueDto);
 }

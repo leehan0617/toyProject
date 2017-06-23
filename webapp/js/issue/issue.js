@@ -67,32 +67,42 @@ let issue = {
 			popup.style.display = 'none';
 		},
 		deleteStart:(project_id) => {
-			issue.deleteIssue().then(result => {
-				alert("성공");
-				  
+			
+			issue.deleteIssue(project_id).then(result => {
+				console.log(project_id);
 				let rootValue = document.getElementById("rootValue").value;
 				location.href = rootValue + '/issue/detail/' + project_id;
+				alert("성공");
+				  
+				
 			}).catch(err => {
 				alert("오류발생")
 			});
 		},
-		deleteIssue:() => {
+		deleteIssue:(project_id) => {
 			const csrfToken = document.querySelector("input[name=csrf_token]").value;
 			const header = document.querySelector("input[name=_csrf_header]").value;
 			
 			let uri = "";
 			let issue_id = document.getElementById("issue_id").value;
 			
+			let params = {"issue_id":issue_id, "project_id":project_id};
+
+			let esc = encodeURIComponent
+			let query = Object.keys(params)
+			             .map(k => esc(k) + '=' + esc(params[k]))
+			             .join('&');
             
 			return new Promise((resolve, reject) => {
 				let rootValue = document.getElementById("rootValue").value;
 				let req = new XMLHttpRequest();
-				let DataToSend = rootValue+"/issue/delete/" + issue_id;
+				let DataToSend = rootValue+"/issue/delete";
 				
-				req.open('GET',DataToSend,true);
+				
+				req.open('POST',DataToSend,true);
 				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 				req.setRequestHeader(header, csrfToken);
-				req.send();
+				req.send(query);
 				
 				req.onload = () =>{//로드 했을떄 
 					 if(req.status == 200){
@@ -179,6 +189,7 @@ let issue = {
 
 let detailIssue = {
 		selectIssueDetail : (issue_id, issue_name, issue_detail, state_name, start, end, reg_id, state_code) => {
+			console.log("들어옴" + issue_id);
 			let popup = document.getElementById("issueDetailPopup");
 			popup.style.display = 'block';
 			
