@@ -47,14 +47,12 @@ CREATE TABLE acthistory (
 CREATE TABLE project (
 	project_id         VARCHAR(20)   NOT NULL, -- 프로젝트아이디
 	project_name         VARCHAR(200)  NULL,     -- 프로젝트명
-	project_start_date DATE          NULL,     -- 시작날짜
-	project_end_date   DATE          NULL,     -- 끝날짜
 	project_detail     VARCHAR(2000) NULL,     -- 상세설명
 	manager_id              VARCHAR(50)   NULL,     -- 회원아이디(PM)
-	state_code         VARCHAR(20)   NULL,     -- 상태코드(프로젝트)
 	reg_date           DATE          NULL,     -- 등록일
 	mod_date           DATE          NULL,     -- 수정일
-	mod_id             VARCHAR(50)     NULL      -- 수정아이디
+	mod_id             VARCHAR(50)     NULL,      -- 수정아이디
+	his_date           DATETIME          NULL     -- history 키
 );
 
 -- 프로젝트참여자
@@ -89,13 +87,11 @@ CREATE TABLE issue (
 	project_id       VARCHAR(20)   NOT NULL, -- 프로젝트아이디
 	issue_name       VARCHAR(200)  NULL,     -- 일감이름
 	issue_detail     VARCHAR(2000) NULL,     -- 일감상세정보
-	issue_start_date DATE          NULL,     -- 시작날짜
-	issue_end_date   DATE          NULL,     -- 종료날짜
-	state_code       VARCHAR(20)   NULL,     -- 상태코드(일감)
 	reg_date           DATE          NULL,     -- 등록일
 	reg_id           VARCHAR(50)   NULL,     -- 등록아이디
 	mod_date           DATE          NULL,     -- 수정일
-	mod_id           VARCHAR(50)   NULL      -- 수정아이디
+	mod_id           VARCHAR(50)   NULL ,     -- 수정아이디
+	his_date         DATETIME      NULL     -- history 키
 );
 
 -- 활동코드
@@ -107,12 +103,54 @@ CREATE TABLE act (
 -- 상태테이블
 CREATE TABLE state (
 	state_code VARCHAR(20)  NOT NULL, -- 상태코드
+	type       VARCHAR(20)  NOT NULL, -- 유형
 	state_name VARCHAR(200) NULL      -- 상태명
 );
+
 
 -- 포지션테이블
 CREATE TABLE projectdepartment (
 	project_id  VARCHAR(20) NOT NULL, -- 프로젝트아이디
 	depart_code VARCHAR(20) NOT NULL,  -- 직무코드
 	usercount   NUMERIC  NULL,     -- 인원
+);
+
+-- 프로젝트 기간
+CREATE TABLE projecthistory (
+	project_id VARCHAR(20) NULL, -- 프로젝트아이디
+	start_date DATETIME        NULL, -- 시작날짜
+	end_date   DATETIME        NULL, -- 끝날짜
+	state_code VARCHAR(20) NULL, -- 상태코드
+	type      VARCHAR(20) NULL, -- 유형
+	reg_date   DATETIME        NULL, -- 등록일
+	reg_id     VARCHAR(20) NULL  -- 등록아이디
+);
+
+-- 이슈 기간
+CREATE TABLE issuehistory (
+	issue_id   NUMERIC     NULL, -- 일감아이디
+	project_id VARCHAR(20) NULL, -- 프로젝트아이디
+	start_date DATETIME        NULL, -- 시작날짜
+	end_date   DATETIME        NULL, -- 끝날짜
+	state_code VARCHAR(20) NULL, -- 상태코드
+	type       VARCHAR(20) NULL, -- 유형
+	reg_date   DATETIME        NULL, -- 등록일
+	reg_id     VARCHAR(20) NULL  -- 등록아이디
+);
+
+-- 프로젝트모집기간
+CREATE TABLE projectrecurithistory (
+	project_id VARCHAR(20) NULL, -- 프로젝트아이디
+	start_date DATETIME        NULL, -- 시작날짜
+	end_date   DATETIME        NULL, -- 끝날짜
+	state_code VARCHAR(20) NULL, -- 상태코드
+	type      VARCHAR(20) NULL, -- 유형
+	reg_date   DATETIME        NULL, -- 등록일
+	reg_id     VARCHAR(20) NULL  -- 등록아이디
+);
+-- 이슈 멤버
+CREATE TABLE issuemember (
+	project_id VARCHAR(20) NOT NULL, -- 프로젝트아이디
+	issue_id   NUMERIC     NOT NULL, -- 일감아이디
+	user_id   VARCHAR(50) NOT NULL  -- 회원아이디
 );

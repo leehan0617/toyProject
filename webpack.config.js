@@ -53,8 +53,6 @@ module.exports = {
 //            	}
 //            }),
 			extractSass,
-			new CleanWebpackPlugin([__dirname+'/webapp/js/dist'],{
-				  quiet: true,
-			})
+			new CleanWebpackPlugin([__dirname+'/webapp/js/dist'])
           ]
 };

@@ -16,16 +16,20 @@ insert into department (depart_code , depart_name)
 alter table project modify project_id int not null auto_increment;
 
 -- 상태코드
-insert into state (state_code , state_name)
-	values ('recruiting' , '모집중');
-insert into state (state_code , state_name)
-	values ('complete' , '모집완료');
-insert into state (state_code , state_name)
-	values ('accept' , '수락');
-insert into state (state_code , state_name)
-	values ('refuse' , '거절');
-insert into state (state_code , state_name)
-	values ('apply' , '신청');
+insert into state (state_code , state_name, type)
+	values ('recruiting' , '모집중' , 'recruit');
+insert into state (state_code , state_name ,type)
+	values ('complete' , '모집완료' , 'recruit');
+insert into state (state_code , state_name ,type)
+	values ('accept' , '수락' , 'apply');
+insert into state (state_code , state_name ,type)
+	values ('refuse' , '거절' ,'apply');
+insert into state (state_code , state_name ,type)
+	values ('apply' , '신청' ,'apply');
+insert into state (state_code , state_name ,type)
+	values ('start' , '시작' ,'project');
+insert into state (state_code , state_name ,type)
+values ('end' , '종료' ,'project');
 	
 -- 테이블 한글 설정 mysql
 ALTER TABLE state CHARSET utf8 ,CHANGE state_name state_name varchar(200) character set utf8;
