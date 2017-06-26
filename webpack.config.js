@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require('webpack');
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 const extractSass = new ExtractTextPlugin({
     filename: "[name].css"
@@ -51,6 +52,9 @@ module.exports = {
 //            		 drop_console: true
 //            	}
 //            }),
-			extractSass
+			extractSass,
+			new CleanWebpackPlugin([__dirname+'/webapp/js/dist'],{
+				  quiet: true,
+			})
           ]
 };
