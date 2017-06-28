@@ -3,13 +3,104 @@
  * 설명 : issue 관련 js파일
  * 
  */
-
-
+		
+	
+document.addEventListener("DOMContentLoaded",function(){
+	let selectState = document.getElementById("nowSt").value;
+	console.log(selectState);
+	document.getElementById("stateSearch").value=selectState;
+});
 let issue = {
+		//이슈검색
+		issueSearch:(project_id) => {
+			let selectState = document.getElementById("stateSearch").options[document.getElementById("stateSearch").selectedIndex].value;
+			let rootValue = document.getElementById("rootValue").value;
+			
+			location.href = rootValue + '/issue/search?project_id=' + project_id + '&state_code=' + selectState;
+	
+		},
+		//이슈 수정팝업 뜨게하기
+		addUpdateIssuePopup :() => {
+			document.getElementById("issuePopup").style.display = 'none';
+			document.getElementById("issueDetailPopup").style.display = 'none';
+			document.getElementById("issueUpdatePopUp").style.display = 'block';
+			
+			let issue_id = document.getElementById("issue_id").value;
+			
+			detailIssue.selectIssueInfo(issue_id).then(result => {
+				let stdate = JSON.parse(result).start_date.substring(0, 10);
+				let edate = JSON.parse(result).end_date.substring(0, 10);
+				
+				document.getElementById('updateIssueTitle').value=JSON.parse(result).issue_name;
+				document.getElementById('updateStartDate').value=stdate;
+				document.getElementById('updateEndDate').value=edate;
+				// 상세내용
+				document.getElementById('updateDetail').value=JSON.parse(result).issue_detail;
+				let checkList = document.getElementsByName('userList2');
+				
+				issue.issueBtnChange(JSON.parse(result).state_code);
+			}).catch(err => {
+				alert(err)
+			});
+		},
+		//이슈 수정하기
+		updateIssue:(project_id)=>{
+			issue.issueUpdate(project_id).then(result => {
+				alert("성공");
+				let rootValue = document.getElementById("rootValue").value;
+				location.href = rootValue + '/issue/detail/' + project_id;
+			}).catch(err => {
+				alert("오류발생")
+			});
+		},
+		//이슈 수정-promise
+		issueUpdate:(project_id)=>{
+			let elements = document.getElementById('updateIssueForm');
+			
+			var uri = "";
+            var argcount = 0;
+            for (i = 0 ; i <elements.length ;i++) {
+              if (argcount++) {
+                uri += '&';
+              }
+              uri += encodeURIComponent(elements[i].name) + '=' + encodeURIComponent(elements[i].value);
+           }
+            
+            uri += '&project_id=' + project_id;
+            
+			return new Promise((resolve, reject) => {
+				const csrfToken = document.querySelector("input[name=csrf_token]").value;
+				const header = document.querySelector("input[name=_csrf_header]").value;
+				
+				let rootValue = document.getElementById("rootValue").value;
+				let req = new XMLHttpRequest();
+				let DataToSend = rootValue+"/issue/update";
+				
+				req.open('POST',DataToSend,true);
+				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+				req.setRequestHeader(header, csrfToken);
+				req.send(uri);
+				
+				req.onload = () =>{//로드 했을떄 
+					 if(req.status == 200){
+							 resolve(req.responseText);
+					 }
+					 else {
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+			});
+		},
 		// 이슈 생성 팝업 뜨게하기
 		addIssuePopUp :(project_id) => {
 			let popup = document.getElementById("issuePopup");
 			popup.style.display = 'block';
+			
+			document.getElementById("issueDetailPopup").style.display = 'none';
 			
 			let root = document.getElementById("rootValue").value;
 		},
@@ -121,19 +212,9 @@ let issue = {
 		issueStateChange:()=> {
 			issue.issueChange().then(result => {
 				
+				let issue_id = document.getElementById("issue_id").value;
+				detailIssue.selectIssueDetail(issue_id);
 				alert("성공");
-				  
-				let now_state = document.getElementById("now_state");
-				
-				if (now_state == "issue-wait") {
-					document.getElementById("issueState").val("이슈시작");
-				}
-				else if (now_state == "issue-start" || now_state == "issue-restart"){
-					document.getElementById("issueState").val("이슈종료");
-				}
-				else if (now_state == "issue-end"){
-					document.getElementById("issueState").val("재시작");
-				}
 			}).catch(err => {
 				alert(err)
 			});
@@ -141,21 +222,26 @@ let issue = {
 		issueChange:()=>{
 			let nowState = document.getElementById("now_state").value;
 			let issue_id = document.getElementById("issue_id").value;
-			const csrfToken = document.querySelector("input[name=csrf_token]").value;
-			const header = document.querySelector("input[name=_csrf_header]").value;
 			let sendState = "";
-			if (nowState == "issue-wait") {
-				sendState = "issue-start";
+			if (nowState == "wait") {
+				sendState = "start";
 			}
-			else if (nowState == "issue-start" || now_state == "issue-restart"){
-				sendState = "issue-end";
+			else if (nowState == "start"){
+				sendState = "stop";
 			}
-			else if (nowState == "issue-end"){
-				sendState = "issue-restart";
+			else if (nowState == "stop"){
+				sendState = "restart";
+			}
+			else if (nowState == "restart"){
+				sendState = "end";
 			}
 			
-			let sendData = {"issue_id":issue_id, "sendState":sendState};
-			console.log(JSON.stringify(sendData));
+			let sendData = {"issue_id":issue_id, "state_code":sendState};
+			
+			let esc = encodeURIComponent
+			let query = Object.keys(sendData)
+			             .map(k => esc(k) + '=' + esc(sendData[k]))
+			             .join('&');
 
 			return new Promise((resolve, reject) => {
 				const csrfToken = document.querySelector("input[name=csrf_token]").value;
@@ -168,7 +254,7 @@ let issue = {
 				req.open('POST',DataToSend,true);
 				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 				req.setRequestHeader(header, csrfToken);
-				req.send(JSON.stringify(sendData));
+				req.send(query);
 				
 				req.onload = () =>{//로드 했을떄 
 					 if(req.status == 200){
@@ -184,22 +270,81 @@ let issue = {
 				 };
 			});
 			
+		},
+		issueBtnChange:(state_code)=>{
+			if (state_code == 'start') {
+				document.getElementById('issueStateBtn').value = '이슈중지';
+			}
+			else if (state_code == 'wait'){
+				document.getElementById('issueStateBtn').value = '이슈시작';
+			}
+			else if (state_code == 'stop'){
+				document.getElementById('issueStateBtn').value = '이슈재시작';
+			}
+			else if (state_code == 'restart'){
+				document.getElementById('issueStateBtn').value = '이슈종료';
+			}
 		}
 }
 
 let detailIssue = {
-		selectIssueDetail : (issue_id, issue_name, issue_detail, state_name, start, end, reg_id, state_code) => {
-			console.log("들어옴" + issue_id);
+		
+		//이슈 상세보기
+		selectIssueDetail : (issueId) => {
 			let popup = document.getElementById("issueDetailPopup");
 			popup.style.display = 'block';
 			
-			document.getElementById('issueState').innerHTML=state_name;
-			document.getElementById('issueInfo').innerHTML=issue_detail;
-			document.getElementById('issueRegId').innerHTML=reg_id;
-			document.getElementById('issueStartDate').innerHTML=start;
-			document.getElementById('issueEndDate').innerHTML=end;
-			document.getElementById('issue_id').value = issue_id;
-			document.getElementById('now_state').value = state_code;
+			document.getElementById("issuePopup").style.display = 'none';
+			
+			detailIssue.selectIssueInfo(issueId).then(result => {
+				let stdate = JSON.parse(result).start_date.substring(0, 10);
+				let edate = JSON.parse(result).end_date.substring(0, 10);
+				
+				document.getElementById('issueName').innerHTML=JSON.parse(result).issue_name;
+				document.getElementById('issueState').innerHTML=JSON.parse(result).state_name;
+				document.getElementById('issueInfo').innerHTML=JSON.parse(result).issue_detail;
+				document.getElementById('issueRegId').innerHTML=JSON.parse(result).reg_id;
+				document.getElementById('issueStartDate').innerHTML=stdate;
+				document.getElementById('issueEndDate').innerHTML=edate;
+				document.getElementById('issue_id').value = JSON.parse(result).issue_id;
+				document.getElementById('issue_id2').value = JSON.parse(result).issue_id;
+				document.getElementById('now_state').value = JSON.parse(result).state_code;
+				document.getElementById('now_state2').value = JSON.parse(result).state_code;
+				
+				issue.issueBtnChange(JSON.parse(result).state_code);
+			}).catch(err => {
+				alert(err)
+			});
+		},
+		selectIssueInfo : (issueId) => {
+
+			return new Promise((resolve, reject) => {
+				const csrfToken = document.querySelector("input[name=csrf_token]").value;
+				const header = document.querySelector("input[name=_csrf_header]").value;
+				
+				let rootValue = document.getElementById("rootValue").value;
+				let req = new XMLHttpRequest();
+				let DataToSend = rootValue+"/issue/getIssueInfo/" + issueId;
+				
+				req.open('GET',DataToSend,true);
+				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+				req.setRequestHeader(header, csrfToken);
+				req.send();
+				
+				req.onload = () =>{//로드 했을떄 
+					 if(req.status == 200){
+							 resolve(req.responseText);
+					 }
+					 else {
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+			});
+			
 		}
 }
 

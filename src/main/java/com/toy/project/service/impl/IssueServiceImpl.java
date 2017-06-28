@@ -1,12 +1,14 @@
 package com.toy.project.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
@@ -48,44 +50,47 @@ public class IssueServiceImpl implements IssueService{
 	 * 설명 : 이슈  가져오기
 	 *
 	 */
-	public List<IssueDto> selectIssueList(String projectId) {
-		return issueDao.selectIssueList(projectId);
+	public List<IssueDto> selectIssueList(IssueDto issueDto) {
+		return issueDao.selectIssueList(issueDto);
 	}
 	
 	/**
 	 * 작성일 : 2017.06.13
 	 * 메소드명 : insertIssue 
 	 * 작성자 : 송하람
-	 * 설명 : 프로젝트 이슈 생성
+	 * 설명 : 이슈 생성
 	 *
 	 */
 	@Transactional(rollbackFor=Exception.class)
-	public void insertIssue(IssueDto issueDto) throws Exception{
-		try {
+	public void insertIssue(IssueDto issueDto){
+			Calendar calendar = Calendar.getInstance();
+	        Date date = calendar.getTime();
+	        String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+	
+			issueDto.setHis_date(today);
 			issueDao.insertIssue(issueDto);
-			this.insertIssueHistory(issueDto);
+			
+			int issue_id = Integer.parseInt(ObjectUtils.toString(issueDto.getIssue_id()));
+			
+			issueDto.setIssue_num(issue_id);
+			issueDto.setProject_num(Integer.parseInt(ObjectUtils.toString(issueDto.getProject_id())));
+			issueDao.insertIssueHistory(issueDto);
 			
 			List<String> userList = issueDto.getUserList();
 			for (int i = 0; i < userList.size(); i++) {
 				IssueDto memberDto = new IssueDto();
-				memberDto.setIssue_id(issueDto.getIssue_id());
-				memberDto.setProject_id(issueDto.getProject_id());
+				memberDto.setIssue_num(issue_id);
+				memberDto.setProject_num(Integer.parseInt(ObjectUtils.toString(issueDto.getProject_id())));
 				memberDto.setUser_id(userList.get(i));
 				issueDao.insertIssueMember(memberDto);
 			}
-		}
-		catch (Exception e) {
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-		}
-		
-		
 	}
 
 	/**
 	 * 작성일 : 2017.06.15
 	 * 메소드명 : deleteIssue 
 	 * 작성자 : 송하람
-	 * 설명 : 프로젝트 이슈 삭제
+	 * 설명 :  이슈 삭제
 	 *
 	 */
 	@Transactional(rollbackFor = Exception.class)
@@ -97,14 +102,57 @@ public class IssueServiceImpl implements IssueService{
 	 * 작성일 : 2017.06.19
 	 * 메소드명 : changeIssueState 
 	 * 작성자 : 송하람
-	 * 설명 : 프로젝트 이슈 상태변경
+	 * 설명 :  이슈 상태변경
 	 *
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public void insertIssueHistory(IssueDto issueDto) {
-		System.out.println("-------------------------------------2");
-		issueDao.insertIssueHistory(issueDto);
+		String issue_id = issueDto.getIssue_id();
 		
+		IssueDto paramDto = issueDao.selectTopIssueHistory(issue_id);
+		
+		Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+		
+    	paramDto.setIssue_num(Integer.parseInt(issue_id));
+    	paramDto.setProject_num(Integer.parseInt(ObjectUtils.toString(paramDto.getProject_id())));
+        paramDto.setHis_date(today);
+        paramDto.setState_code(issueDto.getState_code());
+        
+        issueDao.updateIssueHisDate(paramDto);
+		issueDao.insertIssueHistory(paramDto);
+	}
+	/**
+	 * 작성일 : 2017.06.26
+	 * 메소드명 : selectIssueInfoByIssueId 
+	 * 작성자 : 송하람
+	 * 설명 : 이슈 정보가져오기
+	 *
+	 */
+	public IssueDto selectIssueInfoByIssueId(String issue_id) {
+		return issueDao.selectIssueInfoByIssueId(issue_id);
+	}
+	/**
+	 * 작성일 : 2017.06.27
+	 * 메소드명 : updateIssue
+	 * 작성자 : 송하람
+	 * 설명 : 이슈 수정
+	 *
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	public void updateIssue (IssueDto issueDto) {
+		Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String today = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+        issueDto.setHis_date(today);
+        issueDto.setIssue_num(Integer.parseInt(issueDto.getIssue_id()));
+        issueDto.setProject_num(Integer.parseInt(ObjectUtils.toString(issueDto.getProject_id())));
+        
+		issueDao.updateIssue(issueDto);
+		issueDao.insertIssueHistory(issueDto);
 	}
 	
+
 
 }

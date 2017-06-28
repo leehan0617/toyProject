@@ -43,7 +43,7 @@ public class IssueController {
 	/**
 	 * 작성일 : 2017. 05.24
 	 * 작성자 : 송하람
-	 * 설  명 : 이슈페이지
+	 * 설  명 : 이슈 생성
 	 * @throws Exception 
 	 */
 	@RequestMapping(value="/issue/add" , method=RequestMethod.POST) 
@@ -57,23 +57,29 @@ public class IssueController {
 		List<String> userList = dto.getUserList();
 		userList.add(user.getUsername());
 		dto.setReg_id(user.getUsername());
+		dto.setState_code("wait");
+		dto.setType("issue");
 		dto.setUserList(userList);
 		
-		try {
-			issueService.insertIssue(dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		issueService.insertIssue(dto);
 		return "redirect:/project/";
 	}
-	
+	/**
+	 * 작성일 :  2017. 06. 15
+	 * 작성자 : 송하람
+	 * 설  명 : 이슈 상세보기
+	 * @throws Exception 
+	 */
 	@RequestMapping(value={"/issue/detail/{projectId}"} , method=RequestMethod.GET)
 	public ModelAndView showIssueList(@PathVariable String projectId) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("issue/issueList");
 		
+		IssueDto issuedto = new IssueDto();
+		issuedto.setProject_id(projectId);
+		
 		//프로젝트에 해당하는 이슈리스트가져오기
-		List<IssueDto> issueList = issueService.selectIssueList(projectId);
+		List<IssueDto> issueList = issueService.selectIssueList(issuedto);
 		mav.addObject("issueList", issueList);
 		
 		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(projectId);
@@ -85,9 +91,15 @@ public class IssueController {
 		CustomUser user = (CustomUser) au.getPrincipal();
 		mav.addObject("myInfo", user);
 		mav.addObject("memberList", memberList);
+		mav.addObject("state_code", "all");
 		return mav;
 	}
-	
+	/**
+	 * 작성일 : 2017. 06. 15
+	 * 작성자 : 송하람
+	 * 설  명 : 프로젝트 리스트 가져오기
+	 * @throws Exception 
+	 */
 	@RequestMapping(value={"/issue/projectlist"} , method=RequestMethod.GET)
 	public ModelAndView showProjectList(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -103,19 +115,69 @@ public class IssueController {
 		mav.setViewName("issue/projectList");
 		return mav;
 	}
-	
+	/**
+	 * 작성일 : 2017. 06. 15
+	 * 작성자 : 송하람
+	 * 설  명 : 이슈 삭제
+	 * @throws Exception 
+	 */
 	@RequestMapping(value={"/issue/delete"}, method=RequestMethod.POST)
 	public String deleteIssue(HttpServletRequest request, IssueDto issuedto) {
 		issueService.deleteIssue(issuedto.getIssue_id());
 		return "redirect:/issue/detail/"+issuedto.getProject_id();
 	}
 	
+	/**
+	 * 작성일 : 2017. 06. 15
+	 * 작성자 : 송하람
+	 * 설  명 : 이슈상태변경
+	 * @throws Exception 
+	 */
 	@RequestMapping(value={"/issue/changeIssue"}, method=RequestMethod.POST)
 	public String changeIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.insertIssueHistory(dto);
 		return "redirect:/issue/detail/"+dto.getProject_id();
 	}
 	
+	/**
+	 * 작성일 : 2017. 06. 27
+	 * 작성자 : 송하람
+	 * 설  명 : 이슈 update
+	 * @throws Exception 
+	 */
+	@RequestMapping(value={"/issue/update"}, method=RequestMethod.POST)
+	public String updateIssue(HttpServletRequest request, IssueDto dto) {
+		issueService.updateIssue(dto);
+		return "redirect:/issue/detail/"+dto.getProject_id();
+	}
+	
+	/**
+	 * 작성일 : 2017. 06. 27
+	 * 작성자 : 송하람
+	 * 설  명 : 이슈 검색
+	 */
+	@RequestMapping(value={"/issue/search"}, method=RequestMethod.GET)
+	public ModelAndView searchIssue(HttpServletRequest request, IssueDto dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("issue/issueList");
+		
+		//프로젝트에 해당하는 이슈리스트가져오기
+		List<IssueDto> issueList = issueService.selectIssueList(dto);
+		mav.addObject("issueList", issueList);
+		
+		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(dto.getProject_id());
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		mav.addObject("myInfo", user);
+		mav.addObject("memberList", memberList);
+		mav.addObject("projectId", dto.getProject_id());
+		mav.addObject("state_code", dto.getState_code());
+		return mav;
+	}
 	
 	
 

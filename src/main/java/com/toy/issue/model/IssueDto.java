@@ -6,16 +6,51 @@ public class IssueDto {
 	private String issue_id;
 	private String issue_name;
 	private String project_id;
+	private int project_num;
 	private String issue_detail;
 	private String reg_id;
-	private String issue_start_date;
-	private String issue_end_date;
+	private String start_date;
+	private String end_date;
 	private String state_code;
 	private String state_name;
 	private String user_id;
 	private String type;
 	private List<String> userList;
+	private int issue_num;
+	private String his_date;
+	private String state_search;
 	
+	
+	public String getState_search() {
+		return state_search;
+	}
+	public void setState_search(String state_search) {
+		this.state_search = state_search;
+	}
+	public String getStart_date() {
+		return start_date;
+	}
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+	public String getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
+	public String getHis_date() {
+		return his_date;
+	}
+	public void setHis_date(String his_date) {
+		this.his_date = his_date;
+	}
+	public int getIssue_num() {
+		return issue_num;
+	}
+	public void setIssue_num(int issue_num) {
+		this.issue_num = issue_num;
+	}
 	public List<String> getUserList() {
 		return userList;
 	}
@@ -39,18 +74,6 @@ public class IssueDto {
 	}
 	public void setState_name(String state_name) {
 		this.state_name = state_name;
-	}
-	public String getIssue_start_date() {
-		return issue_start_date;
-	}
-	public void setIssue_start_date(String issue_start_date) {
-		this.issue_start_date = issue_start_date;
-	}
-	public String getIssue_end_date() {
-		return issue_end_date;
-	}
-	public void setIssue_end_date(String issue_end_date) {
-		this.issue_end_date = issue_end_date;
 	}
 	public String getState_code() {
 		return state_code;
@@ -87,6 +110,12 @@ public class IssueDto {
 	}
 	public void setProject_id(String project_id) {
 		this.project_id = project_id;
+	}
+	public int getProject_num() {
+		return project_num;
+	}
+	public void setProject_num(int project_num) {
+		this.project_num = project_num;
 	}
 	
 }

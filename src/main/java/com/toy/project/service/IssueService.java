@@ -13,11 +13,15 @@ public interface IssueService {
 	
 	public List<projectMemberDto> selectApplyListFromProjectMember (String projectId);
 	
-	public List<IssueDto> selectIssueList (String projectId);
+	public List<IssueDto> selectIssueList (IssueDto issueDto);
 	
-	public void insertIssue(IssueDto issueDto) throws Exception;
+	public void insertIssue(IssueDto issueDto);
 	
 	public void deleteIssue(String issue_id);
 	
 	public void insertIssueHistory(IssueDto issueDto);
+	
+	public IssueDto selectIssueInfoByIssueId(String issue_id);
+	
+	public void updateIssue (IssueDto issueDto);
 }

@@ -45,8 +45,8 @@ public class IssueDao {
 	 * 설명 : 프로젝트 이슈  가져오기.
 	 *
 	 */
-	public List<IssueDto> selectIssueList (String projectId) {
-		return sqlSession.selectList("issue.selectIssueList", projectId);
+	public List<IssueDto> selectIssueList (IssueDto issueDto) {
+		return sqlSession.selectList("issue.selectIssueList", issueDto);
 		
 	}
 	/**
@@ -57,7 +57,6 @@ public class IssueDao {
 	 *
 	 */
 	public void insertIssue(IssueDto issueDto) {
-		System.out.println("-------------------------------------1");
 		sqlSession.insert("issue.insertIssue", issueDto);
 	}
 	
@@ -74,9 +73,9 @@ public class IssueDao {
 	
 	/**
 	 * 작성일 : 2017.06.19
-	 * 메소드명 : changeIssueState 
+	 * 메소드명 : insertIssueHistory 
 	 * 작성자 : 송하람
-	 * 설명 : 프로젝트 이슈 상태변경
+	 * 설명 : 프로젝트 이슈 히스토리 추가
 	 *
 	 */
 	public void insertIssueHistory(IssueDto issueDto) {
@@ -84,9 +83,9 @@ public class IssueDao {
 	}
 	/**
 	 * 작성일 : 2017.06.19
-	 * 메소드명 : changeIssueState 
+	 * 메소드명 : insertIssueMember 
 	 * 작성자 : 송하람
-	 * 설명 : 프로젝트 이슈 상태변경
+	 * 설명 : 프로젝트 이슈 멤버 추가
 	 *
 	 */
 	public void insertIssueMember(IssueDto issueDto) {
@@ -102,6 +101,45 @@ public class IssueDao {
 	public void deleteIssueMember(String issue_id) {
 		sqlSession.delete("issue.deleteIssueMember", issue_id);
 	}
-	
+	/**
+	 * 작성일 : 2017.06.23
+	 * 메소드명 : updateIssueHisDate 
+	 * 작성자 : 송하람
+	 * 설명 : 프로젝트 히스토리 날짜 변경
+	 *
+	 */
+	public void updateIssueHisDate(IssueDto issueDto) {
+		sqlSession.insert("issue.updateIssueHisDate", issueDto);
+	}
+	/**
+	 * 작성일 : 2017.06.26
+	 * 메소드명 : selectTopIssueHistory 
+	 * 작성자 : 송하람
+	 * 설명 : 최근 이슈 정보 가져오기
+	 *
+	 */
+	public IssueDto selectTopIssueHistory(String issue_id) {
+		return sqlSession.selectOne("selectTopIssueHistory", issue_id);
+	}
+	/**
+	 * 작성일 : 2017.06.26
+	 * 메소드명 : selectIssueInfoByIssueId 
+	 * 작성자 : 송하람
+	 * 설명 : 클릭한 이슈 정보 가져오기
+	 *
+	 */
+	public IssueDto selectIssueInfoByIssueId(String issue_id) {
+		return sqlSession.selectOne("selectIssueInfoByIssueId", issue_id);
+	}
+	/**
+	 * 작성일 : 2017.06.27
+	 * 메소드명 : updateIssue 
+	 * 작성자 : 송하람
+	 * 설명 : 이슈 업데이트
+	 *
+	 */
+	public void updateIssue (IssueDto issueDto) {
+		sqlSession.insert("issue.updateIssue", issueDto);
+	}
 
 }
