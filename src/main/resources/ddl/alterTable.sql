@@ -369,3 +369,68 @@ ALTER TABLE projectdepartment
 		REFERENCES department ( -- 직무테이블
 			depart_code -- 직무코드
 		);
+		
+-- 이슈맴버 고유키
+CREATE UNIQUE INDEX pk_issuemember
+	ON issuemember ( -- 이슈맴버
+		project_id ASC, -- 프로젝트아이디
+		issue_id   ASC, -- 일감아이디
+		user_id    ASC  -- 회원아이디
+	);
+-- 이슈맴버
+ALTER TABLE issuemember
+	ADD
+		CONSTRAINT pk_issuemember -- 이슈맴버 기본키
+		PRIMARY KEY (
+			project_id, -- 프로젝트아이디
+			issue_id,   -- 일감아이디
+			user_id     -- 회원아이디
+		);
+		
+-- 프로젝트 기간
+ALTER TABLE projecthistory
+	ADD
+		CONSTRAINT fk_project_to_projecthistory -- 프로젝트테이블 -> 프로젝트 기간
+		FOREIGN KEY (
+			project_id -- 프로젝트아이디
+		)
+		REFERENCES project ( -- 프로젝트테이블
+			project_id -- 프로젝트아이디
+		);
+
+-- 이슈 기간
+ALTER TABLE issuehistory
+	ADD
+		CONSTRAINT fk_issue_to_issuehistory -- 일감 -> 이슈 기간
+		FOREIGN KEY (
+			issue_id,   -- 일감아이디
+			project_id  -- 프로젝트아이디
+		)
+		REFERENCES issue ( -- 일감
+			issue_id,   -- 일감아이디
+			project_id  -- 프로젝트아이디
+		);
+
+-- 프로젝트모집기간
+ALTER TABLE projectrecurithistory
+	ADD
+		CONSTRAINT fk_project_to_projectrecurithistory -- 프로젝트테이블 -> 프로젝트모집기간
+		FOREIGN KEY (
+			project_id -- 프로젝트아이디
+		)
+		REFERENCES project ( -- 프로젝트테이블
+			project_id -- 프로젝트아이디
+		);
+
+-- 이슈맴버
+ALTER TABLE issuemember
+	ADD
+		CONSTRAINT fk_issue_to_issuemember -- 일감 -> 이슈맴버
+		FOREIGN KEY (
+			issue_id,   -- 일감아이디
+			project_id  -- 프로젝트아이디
+		)
+		REFERENCES issue ( -- 일감
+			issue_id,   -- 일감아이디
+			project_id  -- 프로젝트아이디
+		);
