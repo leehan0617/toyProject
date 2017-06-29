@@ -7,22 +7,18 @@
 		insert into project
 			(
 				project_name
-				, project_start_date
-				, project_end_date
 				, project_detail
 				, manager_id
-				, state_code
 				, reg_date
+				, his_date
 			)	
 	   values
 			(
 			  #{project_name}
-			 ,#{project_start_date}
-			 ,#{project_end_date}
 			 ,#{project_detail}
 			 ,#{manager_id}
-			 ,'recruiting'
 			 ,sysdate()
+			 ,DATE_FORMAT(#{his_date}, "%Y-%m-%d %H:%i:%s")
 			) 
 		<selectKey keyProperty="project_id" resultType="int">
 			SELECT LAST_INSERT_ID()
@@ -48,18 +44,22 @@
 		select 
 				project.project_id
 				, project_name
-				, project_start_date
-				, project_end_date
 				, usercount
 				, project_detail
 				, manager_id
 				, (select user_name from user where user_id = manager_id) as manager_name
-				, project.state_code
-				, (select state_name from state where state_code = project.state_code) as state_name
 				, project.reg_date
 				, depart_code
 				, (select depart_name from department where depart_code = prodepart.depart_code) as depart_name
 				, if(isnull(promember.user_id),'Y','N') as applyyn
+				, DATE_FORMAT(history.start_date, "%Y-%m-%d") as project_start_date
+				, DATE_FORMAT(history.end_date, "%Y-%m-%d") as project_end_date
+				, DATE_FORMAT(recruit.start_date, "%Y-%m-%d") as recruit_start_date
+				, DATE_FORMAT(recruit.end_date, "%Y-%m-%d") as recruit_end_date
+				, history.state_code as project_state_code
+				, recruit.state_code as recruit_state_code
+				,(select state_name from state where state.state_code = history.state_code and state.type = history.type) as project_state_name
+				,IFNULL((select state_name from state where state.state_code = recruit.state_code and state.type = recruit.type),"모집전") as recruit_state_name
 		from project 
         left join (
 				select *
@@ -69,10 +69,24 @@
 				select *
 				from projectmember
 		)promember on project.project_id = promember.project_id and promember.user_id = #{user_id}
-		<if test="manager_id != null">
-			where manager_id = #{manager_id}
-		</if>
-<!-- 				project_start_date	 -->
+		left join (
+			select *
+			from projecthistory
+		)history on project.project_id = history.project_id and history.reg_date = project.his_date
+		left join (
+			select *
+			from projectrecruithistory
+		)recruit on project.project_id = recruit.project_id and recruit.reg_date = project.his_date
+		<where>
+			<if test=" manager_id !=null and manager_id !='' "> manager_id like #{manager_id}  </if>
+			<if test=" recruitCodeList !=null and recruitCodeList !='' "> and recruit.state_code in <foreach item="recruit_state_code" index="index" open="(" close=")" separator="," collection="recruitCodeList">#{recruit_state_code}</foreach></if>
+			<if test=" projectCodeList !=null and projectCodeList !='' "> and history.state_code in <foreach item="project_state_code" index="index" open="(" close=")" separator="," collection="projectCodeList">#{project_state_code}</foreach></if>
+			<if test=" departCodeList !=null and departCodeList !='' "> and project.project_id in ( select project_id from projectdepartment where depart_code in <foreach item="depart_code" index="index" open="(" close=")" separator="," collection="departCodeList">#{depart_code}</foreach> )</if>
+			<if test=" project_start_date !=null and project_start_date !='' "> and DATE_FORMAT(history.start_date, "%Y-%m-%d") <![CDATA[>=]]> #{project_start_date}  </if>
+			<if test=" project_end_date !=null and project_end_date !='' "> and DATE_FORMAT(history.end_date, "%Y-%m-%d") <![CDATA[<=]]>  #{project_end_date}  </if>
+			<if test=" recruit_start_date !=null and recruit_start_date !='' "> and DATE_FORMAT(recruit.start_date, "%Y-%m-%d") <![CDATA[>=]]> #{recruit_start_date}  </if>
+			<if test=" recruit_end_date !=null and recruit_end_date !='' "> and DATE_FORMAT(recruit.end_date, "%Y-%m-%d") <![CDATA[<=]]>  #{recruit_end_date}  </if>
+		</where>
 	</select>
 	
 	<!-- 20170524 김민지 프로젝트 상세  -->
@@ -80,8 +94,12 @@
 		select 
 				project.project_id
 				, project.project_name
-				, project.project_start_date
-				, project.project_end_date
+				, DATE_FORMAT(history.start_date, "%Y-%m-%d") as project_start_date
+				, DATE_FORMAT(history.end_date, "%Y-%m-%d") as project_end_date
+				, DATE_FORMAT(recruit.start_date, "%Y-%m-%d") as recruit_start_date
+				, DATE_FORMAT(recruit.end_date, "%Y-%m-%d") as recruit_end_date
+				, history.state_code as project_state_code
+				, recruit.state_code as recruit_state_code
 				, project.project_detail
 				, project.manager_id
 				, (select user_name from user where user_id = manager_id) as manager_name
@@ -91,6 +109,16 @@
 				select *
 				from projectmember
 		)promember on project.project_id = promember.project_id and promember.user_id = #{user_id}
+		left join (
+			select *
+			from projecthistory
+			where project_id = #{project_id}
+		)history on project.project_id = history.project_id and history.reg_date = project.his_date
+		left join (
+			select *
+			from projectrecruithistory
+			where project_id = #{project_id}
+		)recruit on project.project_id = recruit.project_id and recruit.reg_date = project.his_date
 		where project.project_id = #{project_id}
 	</select>
 	<!-- 20170524 김민지 프로젝트 상세 직무 보기 -->
@@ -161,11 +189,10 @@
 	<update id="updateProject" parameterType="com.toy.project.model.ProjectDto">
 		update  project
 		set project_name =  #{project_name}
-			,project_start_date = #{project_start_date}
-			,project_end_date =  #{project_end_date}
 			,project_detail = #{project_detail}
 			,mod_id =  #{mod_id}
-			,mod_date  = sysdate()
+			,mod_date = DATE_FORMAT(SYSDATE(),"%Y-%m-%d")
+			,his_date = DATE_FORMAT(#{his_date}, "%Y-%m-%d %H:%i:%s")
 		where project_id = #{project_id}
 	</update>
 	<!-- 20170616 김민지 프로젝트 인원 리스트 가져오기 (본인 제외-담당자)-->
@@ -204,5 +231,58 @@
 		left join user user on user.user_id = member.user_id
 		where member.project_id = #{project_id}
 		and member.user_id = #{user_id}
+	</select>
+	
+	<!-- 20170623 김민지 프로젝트 모집날짜 insert-->
+	<insert id="insertProjectRecruitDate" parameterType="com.toy.project.model.ProjectDto">
+		insert into projectrecruithistory
+		(    project_id
+			, start_date
+			, end_date
+			, state_code
+			, type
+			, reg_date
+			, reg_id
+		)
+		VALUES
+			(
+			#{project_id}	
+			,#{recruit_start_date}
+			,#{recruit_end_date}
+			,#{state_code}
+			,#{type}
+			,DATE_FORMAT(#{his_date}, "%Y-%m-%d %H:%i:%s")
+			,#{reg_id}
+			)
+	</insert>
+	
+		<!-- 20170623 김민지 프로젝트 시작/종료 날짜 insert-->
+	<insert id="insertProjectDate" parameterType="com.toy.project.model.ProjectDto">
+		insert into projecthistory
+		(    project_id
+			, start_date
+			, end_date
+			, state_code
+			, type
+			, reg_date
+			, reg_id
+		)
+		VALUES
+			(
+			#{project_id}	
+			,#{project_start_date}
+			,#{project_end_date}
+			,#{state_code}
+			,#{type}
+			,DATE_FORMAT(#{his_date}, "%Y-%m-%d %H:%i:%s")
+			,#{reg_id}
+			)
+	</insert>
+	<!-- 20170627 김민지 상태코드 불러오기-->
+	<select id ="getStateCode" parameterType="String" resultType="com.toy.project.model.ProjectDto" >
+	 select   state_code 
+	 		, state_name
+	 from state
+	 where type = #{type}
 	</select>
 </mapper>

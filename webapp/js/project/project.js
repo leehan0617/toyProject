@@ -8,9 +8,10 @@ let project = {
 		//내가 등록한 프로젝트 전체 리스트 보기 (관리자만)
 		myPjoectList : (mycheck) => {
 			if(mycheck.checked){// 내가등록한 프로젝트에 체크 하였을때 내가 등록한 프로젝트 보여주기
-				console.log(document.getElementById("user_id").value)
+				document.getElementById("projectform").submit();
 			}else{
-				
+				document.getElementById("manager_id").value = "";
+				document.getElementById("projectform").submit();
 			}
 		},
 		//목록으로 돌아가기
@@ -117,10 +118,10 @@ let project = {
 					td[0].innerHTML = memberList[i].user_name;//신청한 사람
 					
 					if(memberList[i].state_code == "accept"){//이미 승인한 사람일 경우 
-						clone.querySelector("input[id=acceptBtn]").disabled = true;
+						clone.querySelector("input[id=acceptbtn]").disabled = true;
 					}
-					if(memberList[i].state_code == "reject"){//이미 거절 당한 사람일 경우 
-						clone.querySelector("input[id=rejectBtn]").disabled = true;
+					if(memberList[i].state_code == "refuse"){//이미 거절 당한 사람일 경우 
+						clone.querySelector("input[id=refusebtn]").disabled = true;
 					}
 					
 					clone.querySelector("input[id=user_id]").value = memberList[i].user_id;//신청한 사람 ID
@@ -166,7 +167,16 @@ let project = {
 			}).catch(err => {
 				alert("에러발생.")
 			});
-		}	
+		},
+		// 검색하기
+		searchList : () => {
+			if(document.getElementById("myCheck").checked){
+				document.getElementById("projectform").submit();
+			}else{
+				document.getElementById("manager_id").value = "";
+				document.getElementById("projectform").submit();
+			}
+		}
 }
 
 //프로젝트 상세보기 페이지

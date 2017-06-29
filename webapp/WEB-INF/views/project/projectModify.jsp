@@ -39,11 +39,15 @@ window.onload = function () {
 			</tr>
 			<tr>
 				<th>담당자</th>
-				<td>${projectDetail.getManager_name()}</td>
+				<td><input type="hidden" name="manager_id" value="${projectDetail.getManager_id()}"/>${projectDetail.getManager_name()}</td>
 			</tr>
 			<tr>
-				<th>기간</th>
-				<td><input type="date"/></td>
+				<th>모집기간</th>
+				<td><input type="date" id="recurit_start_date" value="${projectDetail.getRecruit_start_date()}" name = "recruit_start_date" data-date-format="YYYY-MM-DD"/> ~ <input type="date" value="${projectDetail.getRecruit_end_date()}" id="recruit_end_date" name = "recruit_end_date" data-date-format="YYYY-MM-DD"/></td>
+			</tr>
+			<tr>
+				<th>프로젝트기간</th>
+				<td><input type="date" id="project_start_date" value="${projectDetail.getProject_start_date()}" name = "project_start_date" data-date-format="YYYY-MM-DD"/> ~ <input type="date" value="${projectDetail.getProject_end_date()}" id="project_end_date" name = "project_end_date" data-date-format="YYYY-MM-DD"/></td>
 			</tr>
 			<tr>
 				<th>모집포지션</th>
@@ -70,7 +74,7 @@ window.onload = function () {
 			</tr>
 		</table>
 		<input type="button" onclick="project.projectList()" value="목록"/>
-		<c:set var="loginId" value="${user.getUsername()}"></c:set>
+		<sec:authentication property='principal.username' var="loginId"/>
 		<c:set var="ManagerId" value="${projectDetail.getManager_id()}"></c:set>
 		
 		<c:if test="${ManagerId == loginId}"><!-- 자신이 등록한 프로젝트만 수정/삭제 가능 -->

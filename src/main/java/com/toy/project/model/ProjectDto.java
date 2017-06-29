@@ -21,6 +21,10 @@ public class ProjectDto implements Serializable{
 	private String project_start_date;
 	//프로젝트 종료 일자
 	private String project_end_date;
+	//프로젝트 모집 시작 일자
+	private String recruit_start_date;
+	//프로젝트 모집 종료 일자
+	private String recruit_end_date;
 	//프로젝트 참여 수
 	private int usercount;
 	//프로젝트 상세
@@ -30,14 +34,29 @@ public class ProjectDto implements Serializable{
 	//관리자 이름
 	private String manager_name;
 	//프로젝트 상태
-	private String state_code;
+	private String project_state_code;
 	//프로젝트 상태명
+	private String project_state_name;
+	//프로젝트 모집상태
+	private String recruit_state_code;
+	//프로젝트 모집상태명
+	private String recruit_state_name;
+	//상태
+	private String state_code;
+	//상태명
 	private String state_name;
+
 	//등록된 날짜
 	private String reg_date;
 	
 	//모집 포지션코드 리스트
 	private List<String> departCodeList;
+	
+	//모집 상태코드 리스트
+	private List<String> recruitCodeList;
+	
+	//프로젝트 상태코드 리스트
+	private List<String> projectCodeList;
 	
 	//모집 포지션코드 
 	private String depart_code;
@@ -66,6 +85,11 @@ public class ProjectDto implements Serializable{
 	//프로젝트별 신청여부
 	private String applyyn;
 	
+	//프로젝트 코드 type
+	private String type;
+	
+	//프로젝트 history 테이블
+	private String his_date;
 	public int getProject_id() {
 		return project_id;
 	}
@@ -108,12 +132,6 @@ public class ProjectDto implements Serializable{
 	public void setManager_id(String manager_id) {
 		this.manager_id = manager_id;
 	}
-	public String getState_code() {
-		return state_code;
-	}
-	public void setState_code(String state_code) {
-		this.state_code = state_code;
-	}
 	public String getReg_date() {
 		return reg_date;
 	}
@@ -126,11 +144,29 @@ public class ProjectDto implements Serializable{
 	public void setManager_name(String manager_name) {
 		this.manager_name = manager_name;
 	}
-	public String getState_name() {
-		return state_name;
+	public String getProject_state_code() {
+		return project_state_code;
 	}
-	public void setState_name(String state_name) {
-		this.state_name = state_name;
+	public void setProject_state_code(String project_state_code) {
+		this.project_state_code = project_state_code;
+	}
+	public String getProject_state_name() {
+		return project_state_name;
+	}
+	public void setProject_state_name(String project_state_name) {
+		this.project_state_name = project_state_name;
+	}
+	public String getRecruit_state_code() {
+		return recruit_state_code;
+	}
+	public void setRecruit_state_code(String recruit_state_code) {
+		this.recruit_state_code = recruit_state_code;
+	}
+	public String getRecruit_state_name() {
+		return recruit_state_name;
+	}
+	public void setRecruit_state_name(String recruit_state_name) {
+		this.recruit_state_name = recruit_state_name;
 	}
 	public String getDepart_name() {
 		return depart_name;
@@ -191,5 +227,53 @@ public class ProjectDto implements Serializable{
 	}
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
+	}
+	public String getRecruit_start_date() {
+		return recruit_start_date;
+	}
+	public void setRecruit_start_date(String recruit_start_date) {
+		this.recruit_start_date = recruit_start_date;
+	}
+	public String getRecruit_end_date() {
+		return recruit_end_date;
+	}
+	public void setRecruit_end_date(String recruit_end_date) {
+		this.recruit_end_date = recruit_end_date;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getState_code() {
+		return state_code;
+	}
+	public void setState_code(String state_code) {
+		this.state_code = state_code;
+	}
+	public String getState_name() {
+		return state_name;
+	}
+	public void setState_name(String state_name) {
+		this.state_name = state_name;
+	}
+	public String getHis_date() {
+		return his_date;
+	}
+	public void setHis_date(String his_date) {
+		this.his_date = his_date;
+	}
+	public List<String> getRecruitCodeList() {
+		return recruitCodeList;
+	}
+	public void setRecruitCodeList(List<String> recruitCodeList) {
+		this.recruitCodeList = recruitCodeList;
+	}
+	public List<String> getProjectCodeList() {
+		return projectCodeList;
+	}
+	public void setProjectCodeList(List<String> projectCodeList) {
+		this.projectCodeList = projectCodeList;
 	}
 }

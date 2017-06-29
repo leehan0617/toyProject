@@ -17,11 +17,15 @@
 		</tr>
 		<tr>
 			<th>담당자</th>
-			<td>${user.getName()}</td>
+			<td><sec:authentication property='principal.username'/></td>
 		</tr>
 		<tr>
-			<th>기간</th>
-			<td></td>
+			<th>모집기간</th>
+			<td><input type="date" id="recurit_start_date" name = "recruit_start_date" data-date-format="YYYY-MM-DD"/> ~ <input type="date" id="recruit_end_date" name = "recruit_end_date" data-date-format="YYYY-MM-DD"/></td>
+		</tr>
+		<tr>
+			<th>프로젝트기간</th>
+			<td><input type="date" id="project_start_date" name = "project_start_date" data-date-format="YYYY-MM-DD"/> ~ <input type="date" id="project_end_date" name = "project_end_date" data-date-format="YYYY-MM-DD"/></td>
 		</tr>
 		<tr>
 			<th>모집포지션</th>

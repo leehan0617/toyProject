@@ -21,8 +21,12 @@
 			<td>${projectDetail.getManager_name()}</td>
 		</tr>
 		<tr>
-			<th>기간</th>
-			<td></td>
+			<th>모집 기간 </th>
+			<td>${projectDetail.getRecruit_start_date()} ~ ${projectDetail.getRecruit_end_date()}</td>
+		</tr>
+		<tr>
+			<th>프로젝트 기간</th>
+			<td>${projectDetail.getProject_start_date()} ~ ${projectDetail.getProject_end_date()}</td>
 		</tr>
 		<tr>
 			<th>모집포지션</th>
@@ -41,15 +45,19 @@
 	</table>
 </form>	
 	<input type="button" onclick="project.projectList()" value="목록"/>
-	<c:set var="loginId" value="${user.getUsername()}"></c:set>
+	
+	<sec:authentication property='principal.username' var="loginId"/>
 	<c:set var="ManagerId" value="${projectDetail.getManager_id()}"></c:set>
 
 	<c:if test="${ManagerId == loginId}"><!-- 자신이 등록한 프로젝트만 수정/삭제 가능 -->
 		<input type="submit" value="수정" onclick="project.projectModify(${projectDetail.getProject_id()})"/>
 		<input type="submit" value="삭제" onclick="project.projectDelete(${projectDetail.getProject_id()})"/>
 	</c:if>
-	<c:if test="${i.getApplyyn().equals('Y') }"><!-- 이미 내가 신청한 프로젝트 이면 다시 신청 못함 -->
-	<input type="button" value="신청" onclick="javascript:project.applyOpen(${projectDetail.getProject_id()})"/>
+	
+	<c:if test= "${!empty projectDetail.getRecruit_state_code()}">
+		<c:if test="${projectDetail.getApplyyn().equals('Y') }"><!-- 이미 내가 신청한 프로젝트 이면 다시 신청 못함 -->
+			<input type="button" value="신청" onclick="javascript:project.applyOpen(${projectDetail.getProject_id()})"/>
+		</c:if>
 	</c:if>
 	
 <!-- 프로젝트 신청하기 팝업 -->

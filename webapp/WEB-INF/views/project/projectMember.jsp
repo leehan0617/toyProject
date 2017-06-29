@@ -14,30 +14,33 @@
 	<c:forEach var="i" items="${projectList}" begin="0" end="${projectList.size()}">
 		<ul style="border: 1px solid" onclick="project.memberList(${i.getProject_id()})">
 			<dt> 프로젝트명 : ${i.getProject_name()} </dt>
-			<li style="list-style:square;">기간</li>
+			<li style="list-style:square;">모집기간 ${i.getRecruit_start_date()} ~ ${i.getRecruit_end_date()}</li>
+			<li style="list-style:square;">모집상태 : ${i.getState_name()}</li>
+			<li style="list-style:square;">담당자 : ${i.getManager_name()}</li>
 			<li style="list-style:square;">모집직무 :
 				<c:forEach var="departMap" items="${i.getDepartMap()}">
 					${departMap.key} - ${departMap.value} 명
 				</c:forEach>
 			</li>
-			<li style="list-style:square;">담당자 : ${i.getManager_name()}</li>
-			<li style="list-style:square;">모집상태 : ${i.getState_name()}</li>
 		</ul>
 	</c:forEach>
 </div>
 
 <!-- 프로젝트 인원리스트 불러오기 -->
 <div style="display: inline-table;float:right;">
-	<input type="text" id="project_id" name= "project_id" value="">
+	<input type="hidden" id="project_id" name= "project_id" value="">
 	<table>
 		<tbody id = "memberTable">
 			<tr id="memberTr" style="display: none">
-				<td>하하</td>
+				<td></td>
 				<td>
-					<input type="text" id="user_id" name= "user_id" value="">
+					<input type="hidden" id="user_id" name= "user_id" value="">
 					<input type="button" onclick = "javascript:project.infoDetailOpen(this)" value="정보" />
-					<input type="button" id="acceptBtn" onclick = "javascript:project.apprMember('accept',this)" value="수락" />
-					<input type="button" id="rejectBtn" onclick = "javascript:project.apprMember('reject',this)" value="거절" />
+					<c:forEach var="i" items="${stateList}" begin="0" end="${stateList.size()}">
+						<c:if test = "${!i.getState_code().equals('apply')}">
+							<input type="button" id="${i.getState_code()}btn" onclick = "javascript:project.apprMember('${i.getState_code()}',this)" value="${i.getState_name()}" />
+						</c:if>
+					</c:forEach>
 				</td>
 			</tr>
 		</tbody>	

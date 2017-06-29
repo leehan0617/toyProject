@@ -1,5 +1,7 @@
 package com.toy.project.service.impl;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,14 @@ public class ProjectServiceImpl implements ProjectService{
 		CustomUser user = (CustomUser) au.getPrincipal();
 		projectDto.setManager_id(user.getUsername());
 		
+		//현재 날짜 
+		long time = System.currentTimeMillis();
+		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+		String his_date = dayTime.format(new Date(time));
+		
+		projectDto.setHis_date(his_date);
+		
 		//프로젝트 생성
 		projectDao.insertProject(projectDto);
 		
@@ -65,6 +75,16 @@ public class ProjectServiceImpl implements ProjectService{
 		projectDto.setReg_id(user.getUsername());
 		projectDto.setState_code("accept");//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기 
 		projectDao.insertProjectMember(projectDto);
+	
+		//프로젝트 모집 날짜 넣기 - 상태 모집중(배치로 빼야됨)
+		projectDto.setState_code("recruiting");
+		projectDto.setType("recruit");
+		projectDao.insertProjectRecruitDate(projectDto);
+		
+		//프로젝트 날짜 넣기 - 배치
+		projectDto.setState_code(null);
+		projectDto.setType(null);
+		projectDao.insertProjectDate(projectDto);
 	}
 	
 	/**
@@ -75,7 +95,7 @@ public class ProjectServiceImpl implements ProjectService{
 	public List<ProjectDto> getProjectList(ProjectDto projectDto) {
 		
 		List<ProjectDto> projectList = projectDao.getProjectList(projectDto);
-		
+	
 		Map<Integer,ProjectDto> map  = new HashMap<>();
 		
 		if(!projectList.isEmpty()){
@@ -176,7 +196,15 @@ public class ProjectServiceImpl implements ProjectService{
 		// userId 
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
+		//현재 날짜 
+		long time = System.currentTimeMillis();
+		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+		String his_date = dayTime.format(new Date(time));
+		
+		projectDto.setHis_date(his_date);
 		projectDto.setMod_id(user.getUsername());
+		projectDto.setReg_id(user.getUsername());
 		
 		//프로젝트 정보 수정
 		projectDao.updateProject(projectDto);
@@ -195,7 +223,14 @@ public class ProjectServiceImpl implements ProjectService{
 				projectDao.insertProjectDepart(map);
 			}
 		}
-		
+		//프로젝트 모집 날짜 넣기 - 상태 모집중(배치로 빼야됨)
+		projectDto.setState_code("recruiting");
+		projectDto.setType("recruit");
+		projectDao.insertProjectRecruitDate(projectDto);
+		//프로젝트 날짜 넣기 - 배치
+		projectDto.setState_code(null);
+		projectDto.setType(null);
+		projectDao.insertProjectDate(projectDto);
 	}
 
 	/**
@@ -233,5 +268,12 @@ public class ProjectServiceImpl implements ProjectService{
 	public int updateProjectMember(ProjectDto projectDto) {
 		return projectDao.updateProjectMember(projectDto);
 	}
-	
+	/**
+	 * 작성일 : 2017. 6 .27
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 상태 코드 가져오기
+	 */
+	public List<ProjectDto> getStateCode(String type) {
+		return projectDao.getStateCode(type);
+	}
 }
