@@ -1,5 +1,6 @@
 package com.toy.issue.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
+import com.toy.issue.service.IssueService;
 import com.toy.project.model.ProjectDto;
-import com.toy.project.service.IssueService;
 import com.toy.security.model.CustomUser;
 
 /**
@@ -54,7 +55,14 @@ public class IssueController {
 		// 나를 포함하여 userlist에 넣어줌
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
-		List<String> userList = dto.getUserList();
+		List<String> userList;
+		if (dto.getUserList() == null) {
+			userList = new ArrayList<>();
+		}
+		else {
+			userList = dto.getUserList();
+		}
+		
 		userList.add(user.getUsername());
 		dto.setReg_id(user.getUsername());
 		dto.setState_code("wait");
@@ -62,7 +70,7 @@ public class IssueController {
 		dto.setUserList(userList);
 		
 		issueService.insertIssue(dto);
-		return "redirect:/project/";
+		return "redirect:/issue/detail/"+dto.getProject_id()+"/"+dto.getProjectName();
 	}
 	/**
 	 * 작성일 :  2017. 06. 15
@@ -70,8 +78,8 @@ public class IssueController {
 	 * 설  명 : 이슈 상세보기
 	 * @throws Exception 
 	 */
-	@RequestMapping(value={"/issue/detail/{projectId}"} , method=RequestMethod.GET)
-	public ModelAndView showIssueList(@PathVariable String projectId) {
+	@RequestMapping(value={"/issue/detail/{projectId}/{projectName}"} , method=RequestMethod.GET)
+	public ModelAndView showIssueList(@PathVariable(value="projectId") String projectId, @PathVariable(value="projectName") String projectName) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("issue/issueList");
 		
@@ -89,6 +97,7 @@ public class IssueController {
 		
 		// userId 
 		CustomUser user = (CustomUser) au.getPrincipal();
+		mav.addObject("projectName", projectName);
 		mav.addObject("myInfo", user);
 		mav.addObject("memberList", memberList);
 		mav.addObject("state_code", "all");
@@ -148,7 +157,7 @@ public class IssueController {
 	@RequestMapping(value={"/issue/update"}, method=RequestMethod.POST)
 	public String updateIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.updateIssue(dto);
-		return "redirect:/issue/detail/"+dto.getProject_id();
+		return "redirect:/issue/detail/"+dto.getProject_id() + "/" + dto.getProjectName();
 	}
 	
 	/**
@@ -163,6 +172,35 @@ public class IssueController {
 		
 		//프로젝트에 해당하는 이슈리스트가져오기
 		List<IssueDto> issueList = issueService.selectIssueList(dto);
+		mav.addObject("issueList", issueList);
+		
+		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(dto.getProject_id());
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		mav.addObject("myInfo", user);
+		mav.addObject("memberList", memberList);
+		mav.addObject("projectId", dto.getProject_id());
+		mav.addObject("state_code", dto.getState_code());
+		mav.addObject("projectName", dto.getProjectName());
+		return mav;
+	}
+	
+	/**
+	 * 작성일 : 2017. 06. 29
+	 * 작성자 : 송하람
+	 * 설  명 : 내 이슈만 보기
+	 */
+	@RequestMapping(value={"/issue/selectMyIssue"}, method=RequestMethod.GET)
+	public ModelAndView selectMyIssue(HttpServletRequest request, IssueDto dto) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("issue/issueList");
+		
+		//프로젝트에 해당하는 이슈리스트가져오기
+		List<IssueDto> issueList = issueService.selectMyIssue(dto);
 		mav.addObject("issueList", issueList);
 		
 		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(dto.getProject_id());

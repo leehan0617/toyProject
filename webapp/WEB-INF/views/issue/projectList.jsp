@@ -15,7 +15,7 @@
 <br>
 	<c:forEach var="i" items="${projectList}" begin="0" end="${projectList.size()}">
 		<span>
-			프로젝트명 :<a href="${root}/issue/detail/${i.getProject_id()}"> ${i.getProject_name()}</a>
+			프로젝트명 :<a href="${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}"> ${i.getProject_name()}</a>
 		</span><br>
 	</c:forEach>
 

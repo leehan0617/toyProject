@@ -1,4 +1,4 @@
-package com.toy.project.service.impl;
+package com.toy.issue.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
+import com.toy.issue.service.IssueService;
 import com.toy.project.model.ProjectDto;
-import com.toy.project.service.IssueService;
 
 @Service("IssueService")
 public class IssueServiceImpl implements IssueService{
@@ -151,6 +151,17 @@ public class IssueServiceImpl implements IssueService{
         
 		issueDao.updateIssue(issueDto);
 		issueDao.insertIssueHistory(issueDto);
+	}
+
+	/**
+	 * 작성일 : 2017.06.28
+	 * 메소드명 : selectMyIssue
+	 * 작성자 : 송하람
+	 * 설명 : 내 이슈만 보기
+	 *
+	 */
+	public List<IssueDto> selectMyIssue(IssueDto issueDto) {
+		return issueDao.selectMyIssue(issueDto);
 	}
 	
 

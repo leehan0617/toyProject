@@ -1,6 +1,5 @@
-package com.toy.project.service;
+package com.toy.issue.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.toy.issue.model.IssueDto;
@@ -24,4 +23,6 @@ public interface IssueService {
 	public IssueDto selectIssueInfoByIssueId(String issue_id);
 	
 	public void updateIssue (IssueDto issueDto);
+	
+	public List<IssueDto> selectMyIssue(IssueDto issueDto);
 }

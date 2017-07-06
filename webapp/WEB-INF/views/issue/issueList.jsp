@@ -4,6 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="${root}/css/project/projectPopup.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="${root}/js/dist/bootstrap.css" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 <title>Insert title here</title>
@@ -11,16 +14,21 @@
 <body>
 <c:set var ="myId" value='${myInfo.username}'/>
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
+
 <script type="text/javascript" src="${root}/js/issue/issue.js" charset="utf-8"></script>
 <input type = "hidden" name="csrf_token" value="${_csrf.token}"/>
 <input  type = "hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 <input type = "hidden" id = "nowSt" value="${state_code}">
-<input id = 'rootValue' type = 'hidden' value = "${root}">
-이슈리스트페이지
-<br>
-프로젝트 전체 이슈  
+<input type = "hidden" id = "projectName" value="${projectName}">
 
-<select id = "stateSearch">
+<input id = 'rootValue' type = 'hidden' value = "${root}">
+<br>
+<div class="page-header" >
+	<h2 style ="margin-left:10px">${projectName}</h2>      
+</div>
+
+
+<select id = "stateSearch"  class="form-control" style = "width:120px; display:inline-block; margin-left:20px;" onchange="issue.issueSearch(${projectId})" >
 <option value = "all">전체</option>
 <option value = "wait">대기</option>
 <option value = "start">시작</option>
@@ -29,78 +37,151 @@
 <option value = "end">종료</option>
 </select>
 
-<input type = "button" value = "검색" onclick = "issue.issueSearch(${projectId})">
-<input type = "checkbox">내 이슈만 보기
+<input id = "chUserId" type = "checkbox" value="${myId}" onclick = "issue.searchMyIssue(${projectId})" style="display:inline-block; margin-left:10px">내 이슈만 보기
 
 <div>
 </div>
+<br>
+<div class="container" style = "margin-left:0px; width:30%; display:inline-block">
+<ul class="list-group">
+
 <c:forEach var ="issue" items = "${issueList}" begin = "0" end ="${issueList.size()}">
-	<span><a href = "javascript:detailIssue.selectIssueDetail('${issue.issue_id}')">${issue.issue_name}</a></span><br>
+<li class="list-group-item">
+	<a href = "javascript:detailIssue.selectIssueDetail('${issue.issue_id}')">${issue.issue_name}</a>
+</li>
 </c:forEach>
 
+</ul>
 <br>
-<button onclick = 'issue.addIssuePopUp(${projectId})'>이슈생성</button>
-<%-- <button onclick="window.open('${root}/issue/add','이슈생성','width=430,height=500,location=no,status=no,scrollbars=yes');">이슈생성</button> --%>
+<button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #d9534f; color:#d9534f;" >이슈생성</button>
 
-<div id = 'issuePopup' style = 'display:none; width:500px; height:400px; border:1px solid black' >
-<form  method = "post" id = "addIssueForm">
-<input type = "hidden" id = 'issue_id' name = 'issue_id'>
-<input type = "hidden" id = "projectId" name = "project_id" value="${projectId}"/>
-이슈제목 : <input name = 'issue_name' type = 'text'><br>
-참여자 : 
-
-<input type="hidden" id = "reg_id" name = "reg_id" value = "${myId}">
-<c:forEach var = "member" items = "${memberList}" begin = "0" end = "${memberList.size()}">
-	<c:if test="${member.user_id != myId}">
-		<input type="checkbox" name="userList" value="${member.user_id}">${member.user_id}
-	</c:if>
-</c:forEach>
-<br>
-시작날짜:<input type = "date" name = "start_date">
-종료날짜:<input type = "date" name = "end_date"><br>
-상세내용 :<br>
-<textarea  name = "issue_detail"></textarea><br>
-<input type = 'button' value = "생성" onclick = "issue.issueSave(${projectId})">
-<input type = 'button' value='닫기' onclick ='issue.closeIssue()'>
-</form>
+</div>
+<div id ='issueDetailPopup' style = 'display:none; width:30%;height:800px;  vertical-align:top; '>
+			
+			 <table class="table table-bordered">
+		  	 	<tr>
+		  	 		<td>상태</td><td><span id= 'issueState'></span><input type = 'hidden' id = "now_state"><button id = 'issueStateBtn' type = 'button' class="btn btn-xs btn-danger" onclick="issue.issueStateChange()" style="margin-left:10px">시작</button></td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>상세정보</td><td><span id= 'issueInfo'></span></td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>담당자</td>
+		  	 		<td><span id= 'issueRegId'></span></td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>기간</td>
+		  	 		<td><span id= 'issueStartDate'></span>~<span id= 'issueEndDate'></span></td>
+		  	 	</tr>
+		  	 </table>
+			<br>
+			
+			<div style = "float:right; margin-right:20px; margin-bottom:10px;">
+			<button onclick="issue.addUpdateIssuePopup()" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm">수정</button>
+			<button style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" id = 'issueDelete' type = 'button' onclick = 'issue.deleteStart(${projectId})'>삭제</button>
+			</div>
+</div>
+<div id = 'issuePopup' style = 'display:none;' class="dim-layer">
+	<div class="pop-layer">
+		<div class="pop-container">
+		<button type="button" class="btn btn-default" onclick ='issue.closeIssue()' style = "float:right; border:0px;">
+		    <span class="glyphicon glyphicon-remove"></span>
+	  	</button>
+		  	
+		<div class="pop-conts">
+		<div class="page-header" >
+			<h2 style ="margin-left:10px">이슈생성</h2>      
+		</div>
+			
+		<form  method = "post" id = "addIssueForm" action="/issue/add">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+		<input type = 'hidden' id = 'rootValue'  value = "${root}">
+		<input type = "hidden" id = 'issue_id' name = 'issue_id'>
+		<input type = "hidden" id = "projectId" name = "project_id" value="${projectId}"/>
+		<input type = "hidden" id = "projectName" name = "projectName">
+		<table class="table table-bordered">
+	  	 	<tr>
+	  	 		<td>제목 </td><td><input name = 'issue_name' type = 'text'></td>
+	  	 	</tr>
+	  	 	<tr>
+	  	 		<td>참여자</td>
+	  	 		<td>
+	  	 		<input type="hidden" id = "reg_id" name = "reg_id" value = "${myId}">
+				<c:forEach var = "member" items = "${memberList}" begin = "0" end = "${memberList.size()}">
+					<c:if test="${member.user_id != myId}">
+						<input type="checkbox" id ="${member.user_id}" name="userList" value="${member.user_id}">${member.user_id}
+					</c:if>
+				</c:forEach>
+			</td>
+	  	 	</tr>
+	  	 	<tr>
+	  	 		<td>시작날짜</td>
+	  	 		<td><input type = "date" name = "start_date"></td>
+	  	 	</tr>
+	  	 	<tr>
+	  	 		<td>종료날짜</td>
+	  	 		<td><input type = "date" name = "end_date"></td>
+	  	 	</tr>
+	  	 </table>
+		상세내용 :<br>
+		<textarea  name = "issue_detail" class="form-control" ></textarea><br>
+		<input type = 'submit' value = "생성" style="border: 2px solid #d9534f; color:#d9534f; float:right; margin-bottom:10px; margin-right:5px;" class = "btn btn-default btn-sm" >
+		</form>
+		</div>
+		</div>
+	</div>
 </div>
 
-<div id ='issueDetailPopup' style = 'width:500px; height:400px; display:none;  border:1px solid black'>
 
-이슈상세내용<br>
-이슈제목:<span id= 'issueName'></span><br>
-상태:<span id= 'issueState'></span><input type = 'hidden' id = "now_state"><br>
-상세정보:<span id= 'issueInfo'></span><br>
-담당자:<span id= 'issueRegId'></span><br>
-기간:<span id= 'issueStartDate'></span>~<span id= 'issueEndDate'></span><br>
-<input id = 'issueStateBtn' type = 'button' value = '이슈시작' onclick="issue.issueStateChange()">
-<br>
-<input id = 'issueModify' type = 'button' value = '이슈수정' onclick="issue.addUpdateIssuePopup()">
-<input id = 'issueDelete' type = 'button' value = '이슈삭제' onclick = 'issue.deleteStart(${projectId})'>
-</div>
 
-<div id = 'issueUpdatePopUp' style = 'display:none; width:500px; height:400px; border:1px solid black' >
-이슈수정<br>
-<form  method = "post" id = "updateIssueForm">
-<input type = "hidden" id = 'issue_id2' name = 'issue_id'>
-<input type = 'hidden'  id = "now_state2" name = "state_code">
-이슈제목 : <input id = 'updateIssueTitle' name = 'issue_name' type = 'text'><br>
-참여자 : 
-<c:set var ="myId" value='${myInfo.username}'/>
-<input type="hidden" id = "reg_id" name = "reg_id" value = "${myId}">
-<c:forEach var = "member" items = "${memberList}" begin = "0" end = "${memberList.size()}">
-	<c:if test="${member.user_id != myId}">
-		<input type="checkbox" name="userList2" value="${member.user_id}">${member.user_id}
-	</c:if>
-</c:forEach>
-<br>
-시작날짜:<input type = "date" name = "start_date" id = "updateStartDate">
-종료날짜:<input type = "date" name = "end_date" id = "updateEndDate"><br>
-상세내용 :<br>
-<textarea id = 'updateDetail' name = "issue_detail"></textarea><br>
-<input type = 'button' value = "수정" onclick = "issue.updateIssue(${projectId})">
-<input type = 'button' value='닫기' onclick ='issue.closeUpdateIssue()'>
-</form>
+<div id = 'issueUpdatePopUp' style = 'display:none;'  class="dim-layer">
+	<div class="pop-layer">
+		<div class="pop-container">
+			<button type="button" class="btn btn-default" onclick ='issue.closeUpdateIssue()' style = "float:right; border:0px;">
+			    <span class="glyphicon glyphicon-remove"></span>
+		  	</button>
+		  	<div class="pop-conts">
+		  	<div class="page-header" >
+				<h2 style ="margin-left:10px">이슈수정</h2>      
+			</div>
+
+			<form  method = "post" id = "updateIssueForm">
+			 <table class="table table-bordered">
+		  	 	<tr>
+		  	 		<td>제목 </td><td><input id = 'updateIssueTitle' name = 'issue_name' type = 'text'></td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>참여자</td>
+		  	 		<td>
+		  	 		<c:set var ="myId" value='${myInfo.username}'/>
+						<input type="hidden" id = "reg_id" name = "reg_id" value = "${myId}">
+						<c:forEach var = "member" items = "${memberList}" begin = "0" end = "${memberList.size()}">
+						<c:if test="${member.user_id != myId}">
+							<input type="checkbox" name="userList2" value="${member.user_id}">${member.user_id}
+						</c:if>
+					</c:forEach>
+				</td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>시작날짜</td>
+		  	 		<td><input type = "date" name = "start_date" id = "updateStartDate"></td>
+		  	 	</tr>
+		  	 	<tr>
+		  	 		<td>종료날짜</td>
+		  	 		<td><input type = "date" name = "end_date" id = "updateEndDate"></td>
+		  	 	</tr>
+		  	 </table>
+			<br>
+			
+			<input type = "hidden" id = 'issue_id2' name = 'issue_id'>
+			<input type = 'hidden'  id = "now_state2" name = "state_code">
+			상세내용 :<br>
+			<textarea id = 'updateDetail' name = "issue_detail" class="form-control"></textarea><br>
+			<input type = 'button' value = "수정" onclick = "issue.updateIssue(${projectId})" style="border: 2px solid #d9534f; color:#d9534f; float:right;" class = "btn btn-default btn-sm" >
+			</form>
+			</div>
+		</div>
+	</div>
 </div>
 </body>
 </html>

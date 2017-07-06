@@ -19,8 +19,14 @@ public class IssueDto {
 	private int issue_num;
 	private String his_date;
 	private String state_search;
+	private String projectName;
 	
-	
+	public String getProjectName() {
+		return projectName;
+	}
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 	public String getState_search() {
 		return state_search;
 	}

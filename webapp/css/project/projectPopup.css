@@ -1,12 +1,12 @@
 .pop-layer {
   position: absolute;
-/*   top: 50%; */
-  left: 20%;
+  top: 30%;
+  left: 40%;
   width: 410px;
   height: auto;
   background-color: #fff;
-  border: 5px solid #3571B5;
   z-index: 10;
+  border-radius: 5px;
 }
 
 .dim-layer {
@@ -17,6 +17,7 @@
   width: 100%;
   height: 100%;
   z-index: 100;
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .dim-layer .dimBg {

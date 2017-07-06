@@ -1,4 +1,4 @@
-package com.toy.project.service.impl;
+package com.toy.issue.service.impl;
 
 import java.util.List;
 
@@ -140,6 +140,27 @@ public class IssueDao {
 	 */
 	public void updateIssue (IssueDto issueDto) {
 		sqlSession.insert("issue.updateIssue", issueDto);
+	}
+	/**
+	 * 작성일 : 2017.06.28
+	 * 메소드명 : selectMyIssue 
+	 * 작성자 : 송하람
+	 * 설명 : 내 이슈만 보기
+	 *
+	 *
+	 */
+	public List<IssueDto> selectMyIssue(IssueDto issueDto) {
+		return sqlSession.selectList("selectMyIssue", issueDto);
+	}
+	/**
+	 * 작성일 : 2017.06.28
+	 * 메소드명 : selectMyIssue 
+	 * 작성자 : 송하람
+	 * 설명 : 오늘 실행해야할 이슈리스트 가져오기
+	 *
+	 */
+	public List<IssueDto> selectCronIssue(String now_date) {
+		return sqlSession.selectList("selectCronIssue", now_date);
 	}
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toy.issue.model.IssueDto;
-import com.toy.project.service.IssueService;
+import com.toy.issue.service.IssueService;
 
 @RestController
 public class IssueRestController {
