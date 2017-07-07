@@ -11,6 +11,7 @@
 </c:forEach>
  
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1">
 </head>
 
 <body>

@@ -17,6 +17,8 @@
 	  	<put-list-attribute name="stylesheets">
     	    <add-attribute value="/css/common/header.css" />
     	    <add-attribute value="/js/dist/bootstrap.css" />
+    	    <add-attribute value="/js/dist/checkbox.css" />
+    	    <add-attribute value="/js/dist/font.css" />
     	</put-list-attribute>
 	</definition>
 </tiles-definitions>
