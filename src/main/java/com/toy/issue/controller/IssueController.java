@@ -186,37 +186,12 @@ public class IssueController {
 		mav.addObject("projectId", dto.getProject_id());
 		mav.addObject("state_code", dto.getState_code());
 		mav.addObject("projectName", dto.getProjectName());
+		
+		if (dto.getUser_id() != null) {
+			mav.addObject("viewMyIssueFlag", 1);
+		}
 		return mav;
 	}
-	
-	/**
-	 * 작성일 : 2017. 06. 29
-	 * 작성자 : 송하람
-	 * 설  명 : 내 이슈만 보기
-	 */
-	@RequestMapping(value={"/issue/selectMyIssue"}, method=RequestMethod.GET)
-	public ModelAndView selectMyIssue(HttpServletRequest request, IssueDto dto) {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("issue/issueList");
-		
-		//프로젝트에 해당하는 이슈리스트가져오기
-		List<IssueDto> issueList = issueService.selectMyIssue(dto);
-		mav.addObject("issueList", issueList);
-		
-		List<projectMemberDto> memberList = issueService.selectApplyListFromProjectMember(dto.getProject_id());
-		
-		// 로그인정보를 가져온다.
-		Authentication au = SecurityContextHolder.getContext().getAuthentication();
-		
-		// userId 
-		CustomUser user = (CustomUser) au.getPrincipal();
-		mav.addObject("myInfo", user);
-		mav.addObject("memberList", memberList);
-		mav.addObject("projectId", dto.getProject_id());
-		mav.addObject("state_code", dto.getState_code());
-		return mav;
-	}
-	
 	
 
 }

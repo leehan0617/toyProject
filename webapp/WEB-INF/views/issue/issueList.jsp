@@ -5,8 +5,6 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="${root}/css/project/projectPopup.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="${root}/js/dist/bootstrap.css" />
-
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
 <title>Insert title here</title>
@@ -20,6 +18,7 @@
 <input  type = "hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 <input type = "hidden" id = "nowSt" value="${state_code}">
 <input type = "hidden" id = "projectName" value="${projectName}">
+<input type = "hidden" id = "viewMyIssueFlag" value="${viewMyIssueFlag}">
 
 <input id = 'rootValue' type = 'hidden' value = "${root}">
 <br>
@@ -37,7 +36,7 @@
 <option value = "end">종료</option>
 </select>
 
-<input id = "chUserId" type = "checkbox" value="${myId}" onclick = "issue.searchMyIssue(${projectId})" style="display:inline-block; margin-left:10px">내 이슈만 보기
+<input id = "chUserId" type = "checkbox" value="${myId}" onclick = "issue.issueSearch(${projectId})" style="display:inline-block; margin-left:10px">내 이슈만 보기
 
 <div>
 </div>

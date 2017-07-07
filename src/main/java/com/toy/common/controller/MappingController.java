@@ -24,6 +24,6 @@ public class MappingController {
 	public String loadOnStart() {
 		logger.info("MappingController - loadOnStart 메소드 접근");
 		
-		return "common/start";
+		return "common/login";
 	}
 }

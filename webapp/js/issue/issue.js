@@ -8,6 +8,14 @@
 document.addEventListener("DOMContentLoaded",function(){
 	let selectState = document.getElementById("nowSt").value;
 	document.getElementById("stateSearch").value=selectState;
+	
+	// 내 이슈만 보기 체크되서 넘어온경우
+	let myIssueFlag = document.getElementById("viewMyIssueFlag").value;
+	console.log(myIssueFlag);
+	if (myIssueFlag == "1") {
+		console.log("들옴")
+		document.getElementById("chUserId").checked = true;
+	}
 });
 let issue = {
 		//이슈검색
@@ -15,19 +23,31 @@ let issue = {
 			let selectState = document.getElementById("stateSearch").options[document.getElementById("stateSearch").selectedIndex].value;
 			let rootValue = document.getElementById("rootValue").value;
 			let projectName = document.getElementById("projectName").value;
-			
-			
-			location.href = rootValue + '/issue/search?project_id=' + project_id + '&state_code=' + selectState + "&projectName=" + projectName;
-	
-		},
-		searchMyIssue:(project_id)=> {
-			let rootValue = document.getElementById("rootValue").value;
 			let user_id = document.getElementById("chUserId").value;
-			let projectName = document.getElementById("projectName").value;
 			
-			location.href = rootValue + '/issue/search?project_id=' + project_id + "&user_id=" + user_id + "&projectName=" + projectName;
-	
+			if (document.getElementById("chUserId").checked == true) {
+				location.href = rootValue + '/issue/search?project_id=' + project_id + '&state_code=' + selectState + "&projectName=" + projectName + "&user_id=" + user_id;
+			}
+			else {
+				location.href = rootValue + '/issue/search?project_id=' + project_id + '&state_code=' + selectState + "&projectName=" + projectName;
+			}
+				
 		},
+//		searchMyIssue:(project_id)=> {
+//			let rootValue = document.getElementById("rootValue").value;
+//			let user_id = document.getElementById("chUserId").value;
+//			let projectName = document.getElementById("projectName").value;
+//			let issue_id = document.getElementById("issue_id").value;
+//			
+//			if (document.getElementById("chUserId").checked == true) {
+//				location.href = rootValue + '/issue/selectMyIssue?project_id=' + project_id + "&user_id=" + user_id + "&projectName=" + projectName;
+//
+//			}
+//			else {
+//				location.href = rootValue + '/issue/detail/' + project_id + '/' + projectName;
+//			}
+//	
+//		},
 		//이슈 수정팝업 뜨게하기
 		addUpdateIssuePopup :() => {
 			document.getElementById("issuePopup").style.display = 'none';
