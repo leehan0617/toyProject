@@ -39,16 +39,6 @@ let project = {
 			let rootValue = document.getElementById("rootValue").value;
 			location.href = rootValue+"/project/modify/"+projectId;
 		},
-		//프로젝트 수정하기
-		projectUpdate: (projectId) => {
-            detail.updateAll(projectId).then(result => {
-            	alert("성공");
-            	let rootValue = document.getElementById("rootValue").value;
-    			location.href = rootValue+"/project/"+projectId;
-			}).catch(err => {
-			  alert("오류발생")
-			});
-		},
 		//프로젝트 삭제하기
 		projectDelete : (projectId) => {
 			detail.deleteCheck(projectId).then(result => {
@@ -63,17 +53,17 @@ let project = {
 			});
 		},
 		//신청하기 팝업 열기
-		infoDetailOpenapplyOpen : (projectId) => {
+		infoDetailOpenapplyOpen : (projectId,projectName) => {
 			document.getElementById("registDiv").style.display = "inline";
-			document.getElementById("layer2").style.top = (window.event.clientX)+"px";
 			document.getElementById("project_id").value = projectId ;//프로젝트 ID 셋팅
+			document.querySelector("label[id=project_name]").innerHTML = projectName ;//프로젝트 name 셋팅
 			document.getElementById("depart_detail").value = "";//상세직무 설명 초기화
 		},
 		//신청하기 팝업 열기
-		applyOpen : (projectId) => {
+		applyOpen : (projectId,projectName) => {
 			document.getElementById("registDiv").style.display = "inline";
-			document.getElementById("layer2").style.top = (window.event.clientX)+"px";
 			document.getElementById("project_id").value = projectId ;//프로젝트 ID 셋팅
+			document.querySelector("label[id=project_name]").innerHTML = projectName ;//프로젝트 name 셋팅
 			document.getElementById("depart_detail").value = "";//상세직무 설명 초기화
 		},
 		//신청하기 팝업 닫기 
@@ -81,6 +71,7 @@ let project = {
 			document.getElementById("registDiv").style.display = "none";
 			document.getElementById("project_id").value = "" ;//프로젝트 ID 지우기
 			document.getElementById("depart_detail").value = "" ;//상세직무 설명 초기화
+			document.querySelector("label[id=project_name]").innerHTML = "" ;//프로젝트 name 초기화
 		},
 		//프로젝트 신청하기
 		projectApply : () => {
@@ -93,50 +84,65 @@ let project = {
 		},
 		//프로젝트 멤버 리스트 가져오기 
 		memberList : (projectId) => {
-			let table = document.getElementById("memberTable");
-			let tabletr = document.getElementsByName("cloneTr");
 			
-			for(i = tabletr.length-1 ; i >= 0 ; i--){// table tr 모두 제거
-				tabletr[i].parentNode.removeChild(tabletr[i]);
-			}
+			let panel = document.getElementById("panel_"+projectId);
+			let table = panel.querySelector("div[id=memberTable]");
+			let tabletr = panel.querySelectorAll("ul[name=cloneTr]");
 			
-			detail.getmemberList(projectId).then(result => {
-
-				let memberList = JSON.parse(result);
-				let tr = document.getElementById("memberTr")
-				
-				document.getElementById("project_id").value = projectId;//프로젝트 id 셋팅 
-
-				for(i = 0 ; i <memberList.length ; i++){
-					let clone = tr.cloneNode(true);
-					let td = clone.getElementsByTagName("td");
-					
-					clone.style.display = "table-row";
-					clone.id = "cloneTr";
-					clone.setAttribute("name","cloneTr");
-					
-					td[0].innerHTML = memberList[i].user_name;//신청한 사람
-					
-					if(memberList[i].state_code == "accept"){//이미 승인한 사람일 경우 
-						clone.querySelector("input[id=acceptbtn]").disabled = true;
-					}
-					if(memberList[i].state_code == "refuse"){//이미 거절 당한 사람일 경우 
-						clone.querySelector("input[id=refusebtn]").disabled = true;
-					}
-					
-					clone.querySelector("input[id=user_id]").value = memberList[i].user_id;//신청한 사람 ID
-					
-					table.appendChild(clone);
+			if(tabletr.length > 0){//table 열려져 있지 않을때 
+				for(i = tabletr.length-1 ; i >= 0 ; i--){// table tr 모두 제거
+					tabletr[i].parentNode.removeChild(tabletr[i]);
 				}
-				
-			}).catch(err => {
-				alert("에러발생.")
-			});
+			}else{
+			
+				detail.getmemberList(projectId).then(result => {
+	
+					let memberList = JSON.parse(result);
+					let tr = panel.querySelector("ul[id=memberTr]")
+					
+					panel.querySelector("input[id=project_id]").value = projectId;//프로젝트 id 셋팅 
+					
+					if(memberList.length > 0){
+							for(i = 0 ; i <memberList.length ; i++){
+								let clone = tr.cloneNode(true);
+								let li = clone.getElementsByTagName("li");
+								
+								clone.style.display = "inline-block";
+								clone.id = "cloneTr";
+								clone.setAttribute("name","cloneTr");
+								
+								li[0].innerHTML = memberList[i].user_name;//신청한 사람
+								
+								if(memberList[i].state_code == "accept"){//이미 승인한 사람일 경우 
+									clone.querySelector("button[id=acceptbtn]").disabled = true;
+								}
+								if(memberList[i].state_code == "refuse"){//이미 거절 당한 사람일 경우 
+									clone.querySelector("button[id=refusebtn]").disabled = true;
+								}
+								
+								clone.querySelector("input[id=user_id]").value = memberList[i].user_id;//신청한 사람 ID
+								
+								table.appendChild(clone);
+							}
+					}else{
+						let clone = tr.cloneNode(true);
+						let li = clone.getElementsByTagName("li");
+						clone.style.display = "inline-block";
+						clone.id = "cloneTr";
+						clone.setAttribute("name","cloneTr");
+						li[0].innerHTML = "<strong>결과가 없습니다</strong>";
+						li[1].innerHTML = "";
+						table.appendChild(clone);
+					}
+				}).catch(err => {
+					alert("에러발생.")
+				});
+			}
 		},
 		//사람 정보 상세보기
 		infoDetailOpen : (my) => {
 			let user_id = my.parentNode.querySelector("input[id=user_id]").value;//선택한 user_id
-			let project_id = document.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
+			let project_id = my.parentNode.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
 
 			detail.memberDetail(project_id,user_id).then(result => {//사람 정보 가져오기
 				let memberInfo = JSON.parse(result);
@@ -162,8 +168,8 @@ let project = {
 		apprMember: (approve,my) => {
 			detail.updatememberState(approve,my).then(result => {
 				alert("완료");
-				let project_id = document.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
-				project.memberList(project_id);//새로고침 하기
+				let projectId = my.parentNode.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
+				project.memberList(projectId);//새로고침 하기
 			}).catch(err => {
 				alert("에러발생.")
 			});
@@ -176,6 +182,31 @@ let project = {
 				document.getElementById("manager_id").value = "";
 				document.getElementById("projectform").submit();
 			}
+		},
+		//프로젝트 모집 시작
+		recruitState: (stateCode) => {
+			detail.recruitState(stateCode).then(result => {
+				console.log(result)
+				if(result == "0"){
+					alert("시작되었습니다");
+				}else{
+					alert("종료되었습니다")
+				}
+				
+				location.reload();
+			}).catch(err => {
+				alert(err)
+			});
+		},
+		//프로젝트 시작
+		projectState: (stateCode) => {
+			detail.projectState(stateCode).then(result => {
+				console.log(result)
+				alert("완료");
+				location.reload();
+			}).catch(err => {
+				alert(err)
+			});
 		}
 }
 
@@ -227,49 +258,6 @@ let detail = {
 					 reject(new Error(req.statusText));
 				 };
 				
-			});
-		},
-		// update 하기
-		updateAll : (projectId) =>{
-			
-			let elements = document.getElementById('updatefrm');//form 데이터 불러오기
-			
-			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
-			const header = document.querySelector("input[name=_csrf_header]").value;
-			
-			let uri = "";
-            let argcount = 0;
-            for (i = 0 ; i <elements.length ;i++) {//form 데이터 - url 방식으로 변경
-              if (argcount++) {
-                uri += '&';
-              }
-              uri += encodeURIComponent(elements[i].name) + '=' + encodeURIComponent(elements[i].value);
-           }
-            
-			return new Promise((resolve, reject) => {
-				let rootValue = document.getElementById("rootValue").value;
-				let req = new XMLHttpRequest();
-				
-				req.open('POST',rootValue+'/project/update/'+projectId,true);//post 방식으로 전송하기
-				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");//post 방식일떄 필요
-				req.setRequestHeader(header, csrfToken);
-				req.send(uri);
-				
-				req.onload = () =>{//로드 했을떄 
-					 if(req.status == 200){
-						 if(req.responseText == "true"){//true 일때
-							 resolve(req.responseText);
-						 }else{
-							 reject(new Error(req.statusText));
-						 }
-					 }else{
-						 reject(new Error(req.statusText));
-					 }
-				};
-					 
-				req.onerror = () => {//실패했을때
-					 reject(new Error(req.statusText));
-				 };
 			});
 		},
 		// 프로젝트 신청하기
@@ -374,7 +362,7 @@ let detail = {
 		updatememberState : (approve,my) =>{
 			
 			let userId = my.parentNode.querySelector("input[id=user_id]").value;//선택한 user_id
-			let projectId = document.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
+			let projectId = my.parentNode.querySelector("input[id=project_id]").value;//선택한 프로젝트 id
 			
 			let params = {"project_id":projectId,"user_id":userId,"state_code":approve};
 			
@@ -412,4 +400,82 @@ let detail = {
 				 };
 			});
 		},
+		//프로젝트 모집 시작
+		recruitState: (stateCode) => {
+			
+			let projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
+			let recruitStartdate = document.querySelector("input[name=recruit_start_date]").value;//모집 시작 날짜
+			let recruitEnddate = document.querySelector("input[name=recruit_end_date]").value;//모집 끝나는 날짜
+			
+			let params = {"project_id":projectId,"recruit_start_date":recruitStartdate,"recruit_end_date":recruitEnddate,"state_code":stateCode,"type":"recruit"};
+			
+			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
+			const header = document.querySelector("input[name=_csrf_header]").value;
+			
+			let esc = encodeURIComponent
+			let query = Object.keys(params)
+			             .map(k => esc(k) + '=' + esc(params[k]))
+			             .join('&');
+            
+			return new Promise((resolve, reject) => {
+				let rootValue = document.getElementById("rootValue").value;
+				let req = new XMLHttpRequest();
+				
+				req.open('POST',rootValue+'/project/start',true);//post 방식으로 전송하기
+				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");//post 방식일떄 필요
+				req.setRequestHeader(header, csrfToken);
+				req.send(query);
+				
+				req.onload = () =>{//로드 했을떄 
+					 if(req.status == 200){
+						resolve(req.responseText);
+					 }else{
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+			});
+		},
+		//프로젝트 시작
+		projectState: (stateCode) => {
+			
+			let projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
+			let projectStartdate = document.querySelector("input[name=project_start_date]").value;//모집 시작 날짜
+			let projectEnddate = document.querySelector("input[name=project_end_date]").value;//모집 끝나는 날짜
+			
+			let params = {"project_id":projectId,"project_start_date":projectStartdate,"project_end_date":projectEnddate,"state_code":stateCode,"type":"project"};
+			
+			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
+			const header = document.querySelector("input[name=_csrf_header]").value;
+			
+			let esc = encodeURIComponent
+			let query = Object.keys(params)
+			             .map(k => esc(k) + '=' + esc(params[k]))
+			             .join('&');
+            
+			return new Promise((resolve, reject) => {
+				let rootValue = document.getElementById("rootValue").value;
+				let req = new XMLHttpRequest();
+				
+				req.open('POST',rootValue+'/project/start',true);//post 방식으로 전송하기
+				req.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");//post 방식일떄 필요
+				req.setRequestHeader(header, csrfToken);
+				req.send(query);
+				
+				req.onload = () =>{//로드 했을떄 
+					 if(req.status == 200){
+						resolve(req.responseText);
+					 }else{
+						 reject(new Error(req.statusText));
+					 }
+				};
+					 
+				req.onerror = () => {//실패했을때
+					 reject(new Error(req.statusText));
+				 };
+			});
+		}
 }

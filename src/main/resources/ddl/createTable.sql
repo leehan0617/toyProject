@@ -52,7 +52,8 @@ CREATE TABLE project (
 	reg_date           DATE          NULL,     -- 등록일
 	mod_date           DATE          NULL,     -- 수정일
 	mod_id             VARCHAR(50)     NULL,      -- 수정아이디
-	his_date           DATETIME          NULL     -- history 키
+	his_date           DATETIME          NULL,     -- history 키
+	project_his_date           DATETIME          NULL     -- history 키
 );
 
 -- 프로젝트참여자
