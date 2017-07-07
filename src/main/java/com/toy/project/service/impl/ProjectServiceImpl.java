@@ -52,6 +52,7 @@ public class ProjectServiceImpl implements ProjectService{
 		String his_date = dayTime.format(new Date(time));
 		
 		projectDto.setHis_date(his_date);
+		projectDto.setProject_his_date(his_date);
 		
 		//프로젝트 생성
 		projectDao.insertProject(projectDto);
@@ -76,14 +77,14 @@ public class ProjectServiceImpl implements ProjectService{
 		projectDto.setState_code("accept");//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기 
 		projectDao.insertProjectMember(projectDto);
 	
-		//프로젝트 모집 날짜 넣기 - 상태 모집중(배치로 빼야됨)
-		projectDto.setState_code("recruiting");
+		//프로젝트 모집 날짜 넣기 
 		projectDto.setType("recruit");
+		projectDto.setState_code(projectDto.getRecruit_state_code());
 		projectDao.insertProjectRecruitDate(projectDto);
 		
-		//프로젝트 날짜 넣기 - 배치
-		projectDto.setState_code(null);
-		projectDto.setType(null);
+		//프로젝트 날짜 넣기 
+		projectDto.setType("project");
+		projectDto.setState_code(projectDto.getProject_state_code());
 		projectDao.insertProjectDate(projectDto);
 	}
 	
@@ -128,7 +129,49 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return resultList;
 	}
+	
+	/**
+	 * 작성일 : 2017. 7. 3.
+	 * 작성자 : 김민지 
+	 * 설 명  : 나의 프로젝트 전체 리스트 가져오기
+	 * @return 
+	 */
+	public List<ProjectDto> getMyProjectList(ProjectDto projectDto) {
+		
+		List<ProjectDto> projectList = projectDao.getMyProjectList(projectDto);
+	
+		Map<Integer,ProjectDto> map  = new HashMap<>();
+		
+		if(!projectList.isEmpty()){
+			
+			//프로젝트 별로 직무 합치기 
+			for(int i = 0 ; i <projectList.size();i++){
+				
+				int key = projectList.get(i).getProject_id();
+				
+				ProjectDto dto;
+				Map<String,String> departMap;
+				
+				if(!map.containsKey(key)){//map 에 키가 존재할때
+					dto = projectList.get(i);
+					departMap = new HashMap<>();
+				}else{
+					dto = map.get(key);
+					departMap = dto.getDepartMap();
+				}
 
+				departMap.put(projectList.get(i).getDepart_name(), String.valueOf(projectList.get(i).getUsercount()));
+				dto.setDepartMap(departMap);
+				
+				map.put(key, dto);
+			}
+		}
+		
+		//프로젝트 별로 직무 행 -> 열로 합치기 
+		List<ProjectDto> resultList = new ArrayList<>(map.values());
+		
+		return resultList;
+	}
 	/**
 	 * 작성일 : 2017. 5 .24
 	 * 작성자 : 김민지
@@ -203,6 +246,8 @@ public class ProjectServiceImpl implements ProjectService{
 		String his_date = dayTime.format(new Date(time));
 		
 		projectDto.setHis_date(his_date);
+		projectDto.setProject_his_date(his_date);
+		
 		projectDto.setMod_id(user.getUsername());
 		projectDto.setReg_id(user.getUsername());
 		
@@ -223,13 +268,15 @@ public class ProjectServiceImpl implements ProjectService{
 				projectDao.insertProjectDepart(map);
 			}
 		}
-		//프로젝트 모집 날짜 넣기 - 상태 모집중(배치로 빼야됨)
-		projectDto.setState_code("recruiting");
+		
+		//프로젝트 모집 날짜 넣기 
 		projectDto.setType("recruit");
+		projectDto.setState_code(projectDto.getRecruit_state_code());
 		projectDao.insertProjectRecruitDate(projectDto);
-		//프로젝트 날짜 넣기 - 배치
-		projectDto.setState_code(null);
-		projectDto.setType(null);
+		
+		//프로젝트 날짜 넣기 
+		projectDto.setType("project");
+		projectDto.setState_code(projectDto.getProject_state_code());
 		projectDao.insertProjectDate(projectDto);
 	}
 
@@ -275,5 +322,90 @@ public class ProjectServiceImpl implements ProjectService{
 	 */
 	public List<ProjectDto> getStateCode(String type) {
 		return projectDao.getStateCode(type);
+	}
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 모집 날짜 insert 하기 
+	 */
+	public int insertProjectRecruitDate(ProjectDto projectDto){
+		return projectDao.insertProjectRecruitDate(projectDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 프로젝트 날짜 insert 하기 
+	 */
+	public int insertProjectDate(ProjectDto projectDto){
+		return projectDao.insertProjectDate(projectDto);
+	}
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 hisDate 수정하기  
+	 */
+	public int updateProjectHisDate(ProjectDto projectDto) {
+		return projectDao.updateProjectHisDate(projectDto);
+	}
+
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 시작/종료 수정하기  
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	public int projectStart(ProjectDto projectDto) {
+		
+		int value = 0;
+		
+		// 로그인정보를 가져온다.
+		Authentication au = SecurityContextHolder.getContext().getAuthentication();
+		
+		// userId 
+		CustomUser user = (CustomUser) au.getPrincipal();
+		
+		projectDto.setReg_id(user.getUsername());//로그인 한 사람
+		projectDto.setMod_id(user.getUsername());//로그인 한 사람
+		
+		//현재 날짜 
+		long time = System.currentTimeMillis();
+		
+		SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		
+		String his_date = dayTime.format(new Date(time));
+		
+		String his_ymd  = his_date.substring(0,10);
+		
+		// 모집 상태 넣기
+		if(projectDto.getType().equals("recruit")){
+			
+			projectDto.setHis_date(his_date);
+			projectDao.updateProjectHisDate(projectDto);//프로젝트 his_date 업데이트 하기 
+			
+			if(projectDto.getState_code().equals("recruiting")){//모집 시작 일때 시작날짜를 현재 날짜로 변경
+				projectDto.setRecruit_start_date(his_ymd);
+			}else{//모집 종료일때 시작일짜를 현재 날짜로 변경 
+				projectDto.setRecruit_end_date(his_ymd);
+				value = 1;
+			}
+			projectDao.insertProjectRecruitDate(projectDto);
+
+		}else{
+			
+			projectDto.setProject_his_date(his_date);
+			projectDao.updateProjectHisDate(projectDto);//프로젝트 his_date 업데이트 하기 
+			
+			if(projectDto.getState_code().equals("start")){//모집 시작 일때 시작날짜를 현재 날짜로 변경
+				projectDto.setProject_start_date(his_ymd);
+			}else{//모집 종료일때 시작일짜를 현재 날짜로 변경 
+				projectDto.setProject_end_date(his_ymd);
+				value = 1;
+			}
+			projectDao.insertProjectDate(projectDto);
+		}
+		return value;
 	}
 }

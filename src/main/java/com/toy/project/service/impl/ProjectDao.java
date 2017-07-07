@@ -43,6 +43,16 @@ public class ProjectDao {
 	}
 	
 	/**
+	 * 작성일 : 2017. 7. 3.
+	 * 작성자 : 김민지 
+	 * 설 명  : 나의 프로젝트 전체 리스트 가져오기
+	 * @return 
+	 */
+	public List<ProjectDto> getMyProjectList(ProjectDto projectDto) {
+		return sqlSession.selectList("project.getMyProjectList",projectDto);
+	}
+	
+	/**
 	 * 작성일 : 2017. 5 .24
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 상세  가져오기
@@ -171,6 +181,15 @@ public class ProjectDao {
 	 */
 	public List<ProjectDto> getStateCode(String type) {
 		return sqlSession.selectList("project.getStateCode",type);
+	}
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 hisDate 수정하기  
+	 */
+	public int updateProjectHisDate(ProjectDto projectDto) {
+		return sqlSession.update("project.updateProjectHisDate",projectDto);
 	}
 	
 }

@@ -88,8 +88,12 @@ public class ProjectDto implements Serializable{
 	//프로젝트 코드 type
 	private String type;
 	
-	//프로젝트 history 테이블
+	//프로젝트 recruit_history 테이블
 	private String his_date;
+	
+	//프로젝트 history 테이블
+	private String project_his_date;
+	
 	public int getProject_id() {
 		return project_id;
 	}
@@ -275,5 +279,11 @@ public class ProjectDto implements Serializable{
 	}
 	public void setProjectCodeList(List<String> projectCodeList) {
 		this.projectCodeList = projectCodeList;
+	}
+	public String getProject_his_date() {
+		return project_his_date;
+	}
+	public void setProject_his_date(String project_his_date) {
+		this.project_his_date = project_his_date;
 	}
 }

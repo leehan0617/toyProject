@@ -7,40 +7,35 @@
 <link rel="stylesheet" type="text/css" href="${root}/css/project/projectPopup.css" />
 
 <div class="dim-layer">
-<!--     <div class="dimBg"></div> -->
     <div id="layer2" class="pop-layer">
         <div class="pop-container">
+        	<button type="button" class="btn btn-default" onclick="project.infoDetailClose()" style = "float:right; border:0px;">
+			    <span class="glyphicon glyphicon-remove"></span>
+		  	</button>
             <div class="pop-conts">
-				<table>
+            	<div class="page-header" >
+					<h2>정보보기</h2>      
+				</div>
+				<table class="table table-hover">
 					<tr>
-						<th colspan="2">정보</th>
-					</tr>
-					<tr>
-						<td>
-							이름
-						</td>
+						<th scope="row" class="bg-gray">이름</th>
 						<td id="name">
 							
 						</td>
 					</tr>
 					<tr>
-						<td>
-							부서
-						</td>
+						<th scope="row" class="bg-gray">부서</th>
 						<td id="depart">
 							
 						</td>
 					</tr>
 					<tr>
-						<td>
-							자기소개
-						</td>
+						<th scope="row" class="bg-gray">자기소개</th>
 						<td  id="depart_detail">
 							
 						</td>
 					</tr>
 				</table>
-                <input type="button"  onclick="project.infoDetailClose()" value="Close" /><!-- 팝업 닫기 -->
             </div>
         </div>
     </div>

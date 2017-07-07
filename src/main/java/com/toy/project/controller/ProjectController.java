@@ -58,7 +58,7 @@ public class ProjectController {
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		
 		Gson objGson = new Gson();//json으로 변경
-		System.out.println("흠"+projectDto.getRecruit_start_date());
+		
 		model.addAttribute("departCodeList", objGson.toJson(projectDto.getDepartCodeList()));
 		model.addAttribute("recruitCodeList", objGson.toJson(projectDto.getRecruitCodeList()));
 		model.addAttribute("projectCodeList", objGson.toJson(projectDto.getProjectCodeList()));
@@ -80,7 +80,11 @@ public class ProjectController {
 	public String projectNew(Model model) {
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
+		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
 		
+		model.addAttribute("recruitList", recruitList);
+		model.addAttribute("projectStateList", projectStateList);
 		model.addAttribute("departList" , departList);
 		return "project/projectNew";
 	}
@@ -120,6 +124,7 @@ public class ProjectController {
 		ProjectDto projectDetail = projectService.getProjectDetail(projectDto);
 		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
 		
+		
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
 
@@ -152,6 +157,10 @@ public class ProjectController {
 		ProjectDto projectDetail = projectService.getProjectDetail(projectDto);
 		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
 		
+		//프로젝트 상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
 
@@ -160,17 +169,33 @@ public class ProjectController {
 		model.addAttribute("projectDep", objGson.toJson(projectDep));
 		model.addAttribute("projectDetail" , projectDetail);
 		model.addAttribute("departList" , departList);
+		model.addAttribute("recruitList" , recruitList);
+		model.addAttribute("projectStateList" , projectStateList);
 		return "project/projectModify";
 	}
 
+	/**
+	 * 작성일 : 2017. 6. 8.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 수정하기
+	 * @throws Throwable 
+	 */
+	@PreAuthorize("(#projectDto.manager_id == principal.Username) or hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/project/update/{projectId}" , method=RequestMethod.POST)
+	public String updateproject(@PathVariable int projectId,ProjectDto projectDto) throws Throwable {
+		projectDto.setProject_id(projectId);
+		projectService.updateProjectAll(projectDto);
+		return "redirect:/project/"+projectId;
+	}
+	
 	/**
 	 * 작성일 : 2017. 6. 16.
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 리스트 별 신청한 사람 인원.
 	 */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	
 	@RequestMapping(value="/project/member" , method=RequestMethod.GET)
-	public String projectMember(Model model) {
+	public String projectMember(Model model,ProjectDto projectDto) {
 		
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
@@ -178,15 +203,25 @@ public class ProjectController {
 		// userId 
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
-		ProjectDto projectDto = new ProjectDto();
-		
 		projectDto.setUser_id(user.getUsername());//본인이 신청한 프로젝트 구분하기
-		projectDto.setManager_id(user.getUsername());// 본인 담당 프로젝트 가져오기 
+//		projectDto.setManager_id(user.getUsername());// 본인 담당 프로젝트 가져오기 
 		
-		List<ProjectDto> projectList = projectService.getProjectList(projectDto);
+		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
+		List<ProjectDto> projectList = projectService.getMyProjectList(projectDto);
 		List<ProjectDto> stateList = projectService.getStateCode("apply");//승인/수락 code 가져오기
 		
+		Gson objGson = new Gson();//json으로 변경
+		
+		model.addAttribute("departCodeList", objGson.toJson(projectDto.getDepartCodeList()));
+		model.addAttribute("recruitCodeList", objGson.toJson(projectDto.getRecruitCodeList()));
+		model.addAttribute("projectCodeList", objGson.toJson(projectDto.getProjectCodeList()));
+		model.addAttribute("recruitList", recruitList);
+		model.addAttribute("projectStateList", projectStateList);
+		model.addAttribute("departList", departList);
 		model.addAttribute("stateList", stateList);
+		model.addAttribute("paramDto", projectDto);
 		model.addAttribute("projectList", projectList);
 		return "project/projectMember";
 	}

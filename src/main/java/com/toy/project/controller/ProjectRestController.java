@@ -84,20 +84,6 @@ public class ProjectRestController {
 	}
 	
 	/**
-	 * 작성일 : 2017. 6. 8.
-	 * 작성자 : 김민지
-	 * 설  명 : 프로젝트 수정하기
-	 * @throws Throwable 
-	 */
-	@PreAuthorize("(#projectDto.manager_id == principal.Username) or hasRole('ROLE_ADMIN')")
-	@RequestMapping(value="/project/update/{projectId}" , method=RequestMethod.POST)
-	public Boolean updateproject(@PathVariable int projectId,ProjectDto projectDto) throws Throwable {
-		projectDto.setProject_id(projectId);
-		projectService.updateProjectAll(projectDto);
-		return true;
-	}
-	
-	/**
 	 * 작성일 : 2017. 6. 14.
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 신청하기
@@ -179,5 +165,19 @@ public class ProjectRestController {
 		projectService.updateProjectMember(projectDto);
 		
 		return true;
+	}
+	
+	/**
+	 * 작성일 : 2017. 7. 7.
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 시작/종료 하기.
+	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value="/project/start" , method=RequestMethod.POST)
+	public int projectStart(ProjectDto projectDto) {
+		//상태값
+		int value = projectService.projectStart(projectDto);
+		
+		return value;
 	}
 }

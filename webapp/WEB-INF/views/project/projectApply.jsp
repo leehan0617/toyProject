@@ -5,27 +5,31 @@
 <%@ taglib prefix="ctg" tagdir="/WEB-INF/tags"%>
 <c:set var="root" value="#{pageContext.request.contextPath}"/>
 <link rel="stylesheet" type="text/css" href="${root}/css/project/projectPopup.css" />
+<link rel="stylesheet" type="text/css" href="${root}/css/project/project.css" />
 
 <div class="dim-layer">
-<!--     <div class="dimBg"></div> -->
     <div id="layer2" class="pop-layer">
         <div class="pop-container">
+        	<button type="button" class="btn btn-default" onclick="project.applyClose()" style = "float:right; border:0px;">
+			    <span class="glyphicon glyphicon-remove"></span>
+		  	</button>
             <div class="pop-conts">
-				<form method="POST" id = "memberApply">
-				<input type='hidden' id = 'project_id' name = 'project_id' value = "">
-					<table>
-						<tr>
-							<th>상세직무 설명 및 본인소개</th>
-						</tr>
-						<tr>
-							<td>
-								<textarea style="width: 100%" id= "depart_detail" name= "depart_detail"></textarea>
-							</td>
-						</tr>
-					</table>
-				</form>	
-				<input type="button" value="신청" onclick="project.projectApply();"/>
-                <input type="button"  onclick="project.applyClose()" value="Close" /><!-- 팝업 닫기 -->
+            	<div class="page-header" >
+					<h2>신청하기</h2>      
+				</div>
+				<div class="form-group">
+					<form method="POST" id = "memberApply">
+					<input type='hidden' id = 'project_id' name = 'project_id' value = "">
+						<h3><label id="project_name" style="color:#FF8000;"></label></h3>
+						<p>
+							<label for="comment"> 상세직무 설명 및 본인소개 </label>
+							<textarea class="form-control" id= "depart_detail" name= "depart_detail"></textarea>
+						</p>
+					</form>	
+					<br>
+					<input type="button" value="신청" style="border: 2px solid #d9534f; color:#d9534f; float:right;" class = "btn btn-default btn-sm" onclick="project.projectApply();"/>
+            		<br>
+            	</div>
             </div>
         </div>
     </div>

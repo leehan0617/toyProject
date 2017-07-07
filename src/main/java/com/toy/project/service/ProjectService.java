@@ -29,6 +29,14 @@ public interface ProjectService {
 	public List<ProjectDto> getProjectList(ProjectDto projectDto);
 	
 	/**
+	 * 작성일 : 2017. 7. 3.
+	 * 작성자 : 김민지 
+	 * 설 명  : 나의 프로젝트 전체 리스트 가져오기
+	 * @return 
+	 */
+	public List<ProjectDto> getMyProjectList(ProjectDto projectDto);
+	
+	/**
 	 * 작성일 : 2017. 5 .24
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 상세  가져오기
@@ -108,4 +116,33 @@ public interface ProjectService {
 	 * 설  명 : 프로젝트 상태 코드 가져오기
 	 */
 	public List<ProjectDto> getStateCode(String type);
+	
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 모집 날짜 insert 하기 
+	 */
+	public int insertProjectRecruitDate(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 프로젝트 날짜 insert 하기 
+	 */
+	public int insertProjectDate(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 hisDate 수정하기  
+	 */
+	public int updateProjectHisDate(ProjectDto projectDto) ;
+	
+	/**
+	 * 작성일 : 2017. 7 .7
+	 * 작성자 : 김민지
+	 * 설  명 : 프로젝트 시작/종료 수정하기  
+	 */
+	public int projectStart(ProjectDto projectDto);
 }
