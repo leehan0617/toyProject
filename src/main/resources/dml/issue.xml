@@ -28,6 +28,31 @@ where a.project_id = #{projectId}
 
 <!-- 프로젝트에 해당하는 이슈리스트 -->
 <select id="selectIssueList" resultType="com.toy.issue.model.IssueDto"  parameterType="com.toy.issue.model.IssueDto">
+select b.issue_id, b.issue_name, b.issue_detail, b.reg_id, c.state_code, d.state_name, c.reg_date
+from issue b
+join issuehistory c
+on b.his_date = c.reg_date
+join state d
+on c.state_code = d.state_code
+<if test="user_id != null and user_id != ''">
+join issuemember a
+on a.issue_id = b.issue_id
+</if>
+where b.project_id = #{project_id}
+<if test="state_code != null and state_code != '' and state_code != 'all'">
+and c.state_code = #{state_code}
+</if>
+<if test="user_id != null and user_id != ''">
+and a.user_id = #{user_id}
+</if>
+and d.type = 'issue'
+order by reg_date desc
+limit #{page}, #{count}
+</select>
+
+<!-- 프로젝트에 해당하는 이슈리스트 (숫자)-->
+<select id="selectIssueTotalCount" resultType="Integer"  parameterType="com.toy.issue.model.IssueDto">
+select count(*) from (
 select  b.issue_id, b.issue_name, b.issue_detail, b.reg_id, c.state_code, d.state_name
 from issue b
 join issuehistory c
@@ -46,6 +71,7 @@ and c.state_code = #{state_code}
 and a.user_id = #{user_id}
 </if>
 and d.type = 'issue'
+)cnt
 </select>
 
 <!-- 이슈생성  -->

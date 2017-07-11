@@ -163,6 +163,17 @@ public class IssueServiceImpl implements IssueService{
 	public List<IssueDto> selectMyIssue(IssueDto issueDto) {
 		return issueDao.selectMyIssue(issueDto);
 	}
+
+	/**
+	 * 작성일 : 2017.07.07
+	 * 메소드명 : selectIssueTotalCount
+	 * 작성자 : 송하람
+	 * 설명 : 전체 이슈 갯수
+	 *
+	 */
+	public int selectIssueTotalCount(IssueDto issueDto) {
+		return issueDao.selectIssueTotalCount(issueDto);
+	}
 	
 
 

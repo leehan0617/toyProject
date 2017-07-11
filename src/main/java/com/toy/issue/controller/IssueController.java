@@ -21,6 +21,7 @@ import com.toy.issue.model.projectMemberDto;
 import com.toy.issue.service.IssueService;
 import com.toy.project.model.ProjectDto;
 import com.toy.security.model.CustomUser;
+import com.toy.util.PagingUtil;
 
 /**
  * 작성일 : 2017. 3. 27.
@@ -29,6 +30,11 @@ import com.toy.security.model.CustomUser;
  */
 @Controller
 public class IssueController {
+	
+	//페이지 만들기
+//	@Autowired	
+//	private PagingUtil page;
+	
 	
 	@Autowired
 	IssueService issueService;
@@ -70,7 +76,7 @@ public class IssueController {
 		dto.setUserList(userList);
 		
 		issueService.insertIssue(dto);
-		return "redirect:/issue/detail/"+dto.getProject_id()+"/"+dto.getProjectName();
+		return "redirect:/issue/detail/"+dto.getProject_id()+"/"+dto.getProjectName()+"/1";
 	}
 	/**
 	 * 작성일 :  2017. 06. 15
@@ -78,13 +84,20 @@ public class IssueController {
 	 * 설  명 : 이슈 상세보기
 	 * @throws Exception 
 	 */
-	@RequestMapping(value={"/issue/detail/{projectId}/{projectName}"} , method=RequestMethod.GET)
-	public ModelAndView showIssueList(@PathVariable(value="projectId") String projectId, @PathVariable(value="projectName") String projectName) {
+	@RequestMapping(value={"/issue/detail/{projectId}/{projectName}/{seq}"} , method=RequestMethod.GET)
+	public ModelAndView showIssueList(@PathVariable(value="projectId") String projectId, @PathVariable(value="projectName") String projectName, @PathVariable(value="seq") String seq) {
+		//한 화면에 출력하고 싶은 목록 갯수
+		int countPerPage = 3;
+		// 한 화면에 출력하고 싶은 페이지 갯수
+		int pageNumber = 5;
+		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("issue/issueList");
 		
 		IssueDto issuedto = new IssueDto();
 		issuedto.setProject_id(projectId);
+		issuedto.setPage((Integer.parseInt(seq)-1)*countPerPage);
+		issuedto.setCount(countPerPage);
 		
 		//프로젝트에 해당하는 이슈리스트가져오기
 		List<IssueDto> issueList = issueService.selectIssueList(issuedto);
@@ -101,6 +114,25 @@ public class IssueController {
 		mav.addObject("myInfo", user);
 		mav.addObject("memberList", memberList);
 		mav.addObject("state_code", "all");
+		
+		//현재페이지
+		mav.addObject("seq", seq);
+		//총갯수
+		int totalCount = issueService.selectIssueTotalCount(issuedto);
+			
+		Double nowPage = Double.parseDouble(seq);
+		
+		PagingUtil page = new PagingUtil(countPerPage, pageNumber, nowPage, totalCount);
+		
+		mav.addObject("pageCount", page.getPageCount());
+		mav.addObject("nextPage", page.getNextPage());
+		mav.addObject("prevPage", page.getPrevPage());
+		
+		//시작페이지
+		mav.addObject("nowBlockFirst", page.getNowBlockFirst());
+		//마지막페이지
+		mav.addObject("nowBlockLast", page.getNowBlockLast());
+		mav.addObject("url", "/issue/detail/"+projectId+"/"+projectName);
 		return mav;
 	}
 	/**

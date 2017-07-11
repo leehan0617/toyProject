@@ -22,11 +22,13 @@
 
 <input id = 'rootValue' type = 'hidden' value = "${root}">
 <br>
+
+
+<div  class="container" style = 'background-color:white; width:1000px; height:80%; padding:20px;'>
 <div class="page-header" >
 	<h2 style ="margin-left:10px">${projectName}</h2>      
 </div>
-
-
+<div>
 <select id = "stateSearch"  class="form-control" style = "width:120px; display:inline-block; margin-left:20px;" onchange="issue.issueSearch(${projectId})" >
 <option value = "all">전체</option>
 <option value = "wait">대기</option>
@@ -36,26 +38,34 @@
 <option value = "end">종료</option>
 </select>
 
-<input id = "chUserId" type = "checkbox" value="${myId}" onclick = "issue.issueSearch(${projectId})" style="display:inline-block; margin-left:10px">내 이슈만 보기
-
-<div>
+<input id = "chUserId" type = "checkbox" class="styled" value="${myId}" onclick = "issue.issueSearch(${projectId})" style="display:inline-block; margin-left:10px">내 이슈만 보기
 </div>
 <br>
-<div class="container" style = "margin-left:0px; width:30%; display:inline-block">
-<ul class="list-group">
 
-<c:forEach var ="issue" items = "${issueList}" begin = "0" end ="${issueList.size()}">
-<li class="list-group-item">
-	<a href = "javascript:detailIssue.selectIssueDetail('${issue.issue_id}')">${issue.issue_name}</a>
-</li>
-</c:forEach>
 
-</ul>
+<div style = "margin-left:0px; width:500px; display:inline-block;margin-bottom:300px;">
+
+	<table class="table table-bordered" style = 'background-color:white; width:500px;height:80%;'>
+		<c:forEach var ="issue" items = "${issueList}" begin = "0" end ="${issueList.size()}">
+		<tr>
+			<td><a href = "javascript:detailIssue.selectIssueDetail('${issue.issue_id}')">${issue.issue_name}</a></td>
+		</tr>
+		</c:forEach>
+	</table>
 <br>
 <button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #d9534f; color:#d9534f;" >이슈생성</button>
-
+<jsp:include page="../common/paging.jsp" flush="true">
+	<jsp:param name = "count" value = "${count}"/>
+	<jsp:param name = "seq" value = "${seq}"/>
+	<jsp:param name = "pageCount" value = "${pageCount}"/>
+	<jsp:param name = "nextPage" value = "${nextPage}"/>
+	<jsp:param name = "prevPage" value = "${prevPage}"/>
+	<jsp:param name = "nowBlockFirst" value = "${nowBlockFirst}"/>
+	<jsp:param name = "nowBlockLast" value = "${nowBlockLast}"/>
+</jsp:include>
 </div>
-<div id ='issueDetailPopup' style = 'display:none; width:30%;height:800px;  vertical-align:top; '>
+
+<div id ='issueDetailPopup' style = 'display:none; width:30%; vertical-align:top; float:right;'>
 			
 			 <table class="table table-bordered">
 		  	 	<tr>
@@ -80,6 +90,9 @@
 			<button style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" id = 'issueDelete' type = 'button' onclick = 'issue.deleteStart(${projectId})'>삭제</button>
 			</div>
 </div>
+
+</div>
+
 <div id = 'issuePopup' style = 'display:none;' class="dim-layer">
 	<div class="pop-layer">
 		<div class="pop-container">
@@ -182,5 +195,7 @@
 		</div>
 	</div>
 </div>
+
+
 </body>
 </html>

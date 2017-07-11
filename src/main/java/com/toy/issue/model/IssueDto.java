@@ -20,7 +20,30 @@ public class IssueDto {
 	private String his_date;
 	private String state_search;
 	private String projectName;
+	private String rowNum;
 	
+	public String getRowNum() {
+		return rowNum;
+	}
+	public void setRowNum(String rowNum) {
+		this.rowNum = rowNum;
+	}
+	//페이징 관련 추가
+	private int page;
+	private int count;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public String getProjectName() {
 		return projectName;
 	}

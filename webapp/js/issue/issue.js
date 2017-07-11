@@ -11,12 +11,16 @@ document.addEventListener("DOMContentLoaded",function(){
 	
 	// 내 이슈만 보기 체크되서 넘어온경우
 	let myIssueFlag = document.getElementById("viewMyIssueFlag").value;
-	console.log(myIssueFlag);
 	if (myIssueFlag == "1") {
 		console.log("들옴")
 		document.getElementById("chUserId").checked = true;
 	}
 });
+let issuePage = {
+		goPaging:(url, currentNum, pageCount)=>{
+			location.href = url+ "/" + currentNum;
+		}
+}
 let issue = {
 		//이슈검색
 		issueSearch:(project_id) => {
@@ -33,21 +37,6 @@ let issue = {
 			}
 				
 		},
-//		searchMyIssue:(project_id)=> {
-//			let rootValue = document.getElementById("rootValue").value;
-//			let user_id = document.getElementById("chUserId").value;
-//			let projectName = document.getElementById("projectName").value;
-//			let issue_id = document.getElementById("issue_id").value;
-//			
-//			if (document.getElementById("chUserId").checked == true) {
-//				location.href = rootValue + '/issue/selectMyIssue?project_id=' + project_id + "&user_id=" + user_id + "&projectName=" + projectName;
-//
-//			}
-//			else {
-//				location.href = rootValue + '/issue/detail/' + project_id + '/' + projectName;
-//			}
-//	
-//		},
 		//이슈 수정팝업 뜨게하기
 		addUpdateIssuePopup :() => {
 			document.getElementById("issuePopup").style.display = 'none';
@@ -189,7 +178,6 @@ let issue = {
 		},
 		issueStateChange:()=> {
 			issue.issueChange().then(result => {
-				
 				let issue_id = document.getElementById("issue_id").value;
 				detailIssue.selectIssueDetail(issue_id);
 				alert("성공");

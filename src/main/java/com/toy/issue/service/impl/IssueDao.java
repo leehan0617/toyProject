@@ -162,5 +162,15 @@ public class IssueDao {
 	public List<IssueDto> selectCronIssue(String now_date) {
 		return sqlSession.selectList("selectCronIssue", now_date);
 	}
-
+	/**
+	 * 작성일 : 2017.07.07
+	 * 메소드명 : selectIssueList 
+	 * 작성자 : 송하람
+	 * 설명 : 프로젝트 이슈 - 페이지 적용하기 위해 전체 갯수 가져오기
+	 *
+	 */
+	public int selectIssueTotalCount(IssueDto issueDto){
+		return sqlSession.selectOne("selectIssueTotalCount", issueDto);
+	}
+	
 }

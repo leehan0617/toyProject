@@ -25,4 +25,8 @@ public interface IssueService {
 	public void updateIssue (IssueDto issueDto);
 	
 	public List<IssueDto> selectMyIssue(IssueDto issueDto);
+	
+	public int selectIssueTotalCount(IssueDto issueDto);
+	
+	
 }
