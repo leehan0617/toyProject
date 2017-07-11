@@ -24,9 +24,9 @@
 <br>
 
 
-<div  class="container" style = 'background-color:white; width:1000px; height:80%; padding:20px;'>
-<div class="page-header" >
-	<h2 style ="margin-left:10px">${projectName}</h2>      
+<div  class="container" style = 'background-color:white; width:1000px; height:80%; padding:20px; '>
+<div class="page-header">
+	<div style="overflow: hidden; text-overflow: ellipsis; white-space:nowrap; word-wrap:normal; width:950px;"><h2 style ="margin-left:10px;">${projectName}</h2></div>      
 </div>
 <div>
 <select id = "stateSearch"  class="form-control" style = "width:120px; display:inline-block; margin-left:20px;" onchange="issue.issueSearch(${projectId})" >
@@ -53,16 +53,18 @@
 		</c:forEach>
 	</table>
 <br>
-<button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #d9534f; color:#d9534f;" >捞酱积己</button>
-<jsp:include page="../common/paging.jsp" flush="true">
-	<jsp:param name = "count" value = "${count}"/>
-	<jsp:param name = "seq" value = "${seq}"/>
-	<jsp:param name = "pageCount" value = "${pageCount}"/>
-	<jsp:param name = "nextPage" value = "${nextPage}"/>
-	<jsp:param name = "prevPage" value = "${prevPage}"/>
-	<jsp:param name = "nowBlockFirst" value = "${nowBlockFirst}"/>
-	<jsp:param name = "nowBlockLast" value = "${nowBlockLast}"/>
-</jsp:include>
+<div style = "margin-top:5px; height:36px;"><button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #d9534f; color:#d9534f;" >捞酱积己</button></div>
+<div style="text-align: center;">
+	<jsp:include page="../common/paging.jsp" flush="true">
+		<jsp:param name = "count" value = "${count}"/>
+		<jsp:param name = "seq" value = "${seq}"/>
+		<jsp:param name = "pageCount" value = "${pageCount}"/>
+		<jsp:param name = "nextPage" value = "${nextPage}"/>
+		<jsp:param name = "prevPage" value = "${prevPage}"/>
+		<jsp:param name = "nowBlockFirst" value = "${nowBlockFirst}"/>
+		<jsp:param name = "nowBlockLast" value = "${nowBlockLast}"/>
+	</jsp:include>
+</div>
 </div>
 
 <div id ='issueDetailPopup' style = 'display:none; width:30%; vertical-align:top; float:right;'>

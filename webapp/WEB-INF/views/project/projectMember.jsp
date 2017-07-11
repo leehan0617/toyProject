@@ -181,7 +181,7 @@ window.onload = function () {
 								 ${i.getState_code()}
 							</c:otherwise>
 						</c:choose>
-						<button type="button" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm">이슈 </button>
+						<button type="button" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" onclick="location.href='${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}/1'">이슈 </button>
 					</div>
 					<div class="container-fluid" id="panel_${i.getProject_id()}">
 						<div id = "memberTable">

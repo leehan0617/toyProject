@@ -30,12 +30,6 @@ import com.toy.util.PagingUtil;
  */
 @Controller
 public class IssueController {
-	
-	//페이지 만들기
-//	@Autowired	
-//	private PagingUtil page;
-	
-	
 	@Autowired
 	IssueService issueService;
 	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
@@ -87,9 +81,9 @@ public class IssueController {
 	@RequestMapping(value={"/issue/detail/{projectId}/{projectName}/{seq}"} , method=RequestMethod.GET)
 	public ModelAndView showIssueList(@PathVariable(value="projectId") String projectId, @PathVariable(value="projectName") String projectName, @PathVariable(value="seq") String seq) {
 		//한 화면에 출력하고 싶은 목록 갯수
-		int countPerPage = 3;
+		final int countPerPage = 7;
 		// 한 화면에 출력하고 싶은 페이지 갯수
-		int pageNumber = 5;
+		final int pageNumber = 5;
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("issue/issueList");

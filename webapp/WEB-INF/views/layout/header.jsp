@@ -6,13 +6,23 @@
 
 <script type ="text/javascript">
 function dropDown() {
-	var dropdowns = document.getElementById("dropdown-menu");
+	let dropdowns = document.getElementById("dropdown-menu");
 	  if (dropdowns.style.display == 'block') {
 		  dropdowns.style.display = 'none';
  	  }
  	  else {
  		 dropdowns.style.display = 'block';
  	  }
+}
+
+function dropDown2() {
+	let dropdowns2 = document.getElementById("dropdown-menu2");
+	  if (dropdowns2.style.display == 'block') {
+		  dropdowns2.style.display = 'none';
+	  }
+	  else {
+		  dropdowns2.style.display = 'block';
+	  }
 }
 </script>
 <header>    
@@ -29,13 +39,18 @@ function dropDown() {
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li><a href="#">프로젝트</a></li>
+      <li>
+      	<a href="#" style="font-weight:bold;" onclick = "dropDown2()">프로젝트</a>
+      	<ul class="dropdown-menu"  class="nav dropdown-toggle" id = "dropdown-menu2" style="background-color:#FF3333;">
+			<li class="dropdown-item"><a href="${root}/project" style=" color:white !important; fone-weight:bold !important;">프로젝트 신청</a></li>
+          	<li class="dropdown-item"><a href="${root}/project/member" style=" color:white !important; fone-weight:bold !important;">내 프로젝트 관리</a></li>
+        </ul>
+      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
         <a href="#" onclick = "dropDown()" class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenuLink" aria-haspopup="true" aria-expanded="false"><sec:authentication property='principal.username'/>님<b class="caret"></b></a>
         <ul class="dropdown-menu"  class="nav dropdown-toggle" id = "dropdown-menu">
-        
       		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<li class="dropdown-item"><a href="${root}/admin">관리자 페이지</a></li>
 			</sec:authorize>
