@@ -1,7 +1,9 @@
 package com.toy.project.controller;
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.toy.project.model.DepartmentDto;
@@ -41,6 +42,7 @@ public class ProjectController {
 	 * 작성자 : 김민지
 	 * 설  명 : 전체 프로젝트 리스트 보이기.
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value="/project" , method=RequestMethod.GET)
 	public String project(Model model ,ProjectDto projectDto) {
 		
@@ -107,6 +109,7 @@ public class ProjectController {
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 상세보기 
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value="/project/{projectId}" , method=RequestMethod.GET)
 	public String projectdetail(@PathVariable int projectId ,Model model) {
 		
@@ -193,7 +196,7 @@ public class ProjectController {
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 리스트 별 신청한 사람 인원.
 	 */
-	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value="/project/member" , method=RequestMethod.GET)
 	public String projectMember(Model model,ProjectDto projectDto) {
 		

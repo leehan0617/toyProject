@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ public class IssueController {
 	IssueService issueService;
 	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/issue/addIssue/{projectId}"}, method=RequestMethod.POST)
 	public String showProjectList(HttpServletRequest request, @PathVariable String projectId) {
 		
@@ -47,6 +49,7 @@ public class IssueController {
 	 * 설  명 : 이슈 생성
 	 * @throws Exception 
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value="/issue/add" , method=RequestMethod.POST) 
 	public String addIssue(IssueDto dto){
 		// 로그인정보를 가져온다.
@@ -78,6 +81,7 @@ public class IssueController {
 	 * 설  명 : 이슈 상세보기
 	 * @throws Exception 
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/issue/detail/{projectId}/{projectName}/{seq}"} , method=RequestMethod.GET)
 	public ModelAndView showIssueList(@PathVariable(value="projectId") String projectId, @PathVariable(value="projectName") String projectName, @PathVariable(value="seq") String seq) {
 		//한 화면에 출력하고 싶은 목록 갯수
@@ -132,30 +136,10 @@ public class IssueController {
 	/**
 	 * 작성일 : 2017. 06. 15
 	 * 작성자 : 송하람
-	 * 설  명 : 프로젝트 리스트 가져오기
-	 * @throws Exception 
-	 */
-	@RequestMapping(value={"/issue/projectlist"} , method=RequestMethod.GET)
-	public ModelAndView showProjectList(HttpServletRequest request) {
-		ModelAndView mav = new ModelAndView();
-		// 로그인정보를 가져온다.
-		Authentication au = SecurityContextHolder.getContext().getAuthentication();
-		
-		// userId 
-		CustomUser user = (CustomUser) au.getPrincipal();
-		
-		List<ProjectDto> projectList = issueService.selectAllProjectList(user.getUsername());
-		mav.addObject("projectList", projectList);
-		
-		mav.setViewName("issue/projectList");
-		return mav;
-	}
-	/**
-	 * 작성일 : 2017. 06. 15
-	 * 작성자 : 송하람
 	 * 설  명 : 이슈 삭제
 	 * @throws Exception 
 	 */
+	@PreAuthorize("(#issuedto.reg_id == principal.Username)")
 	@RequestMapping(value={"/issue/delete"}, method=RequestMethod.POST)
 	public String deleteIssue(HttpServletRequest request, IssueDto issuedto) {
 		issueService.deleteIssue(issuedto.getIssue_id());
@@ -168,6 +152,7 @@ public class IssueController {
 	 * 설  명 : 이슈상태변경
 	 * @throws Exception 
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/issue/changeIssue"}, method=RequestMethod.POST)
 	public String changeIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.insertIssueHistory(dto);
@@ -180,6 +165,7 @@ public class IssueController {
 	 * 설  명 : 이슈 update
 	 * @throws Exception 
 	 */
+	@PreAuthorize("(#issuedto.reg_id == principal.Username)")
 	@RequestMapping(value={"/issue/update"}, method=RequestMethod.POST)
 	public String updateIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.updateIssue(dto);
@@ -191,6 +177,7 @@ public class IssueController {
 	 * 작성자 : 송하람
 	 * 설  명 : 이슈 검색
 	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/issue/search"}, method=RequestMethod.GET)
 	public ModelAndView searchIssue(HttpServletRequest request, IssueDto dto) {
 		ModelAndView mav = new ModelAndView();

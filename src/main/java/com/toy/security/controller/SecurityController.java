@@ -73,7 +73,8 @@ public class SecurityController {
 			logger.info("{} 의권한 : {}" ,user.getUsername() , iter.next());
 		}
 		
-		return "common/loginSuccess";
+		
+		return "redirect:/project";
 	}
 
 	/**
