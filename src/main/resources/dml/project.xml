@@ -356,4 +356,40 @@
 			<if test=" project_his_date !=null and project_his_date !='' ">,project_his_date = DATE_FORMAT(#{project_his_date}, "%Y-%m-%d %H:%i:%s")</if>
 		where project_id = #{project_id}
 	</update>
+	
+	<!-- 20170710 김민지 프로젝트  배치 조회하기 - 모집날짜-->
+	<select id = "getTodayRecruit" parameterType="string" resultType="com.toy.project.model.ProjectDto">
+		select 
+				project.project_id
+				, project.project_name
+				, DATE_FORMAT(recruit.start_date, "%Y-%m-%d") as recruit_start_date
+				, DATE_FORMAT(recruit.end_date, "%Y-%m-%d") as recruit_end_date
+				, recruit.state_code as recruit_state_code
+				, project.project_detail
+				, project.his_date
+		from project project
+		left join (
+			select *
+			from projectrecruithistory
+		)recruit on project.project_id = recruit.project_id and recruit.reg_date = project.his_date
+		where DATE_FORMAT(recruit.start_date, "%Y-%m-%d") = #{recruit_start_date}
+	</select>
+	
+		<!-- 20170710 김민지 프로젝트  배치 조회하기 - 프로젝트-->
+	<select id = "getTodayProject" parameterType="string" resultType="com.toy.project.model.ProjectDto">
+		select 
+				project.project_id
+				, project.project_name
+				, DATE_FORMAT(history.start_date, "%Y-%m-%d") as project_start_date
+				, DATE_FORMAT(history.end_date, "%Y-%m-%d") as project_end_date
+				, history.state_code as project_state_code
+				, project.project_detail
+				, project.project_his_date
+		from project project
+		left join (
+			select *
+			from projecthistory
+		)history on project.project_id = history.project_id and history.reg_date = project.project_his_date
+		where DATE_FORMAT(history.start_date, "%Y-%m-%d") = #{project_start_date}
+	</select>
 </mapper>

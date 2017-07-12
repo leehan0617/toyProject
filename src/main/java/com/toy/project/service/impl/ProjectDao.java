@@ -192,4 +192,21 @@ public class ProjectDao {
 		return sqlSession.update("project.updateProjectHisDate",projectDto);
 	}
 	
+	/**
+	 * 작성일 : 2017. 7 .10
+	 * 작성자 : 김민지
+	 * 설  명 : 배치로 상태 코드 변경하기- 모집 상태 
+	 */
+	public List<ProjectDto> getTodayRecruit(String start_date) {
+		return sqlSession.selectList("project.getTodayRecruit",start_date);
+	}
+	
+	/**
+	 * 작성일 : 2017. 7 .10
+	 * 작성자 : 김민지
+	 * 설  명 : 배치로 상태 코드 변경하기- 프로젝트 상태 
+	 */
+	public List<ProjectDto> getTodayProject(String start_date) {
+		return sqlSession.selectList("project.getTodayProject",start_date);
+	}
 }
