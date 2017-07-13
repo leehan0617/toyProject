@@ -145,4 +145,20 @@ public interface ProjectService {
 	 * 설  명 : 프로젝트 시작/종료 수정하기  
 	 */
 	public int projectStart(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 7. 12.
+	 * 작성자 : 김민지 
+	 * 설 명  : 프로젝트 전체 리스트 카운트
+	 * @return 
+	 */
+	public int getProjectListTotalCount(ProjectDto projectDto);
+	
+	/**
+	 * 작성일 : 2017. 7. 12.
+	 * 작성자 : 김민지 
+	 * 설 명  : 나의 프로젝트 전체 리스트 카운트
+	 * @return 
+	 */
+	public int getMyProjectListTotalCount(ProjectDto projectDto);
 }

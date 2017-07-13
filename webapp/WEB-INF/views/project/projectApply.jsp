@@ -20,14 +20,14 @@
 				<div class="form-group">
 					<form method="POST" id = "memberApply">
 					<input type='hidden' id = 'project_id' name = 'project_id' value = "">
-						<h3><label id="project_name" style="color:#FF8000;"></label></h3>
+						<h3><label id="project_name"></label></h3>
 						<p>
 							<label for="comment"> 상세직무 설명 및 본인소개 </label>
 							<textarea class="form-control" id= "depart_detail" name= "depart_detail"></textarea>
 						</p>
 					</form>	
 					<br>
-					<input type="button" value="신청" style="border: 2px solid #d9534f; color:#d9534f; float:right;" class = "btn btn-default btn-sm" onclick="project.projectApply();"/>
+					<input type="button" value="신청" style="border: 2px solid #E95420; color:#d9534f; float:right;" class = "btn btn-default btn-sm" onclick="project.projectApply();"/>
             		<br>
             	</div>
             </div>

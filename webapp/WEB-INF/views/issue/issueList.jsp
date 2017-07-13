@@ -53,7 +53,7 @@
 		</c:forEach>
 	</table>
 <br>
-<div style = "margin-top:5px; height:36px;"><button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #d9534f; color:#d9534f;" >이슈생성</button></div>
+<div style = "margin-top:5px; height:36px;"><button onclick = 'issue.addIssuePopUp(${projectId})' class = "btn btn-default" style = "float:right; border: 2px solid #E95420; color:#E95420;" >이슈생성</button></div>
 <div style="text-align: center;">
 	<jsp:include page="../common/paging.jsp" flush="true">
 		<jsp:param name = "count" value = "${count}"/>
@@ -88,8 +88,8 @@
 			<br>
 			
 			<div style = "float:right; margin-right:20px; margin-bottom:10px;">
-			<button onclick="issue.addUpdateIssuePopup()" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm">수정</button>
-			<button style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" id = 'issueDelete' type = 'button' onclick = 'issue.deleteStart(${projectId})'>삭제</button>
+			<button onclick="issue.addUpdateIssuePopup()" style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm">수정</button>
+			<button style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" id = 'issueDelete' type = 'button' onclick = 'issue.deleteStart(${projectId})'>삭제</button>
 			</div>
 </div>
 
@@ -139,7 +139,7 @@
 	  	 </table>
 		상세내용 :<br>
 		<textarea  name = "issue_detail" class="form-control" ></textarea><br>
-		<input type = 'submit' value = "생성" style="border: 2px solid #d9534f; color:#d9534f; float:right; margin-bottom:10px; margin-right:5px;" class = "btn btn-default btn-sm" >
+		<input type = 'submit' value = "생성" style="border: 2px solid #E95420; color:#E95420; float:right; margin-bottom:10px; margin-right:5px;" class = "btn btn-default btn-sm" >
 		</form>
 		</div>
 		</div>
@@ -191,7 +191,7 @@
 			<input type = 'hidden'  id = "now_state2" name = "state_code">
 			상세내용 :<br>
 			<textarea id = 'updateDetail' name = "issue_detail" class="form-control"></textarea><br>
-			<input type = 'button' value = "수정" onclick = "issue.updateIssue(${projectId})" style="border: 2px solid #d9534f; color:#d9534f; float:right;" class = "btn btn-default btn-sm" >
+			<input type = 'button' value = "수정" onclick = "issue.updateIssue(${projectId})" style="border: 2px solid #E95420; color:#E95420; float:right;" class = "btn btn-default btn-sm" >
 			</form>
 			</div>
 		</div>

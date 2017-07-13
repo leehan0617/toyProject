@@ -1,9 +1,9 @@
 package com.toy.project.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +21,7 @@ import com.toy.project.model.ProjectDto;
 import com.toy.project.service.DepartmentService;
 import com.toy.project.service.ProjectService;
 import com.toy.security.model.CustomUser;
+import com.toy.util.PagingUtil;
 
 /**
  * 작성일 : 2017. 5. 16.
@@ -43,8 +44,13 @@ public class ProjectController {
 	 * 설  명 : 전체 프로젝트 리스트 보이기.
 	 */
 	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value="/project" , method=RequestMethod.GET)
-	public String project(Model model ,ProjectDto projectDto) {
+	@RequestMapping(value="/project/{seq}" , method=RequestMethod.GET)
+	public String project(Model model ,ProjectDto projectDto,@PathVariable int seq ,HttpServletRequest req) {
+		
+		// 한 화면에 출력하고 싶은 목록 갯수
+		final int countPerPage = 9;
+		// 한 화면에 출력하고 싶은 페이지 갯수
+		final int pageNumber = 5;
 		
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
@@ -53,6 +59,14 @@ public class ProjectController {
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
 		projectDto.setUser_id(user.getUsername());//본인이 신청한 프로젝트 구분하기
+		projectDto.setPage((seq-1)*countPerPage);
+		projectDto.setCount(countPerPage*seq);
+		
+		int totalCount = projectService.getProjectListTotalCount(projectDto);// 목록 전체 수 
+		
+		if(projectDto.getCount() > totalCount){
+			projectDto.setCount(totalCount);
+		}
 		
 		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
 		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
@@ -60,6 +74,18 @@ public class ProjectController {
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		
 		Gson objGson = new Gson();//json으로 변경
+		
+		
+		PagingUtil page = new PagingUtil(countPerPage, pageNumber,(double) seq , totalCount);
+		
+		model.addAttribute("pageCount", page.getPageCount());
+		model.addAttribute("nextPage", page.getNextPage());
+		model.addAttribute("prevPage", page.getPrevPage());
+		
+		//시작페이지
+		model.addAttribute("nowBlockFirst", page.getNowBlockFirst());
+		//마지막페이지
+		model.addAttribute("nowBlockLast", page.getNowBlockLast());
 		
 		model.addAttribute("departCodeList", objGson.toJson(projectDto.getDepartCodeList()));
 		model.addAttribute("recruitCodeList", objGson.toJson(projectDto.getRecruitCodeList()));
@@ -69,6 +95,13 @@ public class ProjectController {
 		model.addAttribute("paramDto", projectDto);
 		model.addAttribute("recruitList", recruitList);
 		model.addAttribute("projectStateList", projectStateList);
+		
+		String query = req.getQueryString();
+		
+		if(req.getQueryString() == null){
+			query = "";
+		}
+		model.addAttribute("url", "/project?"+query);
 		return "project/project";
 	}
 	
@@ -110,7 +143,7 @@ public class ProjectController {
 	 * 설  명 : 프로젝트 상세보기 
 	 */
 	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value="/project/{projectId}" , method=RequestMethod.GET)
+	@RequestMapping(value="/project/detail/{projectId}" , method=RequestMethod.GET)
 	public String projectdetail(@PathVariable int projectId ,Model model) {
 		
 		// 로그인정보를 가져온다.
@@ -197,9 +230,14 @@ public class ProjectController {
 	 * 설  명 : 프로젝트 리스트 별 신청한 사람 인원.
 	 */
 	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value="/project/member" , method=RequestMethod.GET)
-	public String projectMember(Model model,ProjectDto projectDto) {
+	@RequestMapping(value="/project/my/project/{seq}" , method=RequestMethod.GET)
+	public String myProject(Model model,ProjectDto projectDto,@PathVariable int seq ,HttpServletRequest req) {
 		
+		// 한 화면에 출력하고 싶은 목록 갯수
+		final int countPerPage = 5;
+		// 한 화면에 출력하고 싶은 페이지 갯수
+		final int pageNumber = 5;
+				
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -207,7 +245,14 @@ public class ProjectController {
 		CustomUser user = (CustomUser) au.getPrincipal();
 		
 		projectDto.setUser_id(user.getUsername());//본인이 신청한 프로젝트 구분하기
-//		projectDto.setManager_id(user.getUsername());// 본인 담당 프로젝트 가져오기 
+		projectDto.setPage((seq-1)*countPerPage);
+		projectDto.setCount(countPerPage*seq);
+		
+		int totalCount = projectService.getMyProjectListTotalCount(projectDto);// 목록 전체 수 
+		
+		if(projectDto.getCount() > totalCount){
+			projectDto.setCount(totalCount);
+		}
 		
 		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
 		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
@@ -216,6 +261,18 @@ public class ProjectController {
 		List<ProjectDto> stateList = projectService.getStateCode("apply");//승인/수락 code 가져오기
 		
 		Gson objGson = new Gson();//json으로 변경
+		
+		PagingUtil page = new PagingUtil(countPerPage, pageNumber,(double) seq , totalCount);
+		
+		model.addAttribute("pageCount", page.getPageCount());
+		model.addAttribute("nextPage", page.getNextPage());
+		model.addAttribute("prevPage", page.getPrevPage());
+		
+		//시작페이지
+		model.addAttribute("nowBlockFirst", page.getNowBlockFirst());
+		//마지막페이지
+		model.addAttribute("nowBlockLast", page.getNowBlockLast());
+		
 		
 		model.addAttribute("departCodeList", objGson.toJson(projectDto.getDepartCodeList()));
 		model.addAttribute("recruitCodeList", objGson.toJson(projectDto.getRecruitCodeList()));
@@ -226,6 +283,14 @@ public class ProjectController {
 		model.addAttribute("stateList", stateList);
 		model.addAttribute("paramDto", projectDto);
 		model.addAttribute("projectList", projectList);
+		
+		String query = req.getQueryString();
+		
+		if(req.getQueryString() == null){
+			query = "";
+		}
+		model.addAttribute("url", "/project/my/project?"+query);
+		
 		return "project/projectMember";
 	}
 	

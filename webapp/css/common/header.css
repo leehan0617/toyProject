@@ -1,5 +1,5 @@
 .navbar-custom {
-    background-color:#FF3333;
+    background-color:#E95420;
     color:#ffffff;
 }
 .navbar-custom .navbar-nav > li > a {
@@ -17,14 +17,14 @@
 .navbar-custom .navbar-nav > .active > a:focus,
 .navbar-custom .navbar-nav > .open >a {
     text-decoration: none;
-    background-color: #BF2626;
+    background-color: #E95420;
 }
 
 .navbar-custom .navbar-brand {
     color:#eeeeee;
 }
 .navbar-custom .navbar-toggle {
-    background-color:#BF2626;
+    background-color:#E95420;
 }
 .navbar-custom .icon-bar {
     background-color:#33aa33;
@@ -32,4 +32,9 @@
 
 body{
 	background-color:#EEEEEE !important;
+}
+
+.dropdown-item > a:hover {
+    background-color:#E95420 !important;
+    color:#FFFFFF !important;
 }

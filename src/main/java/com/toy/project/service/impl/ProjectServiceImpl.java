@@ -127,6 +127,7 @@ public class ProjectServiceImpl implements ProjectService{
 		//프로젝트 별로 직무 행 -> 열로 합치기 
 		List<ProjectDto> resultList = new ArrayList<>(map.values());
 		
+		resultList  = resultList.subList(projectDto.getPage(), projectDto.getCount());
 		return resultList;
 	}
 	
@@ -169,6 +170,8 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		//프로젝트 별로 직무 행 -> 열로 합치기 
 		List<ProjectDto> resultList = new ArrayList<>(map.values());
+		
+		resultList  = resultList.subList(projectDto.getPage(), projectDto.getCount());
 		
 		return resultList;
 	}
@@ -408,4 +411,88 @@ public class ProjectServiceImpl implements ProjectService{
 		}
 		return value;
 	}
+	/**
+	 * 작성일 : 2017. 7. 12.
+	 * 작성자 : 김민지 
+	 * 설 명  : 프로젝트 전체 리스트 카운트
+	 * @return 
+	 */
+	public int getProjectListTotalCount(ProjectDto projectDto){
+		List<ProjectDto> projectList = projectDao.getProjectList(projectDto);
+		
+		Map<Integer,ProjectDto> map  = new HashMap<>();
+		
+		if(!projectList.isEmpty()){
+			
+			//프로젝트 별로 직무 합치기 
+			for(int i = 0 ; i <projectList.size();i++){
+				
+				int key = projectList.get(i).getProject_id();
+				
+				ProjectDto dto;
+				Map<String,String> departMap;
+				
+				if(!map.containsKey(key)){//map 에 키가 존재할때
+					dto = projectList.get(i);
+					departMap = new HashMap<>();
+				}else{
+					dto = map.get(key);
+					departMap = dto.getDepartMap();
+				}
+
+				departMap.put(projectList.get(i).getDepart_name(), String.valueOf(projectList.get(i).getUsercount()));
+				dto.setDepartMap(departMap);
+				
+				map.put(key, dto);
+			}
+		}
+		
+		//프로젝트 별로 직무 행 -> 열로 합치기 
+		List<ProjectDto> resultList = new ArrayList<>(map.values());
+		
+		return resultList.size();
+	};
+	
+	/**
+	 * 작성일 : 2017. 7. 12.
+	 * 작성자 : 김민지 
+	 * 설 명  : 나의 프로젝트 전체 리스트 카운트
+	 * @return 
+	 */
+	public int getMyProjectListTotalCount(ProjectDto projectDto){
+		List<ProjectDto> projectList = projectDao.getMyProjectList(projectDto);
+		
+		Map<Integer,ProjectDto> map  = new HashMap<>();
+		
+		if(!projectList.isEmpty()){
+			
+			//프로젝트 별로 직무 합치기 
+			for(int i = 0 ; i <projectList.size();i++){
+				
+				int key = projectList.get(i).getProject_id();
+				
+				ProjectDto dto;
+				Map<String,String> departMap;
+				
+				if(!map.containsKey(key)){//map 에 키가 존재할때
+					dto = projectList.get(i);
+					departMap = new HashMap<>();
+				}else{
+					dto = map.get(key);
+					departMap = dto.getDepartMap();
+				}
+
+				departMap.put(projectList.get(i).getDepart_name(), String.valueOf(projectList.get(i).getUsercount()));
+				dto.setDepartMap(departMap);
+				
+				map.put(key, dto);
+			}
+		}
+		
+		//프로젝트 별로 직무 행 -> 열로 합치기 
+		List<ProjectDto> resultList = new ArrayList<>(map.values());
+		
+		return resultList.size();
+	};
+	
 }

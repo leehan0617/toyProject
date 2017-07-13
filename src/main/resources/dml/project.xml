@@ -89,7 +89,7 @@
 			<if test=" recruit_start_date !=null and recruit_start_date !='' "> and DATE_FORMAT(recruit.start_date, "%Y-%m-%d") <![CDATA[>=]]> #{recruit_start_date}  </if>
 			<if test=" recruit_end_date !=null and recruit_end_date !='' "> and DATE_FORMAT(recruit.end_date, "%Y-%m-%d") <![CDATA[<=]]>  #{recruit_end_date}  </if>
 			<if test=" project_name !=null and project_name !='' "> and project_name like concat('%',#{project_name},'%') </if>
-		</where>
+		</where>	
 	</select>
 	
 	<!-- 20170517 김민지 내가 신청한 프로젝트  불러오기 -->

@@ -94,6 +94,21 @@ public class ProjectDto implements Serializable{
 	//프로젝트 history 테이블
 	private String project_his_date;
 	
+	//DB 페이지
+	private int page;
+	
+	//현재 페이지
+	private int seq;
+	
+	//목록 수 
+	private int count;
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getProject_id() {
 		return project_id;
 	}
@@ -285,5 +300,17 @@ public class ProjectDto implements Serializable{
 	}
 	public void setProject_his_date(String project_his_date) {
 		this.project_his_date = project_his_date;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getSeq() {
+		return seq;
+	}
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 }

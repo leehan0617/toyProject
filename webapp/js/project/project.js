@@ -17,7 +17,7 @@ let project = {
 		//목록으로 돌아가기
 		projectList : () => {
 			let rootValue = document.getElementById("rootValue").value;
-			location.href = rootValue + "/project"
+			location.href = rootValue + "/project/1"
 		},
 		//직무별 사람 수 정하기
 		departCount : (depart) => {
@@ -32,7 +32,7 @@ let project = {
 		//프로젝트 상세보기
 		projectDetail : (projectId) => {
 			let rootValue = document.getElementById("rootValue").value;
-			location.href = rootValue+"/project/"+projectId;
+			location.href = rootValue+"/project/detail/"+projectId;
 		},
 		//프로젝트 수정하기
 		projectModify: (projectId) => {
@@ -44,7 +44,7 @@ let project = {
 			detail.deleteCheck(projectId).then(result => {
 					detail.deleteAll(projectId).then(result => {
 						  alert("성공");
-						  location.href = "/project";
+						  location.href = "/project/1";
 					}).catch(err => {
 					  alert("오류발생")
 					});
@@ -111,7 +111,7 @@ let project = {
 								clone.id = "cloneTr";
 								clone.setAttribute("name","cloneTr");
 								
-								li[0].innerHTML = memberList[i].user_name;//신청한 사람
+								li[0].innerHTML = "<strong>["+memberList[i].user_name+"]</strong> 님이 신청하셨습니다.";//신청한 사람
 								
 								if(memberList[i].state_code == "accept"){//이미 승인한 사람일 경우 
 									clone.querySelector("button[id=acceptbtn]").disabled = true;

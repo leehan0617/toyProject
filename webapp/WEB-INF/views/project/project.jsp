@@ -64,9 +64,18 @@ window.onload = function () {
 	<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 	<input type = 'hidden' id = 'rootValue'  value = "${root}">
 	<!-- form 전송 - 검색 조건 -->
-	<form id="projectform" method="get" action="${root}/project">
+	<form id="projectform" method="get" action="${root}/project/1">
 	<input type="hidden" id="manager_id" name="manager_id" value="<sec:authentication property='principal.username'/>">
 	<input type="hidden" id="user_id" name="user_id" value="<sec:authentication property='principal.username'/>">
+		
+		<div style="display: inline;">
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<br/><a href="${root}/project/new"> <label for="warning" style="float: right;background-color:#E95420 !important;" class="btn btn-danger">프로젝트 생성하기</label></a><br/>		
+			</sec:authorize>
+		</div>
+		
+		<br>
+		
 		<!-- 검색조건 테이블 -->
 		<table class="table table-hover" style="background-color: #FFFFFF">
 			<thead>
@@ -153,6 +162,7 @@ window.onload = function () {
 		<!-- // 검색조건 테이블 -->
 	</form>
 	
+	
 	<!-- 프로젝트 리스트 불러오기 -->
 	<div class="row">
 		<c:forEach var="i" items="${projectList}" begin="0" end="${projectList.size()}">
@@ -181,7 +191,7 @@ window.onload = function () {
 								<dd>${i.getManager_name()}</dd>
 								<dt><strong>모집상태 : </strong></dt>
 								<dd>
-									<c:set var = "labelColor" value="label label-pill label-warning"></c:set>
+									<c:set var = "labelColor" value="label label-pill label-default"></c:set>
 									<c:if test="${!empty i.getRecruit_state_code()}">
 										<c:set var = "labelColor" value="label label-pill label-success"></c:set>
 									</c:if>
@@ -194,7 +204,7 @@ window.onload = function () {
 								</dd>
 								<dt><strong>프로젝트상태 : </strong></dt>
 								<dd>
-									<c:set var = "labelColor" value="label label-pill label-warning"></c:set>
+									<c:set var = "labelColor" value="label label-pill label-defaultn"></c:set>
 									<c:if test="${!empty i.getProject_state_code()}">
 										<c:set var = "labelColor" value="label label-pill label-success"></c:set>
 									</c:if>
@@ -212,7 +222,7 @@ window.onload = function () {
 						 <c:if test= "${!empty i.getRecruit_state_code()}">
 							 <c:choose>
 								<c:when  test="${i.getApplyyn().equals('Y') }"><!-- 이미내가 신청한 프로젝트 이면 다시 신청 못함 -->
-									<button type="button"  style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" onclick="javascript:project.applyOpen(${i.getProject_id()},'${i.getProject_name()}')">신청하기</button>
+									<button type="button"  style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" onclick="javascript:project.applyOpen(${i.getProject_id()},'${i.getProject_name()}')">신청하기</button>
 								</c:when>
 								<c:otherwise>
 									<label for="warning" class="label label-danger">신청완료</label>
@@ -226,16 +236,21 @@ window.onload = function () {
 	</div>
 	<!-- //프로젝트 리스트 불러오기-->
 	
-	<div style="display: inline;">
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<br/><a href="${root}/project/new"> <label for="warning" style="float: right" class="btn btn-danger">프로젝트 생성하기</label></a><br/>		
-		</sec:authorize>
+	<!-- 페이징-->
+	<div style="text-align: center;">
+		<jsp:include page="../common/paging.jsp" flush="true">
+			<jsp:param name = "count" value = "${paramDto.getCount()}"/>
+			<jsp:param name = "seq" value = "${seq}"/>
+			<jsp:param name = "pageCount" value = "${pageCount}"/>
+			<jsp:param name = "nextPage" value = "${nextPage}"/>
+			<jsp:param name = "prevPage" value = "${prevPage}"/>
+			<jsp:param name = "nowBlockFirst" value = "${nowBlockFirst}"/>
+			<jsp:param name = "nowBlockLast" value = "${nowBlockLast}"/>
+		</jsp:include>
 	</div>
 	
 	<!-- 프로젝트 신청하기 팝업 -->
 	<div id= "registDiv" style="display: none;">
 		<jsp:include page="projectApply.jsp" flush="false"></jsp:include>
 	</div>
-	<!-- //프로젝트 신청하기 팝업 -->
-
 </div>

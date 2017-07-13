@@ -105,13 +105,13 @@
 			<div class="divfloat">
 				<input class="btn btn-default" type="button" onclick="project.projectList()" value="목록"/>
 				<c:if test="${ManagerId == loginId}"><!-- 자신이 등록한 프로젝트만 수정/삭제 가능 -->
-					<input style="border: 2px solid #d9534f; color:#d9534f;" class="btn btn-default" type="submit" value="수정" onclick="project.projectModify(${projectDetail.getProject_id()})"/>
+					<input style="border: 2px solid #E95420; color:#E95420;" class="btn btn-default" type="submit" value="수정" onclick="project.projectModify(${projectDetail.getProject_id()})"/>
 			<%-- 		<input type="submit" value="삭제" onclick="project.projectDelete(${projectDetail.getProject_id()})"/> --%>
 				</c:if>
 				
 				<c:if test= "${!empty projectDetail.getRecruit_state_code()}">
 					<c:if test="${projectDetail.getApplyyn().equals('Y') }"><!-- 이미 내가 신청한 프로젝트 이면 다시 신청 못함 -->
-						<input style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" type="button" value="신청" onclick="javascript:project.applyOpen(${projectDetail.getProject_id()},'${projectDetail.getProject_name()}')"/>
+						<input style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" type="button" value="신청" onclick="javascript:project.applyOpen(${projectDetail.getProject_id()},'${projectDetail.getProject_name()}')"/>
 					</c:if>
 				</c:if>
 			</div>	

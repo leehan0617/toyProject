@@ -60,7 +60,7 @@ window.onload = function () {
 </script>
 <div class="container">
 		<!-- form 전송 - 검색 조건 -->
-		<form id="projectform" method="get" action="${root}/project/member">
+		<form id="projectform" method="get" action="${root}/project/my/project/1">
 		<input type="hidden" id="manager_id" value="<sec:authentication property='principal.username'/>">
 		<input type="hidden" id="user_id" name="user_id" value="<sec:authentication property='principal.username'/>">
 			<!-- 검색조건 테이블 -->
@@ -137,7 +137,7 @@ window.onload = function () {
 			<div class="panel-group">
 			<c:forEach var="i" items="${projectList}" begin="0" end="${projectList.size()}">
 				<div id = "listpanel" class="panel panel-danger">
-					<div class="panel-heading" style="background-color: #FF3333;color:#FFFFFF">${i.getProject_name()}</div>
+					<div class="panel-heading" style="background-color: #E95420;color:#FFFFFF">${i.getProject_name()}</div>
 					<div class="panel-body">
 						<ul class = "list-group">
 							<li class = "list-group-item">
@@ -175,13 +175,22 @@ window.onload = function () {
 					<div class = "panel-footer">
 						<c:choose>
 							<c:when test= "${i.getManager_id() == loginId}">
-								<button type="button" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" onclick="project.memberList(${i.getProject_id()})">관리 </button>
+								<button type="button" style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" onclick="project.memberList(${i.getProject_id()})">관리 </button>
 							</c:when>
 							<c:otherwise>
-								 ${i.getState_code()}
+								<c:set var = "labelColor" value="label label-pill label-default"></c:set>
+								<c:if test="${i.getState_code() == 'accept'}">
+									<c:set var = "labelColor" value="label label-pill label-info"></c:set>
+								</c:if>
+								<c:if test="${i.getState_code() == 'refuse'}">
+									<c:set var = "labelColor" value="label label-pill label-danger"></c:set>
+								</c:if>
+								<span class="${labelColor}"> 
+									${i.getState_name()}
+								</span>
 							</c:otherwise>
 						</c:choose>
-						<button type="button" style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm" onclick="location.href='${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}/1'">이슈 </button>
+						<button type="button" style="margin-left: 10px;border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" onclick="location.href='${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}/1'">이슈 </button>
 					</div>
 					<div class="container-fluid" id="panel_${i.getProject_id()}">
 						<div id = "memberTable">
@@ -206,8 +215,21 @@ window.onload = function () {
 			</c:forEach>
 				<!-- 프로젝트 인원리스트 불러오기 -->
 			</div>
+			
+				<!-- 페이징-->
+				<div style="text-align: center;">
+					<jsp:include page="../common/paging.jsp" flush="true">
+						<jsp:param name = "count" value = "${paramDto.getCount()}"/>
+						<jsp:param name = "seq" value = "${seq}"/>
+						<jsp:param name = "pageCount" value = "${pageCount}"/>
+						<jsp:param name = "nextPage" value = "${nextPage}"/>
+						<jsp:param name = "prevPage" value = "${prevPage}"/>
+						<jsp:param name = "nowBlockFirst" value = "${nowBlockFirst}"/>
+						<jsp:param name = "nowBlockLast" value = "${nowBlockLast}"/>
+					</jsp:include>
+				</div>
 		</div>
-		
+	
 		<!-- 프로젝트 사람정보 팝업 -->
 		<div id= "infoDetailDiv" style="display: none;">
 		<jsp:include page="projectMemberDetail.jsp" flush="false"></jsp:include>

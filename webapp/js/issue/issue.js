@@ -16,11 +16,6 @@ document.addEventListener("DOMContentLoaded",function(){
 		document.getElementById("chUserId").checked = true;
 	}
 });
-let issuePage = {
-		goPaging:(url, currentNum, pageCount)=>{
-			location.href = url+ "/" + currentNum;
-		}
-}
 let issue = {
 		//이슈검색
 		issueSearch:(project_id) => {

@@ -124,7 +124,7 @@ window.onload = function () {
 			<c:set var="ManagerId" value="${projectDetail.getManager_id()}"></c:set>
 			
 			<c:if test="${ManagerId == loginId}"><!-- 자신이 등록한 프로젝트만 수정/삭제 가능 -->
-				<input  style="border: 2px solid #d9534f; color:#d9534f;" class = "btn btn-default btn-sm"  type="submit" value="수정" />
+				<input  style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm"  type="submit" value="수정" />
 	<%-- 			<input type="button" value="삭제" onclick="javascript:project.projectDelete(${projectDetail.getProject_id()})"/> onclick="javascript:project.projectUpdate(${projectDetail.getProject_id()})"  --%>
 			</c:if>
 		</div>

@@ -74,7 +74,7 @@ public class SecurityController {
 		}
 		
 		
-		return "redirect:/project";
+		return "redirect:/project/1";
 	}
 
 	/**

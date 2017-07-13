@@ -41,9 +41,9 @@ function dropDown2() {
     <ul class="nav navbar-nav">
       <li>
       	<a href="#" style="font-weight:bold;" onclick = "dropDown2()">프로젝트</a>
-      	<ul class="dropdown-menu"  class="nav dropdown-toggle" id = "dropdown-menu2" style="background-color:#FF3333;">
-			<li class="dropdown-item"><a href="${root}/project" style=" color:white !important; fone-weight:bold !important;">프로젝트 신청</a></li>
-          	<li class="dropdown-item"><a href="${root}/project/member" style=" color:white !important; fone-weight:bold !important;">내 프로젝트 관리</a></li>
+      	<ul class="dropdown-menu"  class="nav dropdown-toggle" id = "dropdown-menu2">
+			<li class="dropdown-item"><a href="${root}/project/1" style="font-weight:bold !important;">프로젝트 신청</a></li>
+          	<li class="dropdown-item"><a href="${root}/project/my/project/1" style="font-weight:bold !important;">내 프로젝트 관리</a></li>
         </ul>
       </li>
     </ul>
