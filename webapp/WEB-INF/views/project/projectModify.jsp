@@ -41,7 +41,7 @@ window.onload = function () {
 	<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 	<input type='hidden' id = 'rootValue'  value = "${root}">
 	<input type="hidden" id="projectDep" value="${projectDep}"/>
-	
+	<div class="well" style="background-color: #FFFFFF">
 		<table class="table table-hover" style="background-color: #FFFFFF">
 			<tr>
 				<th scope="row" class="bg-gray">프로젝트 생성 이름</th>
@@ -118,6 +118,7 @@ window.onload = function () {
 				</td>
 			</tr>
 		</table>
+		</div>
 		<div class="divfloat">
 			<input class="btn btn-default" type="button" onclick="project.projectList()" value="목록"/>
 			<sec:authentication property='principal.username' var="loginId"/>

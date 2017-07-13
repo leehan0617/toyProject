@@ -14,7 +14,7 @@
 		<input type="hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 		<input type = 'hidden' id = 'rootValue'  value = "${root}">
 		<input type = 'hidden' name = 'project_id'  value = "${projectDetail.getProject_id()}">
-		<div style="background-color: #FFFFFF">
+		<div class="well" style="background-color: #FFFFFF">
 			<div class="page-header" >
 				<h2 style="word-wrap:break-word">${projectDetail.getProject_name()}</h2>      
 			</div>
