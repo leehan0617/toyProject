@@ -190,7 +190,9 @@ window.onload = function () {
 								</span>
 							</c:otherwise>
 						</c:choose>
-						<button type="button" style="margin-left: 10px;border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" onclick="location.href='${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}/1'">이슈 </button>
+						<c:if test="${i.getState_code() == 'accept'}">
+							<button type="button" style="margin-left: 10px;border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" onclick="location.href='${root}/issue/detail/${i.getProject_id()}/${i.getProject_name()}/1'">이슈 </button>
+						</c:if>
 					</div>
 					<div class="container-fluid" id="panel_${i.getProject_id()}">
 						<div id = "memberTable">

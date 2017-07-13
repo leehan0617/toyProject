@@ -28,7 +28,7 @@
 					<tr>
 						<th scope="row" class="bg-gray">모집 기간 </th>
 						<td>
-							<c:set var = "labelColor" value="label label-pill label-warning"></c:set>
+							<c:set var = "labelColor" value="label label-pill label-default"></c:set>
 							<input type = 'hidden' name = 'recruit_start_date' value = "${projectDetail.getRecruit_start_date()}">
 							<input type = 'hidden' name = 'recruit_end_date'  value = "${projectDetail.getRecruit_end_date()}">
 							${projectDetail.getRecruit_start_date()} ~ ${projectDetail.getRecruit_end_date()}
@@ -58,7 +58,7 @@
 					<tr>
 						<th scope="row" class="bg-gray">프로젝트 기간</th>
 						<td>
-							<c:set var = "labelColor" value="label label-pill label-warning"></c:set>
+							<c:set var = "labelColor" value="label label-pill label-default"></c:set>
 							<input type = 'hidden' name = 'project_start_date'  value = "${projectDetail.getProject_start_date()}">
 							<input type = 'hidden' name = 'project_end_date'  value = "${projectDetail.getProject_end_date()}">
 							${projectDetail.getProject_start_date()} ~ ${projectDetail.getProject_end_date()}

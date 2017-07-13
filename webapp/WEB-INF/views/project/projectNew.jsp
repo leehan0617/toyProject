@@ -19,7 +19,8 @@
 	<form action="${root}/project" method="POST">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 	<input type = 'hidden' id = 'rootValue'  value = "${root}">
-		<table class="table table-hover" style="background-color: #FFFFFF">
+	 	<div class="well"  style="background-color: #FFFFFF">
+		<table class="table table-hover">
 			<tr>
 				<th scope="row" class="bg-gray">프로젝트 생성 이름</th>
 				<td colspan="3"><input  class="form-control" name = "project_name" id ="project_name" type="text"/></td>
@@ -91,6 +92,7 @@
 				<td colspan="3"><textarea class="form-control" id="project_detail" name="project_detail"></textarea></td>
 			</tr>
 		</table>
+		</div>
 		<div class="divfloat">
 			<input class = "btn btn-default btn-sm" type="button" onclick="project.projectList()" value="목록"/>
 			<input style="border: 2px solid #E95420; color:#E95420;" class = "btn btn-default btn-sm" type="submit" value="생성"/>

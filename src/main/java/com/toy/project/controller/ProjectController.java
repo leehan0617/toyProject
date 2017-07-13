@@ -134,7 +134,7 @@ public class ProjectController {
 	@RequestMapping(value="/project" , method=RequestMethod.POST)
 	public String insertproject(ProjectDto projectDto) throws Exception {
 		projectService.saveNewProject(projectDto);
-		return "redirect:/project/";
+		return "redirect:/project/1";
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class ProjectController {
 	public String updateproject(@PathVariable int projectId,ProjectDto projectDto) throws Throwable {
 		projectDto.setProject_id(projectId);
 		projectService.updateProjectAll(projectDto);
-		return "redirect:/project/"+projectId;
+		return "redirect:/project/detail/"+projectId;
 	}
 	
 	/**

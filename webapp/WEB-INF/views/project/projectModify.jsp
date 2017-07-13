@@ -78,7 +78,7 @@ window.onload = function () {
 					<c:forEach begin="0" var="i" items="${projectStateList}" end="${projectStateList.size()}">
 						<div class="abc-radio abc-radio-danger radio-inline">	
 						    <c:set var="ck" value=""></c:set>	
-						    <c:if test="${projectDetail.getRecruit_state_code() == i.getState_code()}">
+						    <c:if test="${projectDetail.getProject_state_code() == i.getState_code()}">
 						    	 <c:set var="ck" value="checked"></c:set>	
 						    </c:if>	
 							<input type="radio" id="${i.getState_code()}" ${ck} name="project_state_code" value="${i.getState_code()}"/>

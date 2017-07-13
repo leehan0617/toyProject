@@ -204,7 +204,7 @@ window.onload = function () {
 								</dd>
 								<dt><strong>프로젝트상태 : </strong></dt>
 								<dd>
-									<c:set var = "labelColor" value="label label-pill label-defaultn"></c:set>
+									<c:set var = "labelColor" value="label label-pill label-default"></c:set>
 									<c:if test="${!empty i.getProject_state_code()}">
 										<c:set var = "labelColor" value="label label-pill label-success"></c:set>
 									</c:if>
