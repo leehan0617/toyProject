@@ -18,7 +18,7 @@ public interface ProjectService {
 	 * 설 명  : 프로젝트 생성 하기(저장)
 	 * @return 
 	 */
-	public void saveNewProject(ProjectDto projectDto) throws Exception;
+	public void saveNewProject(ProjectDto projectDto);
 	
 	/**
 	 * 작성일 : 2017. 5. 17.
@@ -79,7 +79,7 @@ public interface ProjectService {
 	 * 설 명  : 프로젝트 수정하기
 	 * @return 
 	 */
-	public void updateProjectAll(ProjectDto projectDto) throws Exception;
+	public void updateProjectAll(ProjectDto projectDto);
 	
 	/**
 	 * 작성일 : 2017. 6. 14.
@@ -87,7 +87,7 @@ public interface ProjectService {
 	 * 설 명  : 프로젝트 신청하기
 	 * @return 
 	 */
-	public void insertProjectMember(ProjectDto projectDto) throws Exception;
+	public void insertProjectMember(ProjectDto projectDto);
 	
 	/**
 	 * 작성일 : 2017. 6 .16

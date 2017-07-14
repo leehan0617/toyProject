@@ -1,8 +1,8 @@
 let common = {
 		goPaging:(url, currentNum, pageCount)=>{
 			
-			var preurl = "";
-			var posturl = "";
+			var preurl;
+			var posturl;
 			
 			if(url.indexOf("?") != -1){
 			

@@ -3,7 +3,6 @@ package com.toy.project.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +31,10 @@ import com.toy.util.PagingUtil;
 @Controller
 public class ProjectController {
 
+	private static final String RECRUIT = "recruit"; //모집상태 가져오기
+	private static final String PROJECT = "project"; //프로젝트상태 가져오기
+	private static final String APPLY = "apply";//승인/수락 code 가져오기
+	
 	@Autowired
 	private DepartmentService departmentService;
 	
@@ -68,8 +71,8 @@ public class ProjectController {
 			projectDto.setCount(totalCount);
 		}
 		
-		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
 		List<ProjectDto> projectList = projectService.getProjectList(projectDto);
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		
@@ -115,8 +118,8 @@ public class ProjectController {
 	public String projectNew(Model model) {
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
-		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
 		
 		model.addAttribute("recruitList", recruitList);
 		model.addAttribute("projectStateList", projectStateList);
@@ -132,7 +135,7 @@ public class ProjectController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/project" , method=RequestMethod.POST)
-	public String insertproject(ProjectDto projectDto) throws Exception {
+	public String insertproject(ProjectDto projectDto){
 		projectService.saveNewProject(projectDto);
 		return "redirect:/project/1";
 	}
@@ -194,8 +197,8 @@ public class ProjectController {
 		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
 		
 		//프로젝트 상태 가져오기
-		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
 		
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
@@ -214,11 +217,12 @@ public class ProjectController {
 	 * 작성일 : 2017. 6. 8.
 	 * 작성자 : 김민지
 	 * 설  명 : 프로젝트 수정하기
+	 * @throws Exception 
 	 * @throws Throwable 
 	 */
 	@PreAuthorize("(#projectDto.manager_id == principal.Username) or hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/project/update/{projectId}" , method=RequestMethod.POST)
-	public String updateproject(@PathVariable int projectId,ProjectDto projectDto) throws Throwable {
+	public String updateproject(@PathVariable int projectId,ProjectDto projectDto){
 		projectDto.setProject_id(projectId);
 		projectService.updateProjectAll(projectDto);
 		return "redirect:/project/detail/"+projectId;
@@ -254,11 +258,11 @@ public class ProjectController {
 			projectDto.setCount(totalCount);
 		}
 		
-		List<ProjectDto> recruitList = projectService.getStateCode("recruit");//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode("project");//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		List<ProjectDto> projectList = projectService.getMyProjectList(projectDto);
-		List<ProjectDto> stateList = projectService.getStateCode("apply");//승인/수락 code 가져오기
+		List<ProjectDto> stateList = projectService.getStateCode(APPLY);//승인/수락 code 가져오기
 		
 		Gson objGson = new Gson();//json으로 변경
 		

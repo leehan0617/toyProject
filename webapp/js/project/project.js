@@ -46,7 +46,7 @@ let project = {
 						  alert("성공");
 						  location.href = "/project/1";
 					}).catch(err => {
-					  alert("오류발생")
+					  alert(err+"오류발생")
 					});
 			}).catch(err => {
 			  alert("삭제할수 없습니다.")
@@ -186,11 +186,10 @@ let project = {
 		//프로젝트 모집 시작
 		recruitState: (stateCode) => {
 			detail.recruitState(stateCode).then(result => {
-				console.log(result)
 				if(result == "0"){
 					alert("시작되었습니다");
 				}else{
-					alert("종료되었습니다")
+					alert("종료되었습니다");
 				}
 				
 				location.reload();
@@ -201,8 +200,11 @@ let project = {
 		//프로젝트 시작
 		projectState: (stateCode) => {
 			detail.projectState(stateCode).then(result => {
-				console.log(result)
-				alert("완료");
+				if(result == "0"){
+					alert("시작되었습니다");
+				}else{
+					alert("종료되었습니다");
+				}
 				location.reload();
 			}).catch(err => {
 				alert(err)
@@ -369,8 +371,8 @@ let detail = {
 			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
 			const header = document.querySelector("input[name=_csrf_header]").value;
 			
-			let esc = encodeURIComponent
-			let query = Object.keys(params)
+			const esc = encodeURIComponent
+			const query = Object.keys(params)
 			             .map(k => esc(k) + '=' + esc(params[k]))
 			             .join('&');
             
@@ -403,17 +405,17 @@ let detail = {
 		//프로젝트 모집 시작
 		recruitState: (stateCode) => {
 			
-			let projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
-			let recruitStartdate = document.querySelector("input[name=recruit_start_date]").value;//모집 시작 날짜
-			let recruitEnddate = document.querySelector("input[name=recruit_end_date]").value;//모집 끝나는 날짜
+			const projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
+			const recruitStartdate = document.querySelector("input[name=recruit_start_date]").value;//모집 시작 날짜
+			const recruitEnddate = document.querySelector("input[name=recruit_end_date]").value;//모집 끝나는 날짜
 			
-			let params = {"project_id":projectId,"recruit_start_date":recruitStartdate,"recruit_end_date":recruitEnddate,"state_code":stateCode,"type":"recruit"};
+			const params = {"project_id":projectId,"recruit_start_date":recruitStartdate,"recruit_end_date":recruitEnddate,"state_code":stateCode,"type":"recruit"};
 			
 			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
 			const header = document.querySelector("input[name=_csrf_header]").value;
 			
-			let esc = encodeURIComponent
-			let query = Object.keys(params)
+			const esc = encodeURIComponent
+			const query = Object.keys(params)
 			             .map(k => esc(k) + '=' + esc(params[k]))
 			             .join('&');
             
@@ -442,17 +444,17 @@ let detail = {
 		//프로젝트 시작
 		projectState: (stateCode) => {
 			
-			let projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
-			let projectStartdate = document.querySelector("input[name=project_start_date]").value;//모집 시작 날짜
-			let projectEnddate = document.querySelector("input[name=project_end_date]").value;//모집 끝나는 날짜
+			const projectId = document.querySelector("input[name=project_id]").value;//선택한 프로젝트 id
+			const projectStartdate = document.querySelector("input[name=project_start_date]").value;//모집 시작 날짜
+			const projectEnddate = document.querySelector("input[name=project_end_date]").value;//모집 끝나는 날짜
 			
-			let params = {"project_id":projectId,"project_start_date":projectStartdate,"project_end_date":projectEnddate,"state_code":stateCode,"type":"project"};
+			const params = {"project_id":projectId,"project_start_date":projectStartdate,"project_end_date":projectEnddate,"state_code":stateCode,"type":"project"};
 			
 			const csrfToken = document.querySelector("input[name=csrf-token]").value;//csrf 토큰 값
 			const header = document.querySelector("input[name=_csrf_header]").value;
 			
-			let esc = encodeURIComponent
-			let query = Object.keys(params)
+			const esc = encodeURIComponent
+			const query = Object.keys(params)
 			             .map(k => esc(k) + '=' + esc(params[k]))
 			             .join('&');
             

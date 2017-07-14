@@ -73,7 +73,7 @@ public class ProjectRestController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/project/delete/{projectId}" , method=RequestMethod.GET)
-	public Boolean deleteproject(@PathVariable int projectId) throws Exception{
+	public Boolean deleteproject(@PathVariable int projectId){
 		
 		ProjectDto projectDto = new ProjectDto();
 		projectDto.setProject_id(projectId);
@@ -91,7 +91,7 @@ public class ProjectRestController {
 	 */
 	@PreAuthorize("hasAnyRole('ROLE_HUMAN','ROLE_ADMIN')")
 	@RequestMapping(value="/project/apply" , method=RequestMethod.POST)
-	public Boolean applyproject(ProjectDto projectDto,HttpServletRequest request) throws Throwable {
+	public Boolean applyproject(ProjectDto projectDto,HttpServletRequest request){
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -114,7 +114,7 @@ public class ProjectRestController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value="/project/member/{projectId}" , method=RequestMethod.GET)
-	public List<ProjectDto> projectMemberList(@PathVariable int projectId) throws Throwable {
+	public List<ProjectDto> projectMemberList(@PathVariable int projectId){
 		
 		// 로그인정보를 가져온다.
 		Authentication au = SecurityContextHolder.getContext().getAuthentication();
@@ -176,8 +176,6 @@ public class ProjectRestController {
 	@RequestMapping(value="/project/start" , method=RequestMethod.POST)
 	public int projectStart(ProjectDto projectDto) {
 		//상태값
-		int value = projectService.projectStart(projectDto);
-		
-		return value;
+		return projectService.projectStart(projectDto);
 	}
 }
