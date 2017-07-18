@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.toy.issue.model.IssueDto;
 import com.toy.issue.model.projectMemberDto;
 import com.toy.issue.service.IssueService;
-import com.toy.project.model.ProjectDto;
 import com.toy.security.model.CustomUser;
 import com.toy.util.PagingUtil;
 
@@ -35,12 +34,14 @@ public class IssueController {
 	IssueService issueService;
 	private static final Logger logger = LoggerFactory.getLogger(IssueController.class);
 	
+	private static final String REDIRECT_URL = "redirect:/issue/detail/";
+	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/issue/addIssue/{projectId}"}, method=RequestMethod.POST)
 	public String showProjectList(HttpServletRequest request, @PathVariable String projectId) {
 		
 		logger.info(projectId);
-		return "redirect:/issue/detail/"+projectId;
+		return REDIRECT_URL+projectId;
 	}
 
 	/**
@@ -73,7 +74,7 @@ public class IssueController {
 		dto.setUserList(userList);
 		
 		issueService.insertIssue(dto);
-		return "redirect:/issue/detail/"+dto.getProject_id()+"/"+dto.getProjectName()+"/1";
+		return REDIRECT_URL+dto.getProject_id()+"/"+dto.getProjectName()+"/1";
 	}
 	/**
 	 * 작성일 :  2017. 06. 15
@@ -143,7 +144,7 @@ public class IssueController {
 	@RequestMapping(value={"/issue/delete"}, method=RequestMethod.POST)
 	public String deleteIssue(HttpServletRequest request, IssueDto issuedto) {
 		issueService.deleteIssue(issuedto.getIssue_id());
-		return "redirect:/issue/detail/"+issuedto.getProject_id();
+		return REDIRECT_URL+issuedto.getProject_id();
 	}
 	
 	/**
@@ -156,7 +157,7 @@ public class IssueController {
 	@RequestMapping(value={"/issue/changeIssue"}, method=RequestMethod.POST)
 	public String changeIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.insertIssueHistory(dto);
-		return "redirect:/issue/detail/"+dto.getProject_id();
+		return REDIRECT_URL+dto.getProject_id();
 	}
 	
 	/**
@@ -169,7 +170,7 @@ public class IssueController {
 	@RequestMapping(value={"/issue/update"}, method=RequestMethod.POST)
 	public String updateIssue(HttpServletRequest request, IssueDto dto) {
 		issueService.updateIssue(dto);
-		return "redirect:/issue/detail/"+dto.getProject_id() + "/" + dto.getProjectName();
+		return REDIRECT_URL+dto.getProject_id() + "/" + dto.getProjectName();
 	}
 	
 	/**

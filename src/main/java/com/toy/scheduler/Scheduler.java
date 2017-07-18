@@ -47,6 +47,7 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			 throw e;
 		}
 		
 	}
@@ -87,6 +88,7 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			throw e;
 		}
 	}
 	
@@ -127,6 +129,7 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			throw e;
 		}
 		
 	}

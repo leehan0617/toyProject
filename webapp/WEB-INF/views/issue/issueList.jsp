@@ -17,7 +17,7 @@
 <input type = "hidden" name="csrf_token" value="${_csrf.token}"/>
 <input  type = "hidden" name="_csrf_header" value="${_csrf.headerName}"/>
 <input type = "hidden" id = "nowSt" value="${state_code}">
-<input type = "hidden" id = "projectName" value="${projectName}">
+
 <input type = "hidden" id = "viewMyIssueFlag" value="${viewMyIssueFlag}">
 
 <input id = 'rootValue' type = 'hidden' value = "${root}">
@@ -104,15 +104,15 @@
 		  	
 		<div class="pop-conts">
 		<div class="page-header" >
-			<h2 style ="margin-left:10px">捞酱积己</h2>      
+			<h2 style ="margin-left:10px">捞酱积己${projectName}</h2>      
 		</div>
 			
 		<form  method = "post" id = "addIssueForm" action="/issue/add">
+		<input type = "hidden" id = "projectName" name = "projectName" value="${projectName}">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 		<input type = 'hidden' id = 'rootValue'  value = "${root}">
 		<input type = "hidden" id = 'issue_id' name = 'issue_id'>
 		<input type = "hidden" id = "projectId" name = "project_id" value="${projectId}"/>
-		<input type = "hidden" id = "projectName" name = "projectName">
 		<table class="table table-bordered">
 	  	 	<tr>
 	  	 		<td>力格 </td><td><input name = 'issue_name' type = 'text'></td>

@@ -49,7 +49,6 @@ let issue = {
 				document.getElementById('updateEndDate').value=edate;
 				// 상세내용
 				document.getElementById('updateDetail').value=JSON.parse(result).issue_detail;
-				let checkList = document.getElementsByName('userList2');
 				
 				issue.issueBtnChange(JSON.parse(result).state_code);
 			}).catch(err => {
