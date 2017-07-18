@@ -3,8 +3,18 @@
  * 설명 : issue 관련 js파일
  * 
  */
-		
-	
+//대기
+const STATE_WAIT = "wait";
+//시작
+const STATE_START = "start";
+//정지
+const STATE_STOP = "stop";
+//재시작
+const STATE_RESTART = "restart";
+//종료
+const STATE_END = "end"
+
+
 document.addEventListener("DOMContentLoaded",function(){
 	let selectState = document.getElementById("nowSt").value;
 	document.getElementById("stateSearch").value=selectState;
@@ -135,7 +145,6 @@ let issue = {
 			const csrfToken = document.querySelector("input[name=csrf_token]").value;
 			const header = document.querySelector("input[name=_csrf_header]").value;
 			
-			let uri = "";
 			let issue_id = document.getElementById("issue_id").value;
 			
 			let params = {"issue_id":issue_id, "project_id":project_id};
@@ -183,17 +192,17 @@ let issue = {
 			let nowState = document.getElementById("now_state").value;
 			let issue_id = document.getElementById("issue_id").value;
 			let sendState = "";
-			if (nowState == "wait") {
-				sendState = "start";
+			if (nowState == STATE_WAIT) {
+				sendState = STATE_START;
 			}
-			else if (nowState == "start"){
-				sendState = "stop";
+			else if (nowState == STATE_START){
+				sendState = STATE_STOP;
 			}
-			else if (nowState == "stop"){
-				sendState = "restart";
+			else if (nowState == STATE_STOP){
+				sendState = STATE_RESTART;
 			}
-			else if (nowState == "restart"){
-				sendState = "end";
+			else if (nowState == STATE_RESTART){
+				sendState = STATE_END;
 			}
 			
 			let sendData = {"issue_id":issue_id, "state_code":sendState};
@@ -232,16 +241,16 @@ let issue = {
 			
 		},
 		issueBtnChange:(state_code)=>{
-			if (state_code == 'start') {
+			if (state_code == STATE_START) {
 				document.getElementById('issueStateBtn').innerHTML  = '중지';
 			}
-			else if (state_code == 'wait'){
+			else if (state_code == STATE_WAIT){
 				document.getElementById('issueStateBtn').innerHTML  = '시작';
 			}
-			else if (state_code == 'stop'){
+			else if (state_code == STATE_STOP){
 				document.getElementById('issueStateBtn').innerHTML  = '재시작';
 			}
-			else if (state_code == 'restart'){
+			else if (state_code == STATE_RESTART){
 				document.getElementById('issueStateBtn').innerHTML  = '종료';
 			}
 		},
