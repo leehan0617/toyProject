@@ -14,6 +14,7 @@ import com.toy.issue.model.IssueDto;
 import com.toy.issue.service.impl.IssueDao;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.impl.ProjectDao;
+import com.toy.project.util.ProjectUtil;
 
 @Component
 public class Scheduler {
@@ -47,7 +48,6 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			 throw e;
 		}
 		
 	}
@@ -74,10 +74,10 @@ public class Scheduler {
 	        	ProjectDto paramDto = projectRecruitList.get(i);
 	        	
 		        paramDto.setHis_date(today2);
-		        paramDto.setState_code("recruiting");
-		        paramDto.setType("recruit");
-		        paramDto.setMod_id("BATCH");
-		        paramDto.setReg_id("BATCH");
+		        paramDto.setState_code(ProjectUtil.RECRUITING);
+		        paramDto.setType(ProjectUtil.RECRUIT);
+		        paramDto.setMod_id(ProjectUtil.BATCH);
+		        paramDto.setReg_id(ProjectUtil.BATCH);
 		        
 		        //his_date 업데이트
 		        projectdao.updateProjectHisDate(paramDto);
@@ -88,7 +88,6 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw e;
 		}
 	}
 	
@@ -115,10 +114,10 @@ public class Scheduler {
 	        	ProjectDto paramDto = projectRecruitList.get(i);
 	        	
 		        paramDto.setProject_his_date(today2);
-		        paramDto.setState_code("start");
-		        paramDto.setType("project");
-		        paramDto.setMod_id("BATCH");
-		        paramDto.setReg_id("BATCH");
+		        paramDto.setState_code(ProjectUtil.START);
+		        paramDto.setType(ProjectUtil.PROJECT);
+		        paramDto.setMod_id(ProjectUtil.BATCH);
+		        paramDto.setReg_id(ProjectUtil.BATCH);
 		        
 		        //his_date 업데이트
 		        projectdao.updateProjectHisDate(paramDto);
@@ -129,7 +128,6 @@ public class Scheduler {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			throw e;
 		}
 		
 	}
