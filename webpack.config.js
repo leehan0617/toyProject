@@ -8,7 +8,7 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
   context: __dirname + '/webapp/js',
-  entry: {main:'./project',bootstrap:'./bootstrap.js',checkbox:'./checkbox.js',font:'./font.js'},
+  entry: {project:'./project',issue:'./issue',common:'./common',bootstrap:'./bootstrap.js',checkbox:'./checkbox.js',font:'./font.js'},
   output: {
     path: __dirname + '/webapp/js/dist',
     filename: '[name].js'
@@ -45,6 +45,9 @@ module.exports = {
 		  }
 	    ]
   },
+  node: {
+	   fs: "empty"
+	},
   plugins: [
 //            new webpack.optimize.UglifyJsPlugin({
 //            	compress: {

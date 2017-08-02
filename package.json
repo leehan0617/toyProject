@@ -30,6 +30,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.2",
     "font-awesome": "^4.7.0",
+    "log4js": "^2.2.0",
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",

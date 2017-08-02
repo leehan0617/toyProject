@@ -3,6 +3,9 @@
  * 김민지
  * 프로젝트 관련 js 파일
 */
+let ACCEPT = "accept";//승인했을때
+let REFUSE = "refuse";//거절했을때
+
 let project = {
 
 		//내가 등록한 프로젝트 전체 리스트 보기 (관리자만)
@@ -113,10 +116,10 @@ let project = {
 								
 								li[0].innerHTML = "<strong>["+memberList[i].user_name+"]</strong> 님이 신청하셨습니다.";//신청한 사람
 								
-								if(memberList[i].state_code == "accept"){//이미 승인한 사람일 경우 
+								if(memberList[i].state_code == ACCEPT){//이미 승인한 사람일 경우 
 									clone.querySelector("button[id=acceptbtn]").disabled = true;
 								}
-								if(memberList[i].state_code == "refuse"){//이미 거절 당한 사람일 경우 
+								if(memberList[i].state_code == REFUSE){//이미 거절 당한 사람일 경우 
 									clone.querySelector("button[id=refusebtn]").disabled = true;
 								}
 								

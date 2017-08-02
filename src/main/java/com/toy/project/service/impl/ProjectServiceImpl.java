@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.ProjectService;
+import com.toy.project.util.ProjectUtil;
 import com.toy.security.model.CustomUser;
 
 /**
@@ -27,12 +30,7 @@ import com.toy.security.model.CustomUser;
 @Service(value="ProjectServiceImpl")
 public class ProjectServiceImpl implements ProjectService{
 
-	
-	private static final String RECRUIT = "recruit"; //type
-	private static final String PROJECT = "project"; //type
-	private static final String ACCEPT = "accept";//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기
-	private static final String RECRUITING = "recruiting";//모집시작 상태
-	private static final String START = "start";//프로젝트시작 상태
+	private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 	
 	@Autowired
 	private ProjectDao projectDao; 
@@ -63,6 +61,7 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		//프로젝트 생성
 		projectDao.insertProject(projectDto);
+		logger.info("프로젝트 생성");
 		
 		//프로젝트별 직무 생성
 		if(projectDto.getDepartMap() != null && !projectDto.getDepartMap().isEmpty()){
@@ -78,21 +77,25 @@ public class ProjectServiceImpl implements ProjectService{
 			}
 			
 		}
-	
+		
+		logger.info("프로젝트 직무 생성");
+		
 		projectDto.setUser_id(user.getUsername());
 		projectDto.setReg_id(user.getUsername());
-		projectDto.setState_code(ACCEPT);//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기 
+		projectDto.setState_code(ProjectUtil.ACCEPT);//매니저 자동으로 프로젝트 참여 accept:수락 상태 넣기 
 		projectDao.insertProjectMember(projectDto);
-	
+		logger.info("프로젝트 매니저 자동 수락");
+		
 		//프로젝트 모집 날짜 넣기 
-		projectDto.setType(RECRUIT);
+		projectDto.setType(ProjectUtil.RECRUIT);
 		projectDto.setState_code(projectDto.getRecruit_state_code());
 		projectDao.insertProjectRecruitDate(projectDto);
-		
+		logger.info("프로젝트 모집날짜 생성");
 		//프로젝트 날짜 넣기 
-		projectDto.setType(PROJECT);
+		projectDto.setType(ProjectUtil.PROJECT);
 		projectDto.setState_code(projectDto.getProject_state_code());
 		projectDao.insertProjectDate(projectDto);
+		logger.info("프로젝트 날짜 생성");
 	}
 	
 	/**
@@ -263,8 +266,11 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		//프로젝트 정보 수정
 		projectDao.updateProject(projectDto);
+		logger.info("프로젝트 정보수정");
+		
 		//프로젝트 상세 직무 삭제 
 		projectDao.deleteProjectDePDetail(projectDto);
+		logger.info("프로젝트 직무 전체 삭제");
 		
 		//프로젝트별 직무 생성
 		if(projectDto.getDepartMap() != null && !projectDto.getDepartMap().isEmpty()){
@@ -278,16 +284,19 @@ public class ProjectServiceImpl implements ProjectService{
 				projectDao.insertProjectDepart(map);
 			}
 		}
+		logger.info("프로젝트 직무 전체 insert");
 		
 		//프로젝트 모집 날짜 넣기 
-		projectDto.setType(RECRUIT);
+		projectDto.setType(ProjectUtil.RECRUIT);
 		projectDto.setState_code(projectDto.getRecruit_state_code());
 		projectDao.insertProjectRecruitDate(projectDto);
+		logger.info("프로젝트 모집 날짜 넣기 ");
 		
 		//프로젝트 날짜 넣기 
-		projectDto.setType(PROJECT);
+		projectDto.setType(ProjectUtil.PROJECT);
 		projectDto.setState_code(projectDto.getProject_state_code());
 		projectDao.insertProjectDate(projectDto);
+		logger.info("프로젝트 날짜 넣기 ");
 	}
 
 	/**
@@ -390,16 +399,18 @@ public class ProjectServiceImpl implements ProjectService{
 		String hisYmd  = hisDate.substring(0,10);
 		
 		// 모집 상태 넣기
-		if(RECRUIT.equals(projectDto.getType())){
+		if(ProjectUtil.RECRUIT.equals(projectDto.getType())){
 			
 			projectDto.setHis_date(hisDate);
 			projectDao.updateProjectHisDate(projectDto);//프로젝트 his_date 업데이트 하기 
 			
-			if(RECRUITING.equals(projectDto.getState_code())){//모집 시작 일때 시작날짜를 현재 날짜로 변경
+			if(ProjectUtil.RECRUITING.equals(projectDto.getState_code())){//모집 시작 일때 시작날짜를 현재 날짜로 변경
 				projectDto.setRecruit_start_date(hisYmd);
+				logger.info("프로젝트 모집 시작 ");
 			}else{//모집 종료일때 시작일짜를 현재 날짜로 변경 
 				projectDto.setRecruit_end_date(hisYmd);
 				value = 1;
+				logger.info("프로젝트 모집 종료 ");
 			}
 			projectDao.insertProjectRecruitDate(projectDto);
 
@@ -408,11 +419,13 @@ public class ProjectServiceImpl implements ProjectService{
 			projectDto.setProject_his_date(hisDate);
 			projectDao.updateProjectHisDate(projectDto);//프로젝트 his_date 업데이트 하기 
 			
-			if(START.equals(projectDto.getState_code())){//프로젝트 시작 일때 시작날짜를 현재 날짜로 변경
+			if(ProjectUtil.START.equals(projectDto.getState_code())){//프로젝트 시작 일때 시작날짜를 현재 날짜로 변경
 				projectDto.setProject_start_date(hisYmd);
+				logger.info("프로젝트 시작 ");
 			}else{//모집 종료일때 시작일짜를 현재 날짜로 변경 
 				projectDto.setProject_end_date(hisYmd);
 				value = 1;
+				logger.info("프로젝트 종료 ");
 			}
 			projectDao.insertProjectDate(projectDto);
 		}

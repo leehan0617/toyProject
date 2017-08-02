@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.ProjectService;
+import com.toy.project.util.ProjectUtil;
 import com.toy.security.model.CustomUser;
 
 
@@ -53,7 +54,7 @@ public class ProjectRestController {
 //		String state_code = projectService.selectProjectState(projectDto);
 		
 		//프로젝트 멩버 신청한 사람 수 세기 
-		int membercnt = projectService.selectProjectMemberCnt(projectDto);
+//		int membercnt = projectService.selectProjectMemberCnt(projectDto);
 		
 //		if("recruiting".equals(state_code)){//모집상태가 모집중일때 
 //			if(membercnt > 0){//참여한 멤버가 있을경우 삭제 못함
@@ -100,7 +101,7 @@ public class ProjectRestController {
 		
 		projectDto.setUser_id(user.getUsername());//신청한 사람 ID
 		projectDto.setReg_id(user.getUsername());
-		projectDto.setState_code("apply");//신청 코드 apply :신청
+		projectDto.setState_code(ProjectUtil.APPLY);//신청 코드 apply :신청
 		
 		projectService.insertProjectMember(projectDto);//프로젝트 신청하기(insert)
 		

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import com.toy.project.model.DepartmentDto;
 import com.toy.project.model.ProjectDto;
 import com.toy.project.service.DepartmentService;
 import com.toy.project.service.ProjectService;
+import com.toy.project.util.ProjectUtil;
 import com.toy.security.model.CustomUser;
 import com.toy.util.PagingUtil;
 
@@ -31,9 +34,7 @@ import com.toy.util.PagingUtil;
 @Controller
 public class ProjectController {
 
-	private static final String RECRUIT = "recruit"; //모집상태 가져오기
-	private static final String PROJECT = "project"; //프로젝트상태 가져오기
-	private static final String APPLY = "apply";//승인/수락 code 가져오기
+	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	
 	@Autowired
 	private DepartmentService departmentService;
@@ -71,8 +72,8 @@ public class ProjectController {
 			projectDto.setCount(totalCount);
 		}
 		
-		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(ProjectUtil.RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(ProjectUtil.PROJECT);//프로젝트상태 가져오기
 		List<ProjectDto> projectList = projectService.getProjectList(projectDto);
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		
@@ -105,6 +106,7 @@ public class ProjectController {
 			query = "";
 		}
 		model.addAttribute("url", "/project?"+query);
+		logger.info(" 프로젝트 페이지 접근!");
 		return "project/project";
 	}
 	
@@ -118,12 +120,13 @@ public class ProjectController {
 	public String projectNew(Model model) {
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
-		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(ProjectUtil.RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(ProjectUtil.PROJECT);//프로젝트상태 가져오기
 		
 		model.addAttribute("recruitList", recruitList);
 		model.addAttribute("projectStateList", projectStateList);
 		model.addAttribute("departList" , departList);
+		logger.info("/project/new 생성페이지 접근!");
 		return "project/projectNew";
 	}
 	
@@ -137,6 +140,7 @@ public class ProjectController {
 	@RequestMapping(value="/project" , method=RequestMethod.POST)
 	public String insertproject(ProjectDto projectDto){
 		projectService.saveNewProject(projectDto);
+		logger.info("프로젝트 생성 성공!");
 		return "redirect:/project/1";
 	}
 	
@@ -170,6 +174,7 @@ public class ProjectController {
 		model.addAttribute("projectDepList", projectDep);
 		model.addAttribute("projectDetail" , projectDetail);
 		model.addAttribute("departList" , departList);
+		logger.info("프로젝트 상세 접근!");
 		return "project/projectDetail";
 	}
 	
@@ -197,8 +202,8 @@ public class ProjectController {
 		List<ProjectDto> projectDep = projectService.getProjectDePDetail(projectDto);
 		
 		//프로젝트 상태 가져오기
-		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(ProjectUtil.RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(ProjectUtil.PROJECT);//프로젝트상태 가져오기
 		
 		// 전체 직무 리스트 불러오기
 		List<DepartmentDto> departList = departmentService.getDepartment();
@@ -210,6 +215,7 @@ public class ProjectController {
 		model.addAttribute("departList" , departList);
 		model.addAttribute("recruitList" , recruitList);
 		model.addAttribute("projectStateList" , projectStateList);
+		logger.info("프로젝트 수정화면 접근!");
 		return "project/projectModify";
 	}
 
@@ -225,6 +231,7 @@ public class ProjectController {
 	public String updateproject(@PathVariable int projectId,ProjectDto projectDto){
 		projectDto.setProject_id(projectId);
 		projectService.updateProjectAll(projectDto);
+		logger.info("프로젝트 수정 성공!");
 		return "redirect:/project/detail/"+projectId;
 	}
 	
@@ -258,11 +265,11 @@ public class ProjectController {
 			projectDto.setCount(totalCount);
 		}
 		
-		List<ProjectDto> recruitList = projectService.getStateCode(RECRUIT);//모집상태 가져오기
-		List<ProjectDto> projectStateList = projectService.getStateCode(PROJECT);//프로젝트상태 가져오기
+		List<ProjectDto> recruitList = projectService.getStateCode(ProjectUtil.RECRUIT);//모집상태 가져오기
+		List<ProjectDto> projectStateList = projectService.getStateCode(ProjectUtil.PROJECT);//프로젝트상태 가져오기
 		List<DepartmentDto> departList = departmentService.getDepartment();// 전체 직무 리스트 불러오기
 		List<ProjectDto> projectList = projectService.getMyProjectList(projectDto);
-		List<ProjectDto> stateList = projectService.getStateCode(APPLY);//승인/수락 code 가져오기
+		List<ProjectDto> stateList = projectService.getStateCode(ProjectUtil.APPLY);//승인/수락 code 가져오기
 		
 		Gson objGson = new Gson();//json으로 변경
 		
@@ -294,7 +301,7 @@ public class ProjectController {
 			query = "";
 		}
 		model.addAttribute("url", "/project/my/project?"+query);
-		
+		logger.info(" project/projectMember 접근");
 		return "project/projectMember";
 	}
 	
