@@ -4,7 +4,7 @@ create trigger tg_user_auth
 AFTER INSERT on user
 for each row begin
 insert into userauthority(user_id,auth_code)
-values (NEW.user_id,'ROLE_HUMAN');   
+values (NEW.user_id,'01');   
 end;
 
  
